@@ -17,6 +17,18 @@
 ## Which issues does the app solve ?
 *Improves memory, increases the vocabulary of the selected language.*
 ## Similar apps
-1. [Memrise](https://www.memrise.com/)
-2. [Quizlet](https://quizlet.com/en-gb)
-3. [Cram](https://www.cram.com/)
+#### 1. [Memrise](https://www.memrise.com/)
+Description: 
+Advantages | Disadvantages
+---- | ----
+ad | asd
+#### 2. [Quizlet](https://quizlet.com/en-gb)
+Description:
+Advantages | Disadvantages
+---- | ----
+ad | asd
+#### 3. [Cram](https://www.cram.com/)
+Description:
+Advantages | Disadvantages
+---- | ----
+ad | asd
