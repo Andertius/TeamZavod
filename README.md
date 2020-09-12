@@ -1,1 +1,23 @@
 # Memento
+>*Tell me and I forget, teach me and I may remember,
+>involve me and I learn* — Benjamin Franklin
+
+## Description
+**Memento** is a program which makes *remembering* things easy. It's a lot more *efficient* than traditional study methods, you can either **greatly decrease** your time spent studying, or **greatly increase** the amount you learn.
+
+## Features
+1. Open Source
+2. Flexible
+3. User-friedly
+4. Content rich
+
+## Who would use it ?
+*Anyone who wants to learn new languages or needs to remember things in their daily life.*
+
+## Which issues does the app solve ?
+@Andertius and @Slayrak will write it soon :smile:
+
+## Similar apps
+1. [Memrise](https://www.memrise.com/)
+2. [Quizlet](https://quizlet.com/en-gb)
+3. [Cram](https://www.cram.com/)
