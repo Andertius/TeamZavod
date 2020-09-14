@@ -31,6 +31,7 @@ Advantages | Disadvantages
 ---- | ----
 Has many categories to learn about.| UI is wierd at times
 You can create your own courses    |
+Access via browser or app          |
 #### 3. [Cram](https://www.cram.com/)
 Description:
 Advantages | Disadvantages
