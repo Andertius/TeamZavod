@@ -43,11 +43,12 @@ Access via browser or app          |
 Description:
 Advantages | Disadvantages
 ---- | ----
-ad | asd
+Great for filtering out cards you have memorized| Browser UI is out-dated
+You can create your own courses                 |
 #### 4. [Anki](https://apps.ankiweb.net/)
 Description:
 Advantages | Disadvantages
 ---- | ----
-Simple UI                       |Difficult to configure the cards in detail
+Simple UI                       | Difficult to configure the cards in detail
 Efficient and convenient        |
 Able to adapt to study anything |
