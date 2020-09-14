@@ -21,7 +21,7 @@
 Description: 
 Advantages | Disadvantages
 ---- | ----
-ad | asd
+Good and intuitive UI | Too little is available in the free version
 #### 2. [Quizlet](https://quizlet.com/en-gb)
 Description:
 Advantages | Disadvantages
