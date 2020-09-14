@@ -22,6 +22,9 @@ Description:
 Advantages | Disadvantages
 ---- | ----
 Good and intuitive UI | Too little is available in the free version
+Free                  | Predictable tests
+Large vocabulary      |
+Lots of lessons       |
 #### 2. [Quizlet](https://quizlet.com/en-gb)
 Description:
 Advantages | Disadvantages
