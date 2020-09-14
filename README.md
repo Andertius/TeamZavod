@@ -19,6 +19,9 @@
 
 ## Main requirements for the application
 1. Simple and understandable UI
+2. Quick launch and 
+3. Perform various actions without a long delay
+4. Ability to store a large number of words (and their translations)
 
 ## Similar apps
 #### 1. [Memrise](https://www.memrise.com/)
