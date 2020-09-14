@@ -15,7 +15,7 @@
 *Anyone who wants to learn new languages or needs to remember things in their daily life.*
 
 ## Which issues does the app solve ?
-*Improves memory, increases the vocabulary of the selected language.*
+*Improves memory, increases the vocabulary of the selected language, motivates to go on studying and makes it interesting*
 ## Similar apps
 #### 1. [Memrise](https://www.memrise.com/)
 Description: 
