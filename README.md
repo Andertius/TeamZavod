@@ -44,4 +44,3 @@ Advantages | Disadvantages
 Simple UI                       |Difficult to configure the cards in detail
 Efficient and convenient        |
 Able to adapt to study anything |
-ad | asd
