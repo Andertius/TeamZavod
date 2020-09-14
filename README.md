@@ -26,7 +26,8 @@ Good and intuitive UI | Too little is available in the free version
 Description:
 Advantages | Disadvantages
 ---- | ----
-Has many categories to learn about. You can create your own courses | UI is wierd at times
+Has many categories to learn about.| UI is wierd at times
+You can create your own courses |
 #### 3. [Cram](https://www.cram.com/)
 Description:
 Advantages | Disadvantages
