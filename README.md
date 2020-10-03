@@ -5,6 +5,8 @@
 ## Description
 **Memento** is a program which makes *remembering* things easy. It's a lot more *efficient* than traditional study methods, you can either **greatly decrease** your time spent studying, or **greatly increase** the amount you learn.
 
+[SRS](https://docs.google.com/document/d/1zuD8ntG07vgoKHCmGoZgOmKy7I3wXSl62SHpSN4g2B4/edit) | [Wireframes](https://drive.google.com/file/d/1s35ivlRv_NfHnRNCcIjMoPFg2q0tQJ0_/view?usp=sharing) | [Use-cases](https://drive.google.com/file/d/193P6nJrM2gOrZG7H6DQk7La284uC7no_/view?usp=sharing)
+
 ## Features
 1. Open Source
 2. Flexible
