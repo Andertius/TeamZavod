@@ -1,0 +1,12 @@
+D:\OneDrive\Projects\C#\Memento\Memento\Memento\DatabaseHandler\bin\Debug\netcoreapp3.1\DatabaseHandler.exe
+D:\OneDrive\Projects\C#\Memento\Memento\Memento\DatabaseHandler\bin\Debug\netcoreapp3.1\DatabaseHandler.deps.json
+D:\OneDrive\Projects\C#\Memento\Memento\Memento\DatabaseHandler\bin\Debug\netcoreapp3.1\DatabaseHandler.runtimeconfig.json
+D:\OneDrive\Projects\C#\Memento\Memento\Memento\DatabaseHandler\bin\Debug\netcoreapp3.1\DatabaseHandler.runtimeconfig.dev.json
+D:\OneDrive\Projects\C#\Memento\Memento\Memento\DatabaseHandler\bin\Debug\netcoreapp3.1\DatabaseHandler.dll
+D:\OneDrive\Projects\C#\Memento\Memento\Memento\DatabaseHandler\bin\Debug\netcoreapp3.1\DatabaseHandler.pdb
+D:\OneDrive\Projects\C#\Memento\Memento\Memento\DatabaseHandler\obj\Debug\netcoreapp3.1\DatabaseHandler.AssemblyInfoInputs.cache
+D:\OneDrive\Projects\C#\Memento\Memento\Memento\DatabaseHandler\obj\Debug\netcoreapp3.1\DatabaseHandler.AssemblyInfo.cs
+D:\OneDrive\Projects\C#\Memento\Memento\Memento\DatabaseHandler\obj\Debug\netcoreapp3.1\DatabaseHandler.csproj.CoreCompileInputs.cache
+D:\OneDrive\Projects\C#\Memento\Memento\Memento\DatabaseHandler\obj\Debug\netcoreapp3.1\DatabaseHandler.dll
+D:\OneDrive\Projects\C#\Memento\Memento\Memento\DatabaseHandler\obj\Debug\netcoreapp3.1\DatabaseHandler.pdb
+D:\OneDrive\Projects\C#\Memento\Memento\Memento\DatabaseHandler\obj\Debug\netcoreapp3.1\DatabaseHandler.genruntimeconfig.cache
