@@ -661,11 +661,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.BLL\\Memento.BLL.csproj",
+      "projectUniqueName": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento.BLL\\Memento.BLL.csproj",
       "projectName": "Memento.BLL",
-      "projectPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.BLL\\Memento.BLL.csproj",
+      "projectPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento.BLL\\Memento.BLL.csproj",
       "packagesPath": "C:\\Users\\Serhiy\\.nuget\\packages\\",
-      "outputPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.BLL\\obj\\",
+      "outputPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento.BLL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -684,8 +684,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.DAL\\Memento.DAL.csproj": {
-              "projectPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.DAL\\Memento.DAL.csproj"
+            "D:\\OneDrive\\Projects\\C#\\Memento\\Memento.DAL\\Memento.DAL.csproj": {
+              "projectPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento.DAL\\Memento.DAL.csproj"
             }
           }
         }

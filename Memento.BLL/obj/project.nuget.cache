@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PCg+P9qAah2FTObw+W6SlNQ5xLYI+DQvzsvqrYblxLPGdLXmYHcnpFqzMGHZa58Y4DPeLlMrPs71lrhj1PZrsA==",
+  "dgSpecHash": "WE5p3UnlkGwSuyuJIi0VIYVqLDCLEjo3M93rpEdaDRz0YUM/t5UVueEFPo4rkLDCKQ9+mc3bUzg7H5QErckYzg==",
   "success": true,
-  "projectFilePath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.BLL\\Memento.BLL.csproj",
+  "projectFilePath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento.BLL\\Memento.BLL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Serhiy\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\Serhiy\\.nuget\\packages\\microsoft.bcl.hashcode\\1.1.0\\microsoft.bcl.hashcode.1.1.0.nupkg.sha512",
