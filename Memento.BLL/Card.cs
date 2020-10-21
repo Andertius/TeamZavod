@@ -48,6 +48,19 @@ namespace Memento.BLL
             return $"{Word} [{Transcription}] - {Description}";
         }
 
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Word, Description);
+        }
 
+        public override bool Equals(object obj)
+        {
+            return obj is Card card && Equals(card);
+        }
+
+        public bool Equals(Card card)
+        {
+            return Id == card.Id;
+        }
     }
 }
