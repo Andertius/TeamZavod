@@ -1,0 +1,193 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento\\Memento.csproj": {}
+  },
+  "projects": {
+    "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.BLL\\Memento.BLL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.BLL\\Memento.BLL.csproj",
+        "projectName": "Memento.BLL",
+        "projectPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.BLL\\Memento.BLL.csproj",
+        "packagesPath": "C:\\Users\\Serhiy\\.nuget\\packages\\",
+        "outputPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.BLL\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Serhiy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.DAL\\Memento.DAL.csproj": {
+                "projectPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.DAL\\Memento.DAL.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.DAL\\Memento.DAL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.DAL\\Memento.DAL.csproj",
+        "projectName": "Memento.DAL",
+        "projectPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.DAL\\Memento.DAL.csproj",
+        "packagesPath": "C:\\Users\\Serhiy\\.nuget\\packages\\",
+        "outputPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.DAL\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Serhiy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento\\Memento.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento\\Memento.csproj",
+        "projectName": "Memento",
+        "projectPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento\\Memento.csproj",
+        "packagesPath": "C:\\Users\\Serhiy\\.nuget\\packages\\",
+        "outputPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Serhiy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.BLL\\Memento.BLL.csproj": {
+                "projectPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.BLL\\Memento.BLL.csproj"
+              },
+              "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.DAL\\Memento.DAL.csproj": {
+                "projectPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\Memento.DAL\\Memento.DAL.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
