@@ -20,7 +20,7 @@ bld/
 [Ll]og/
 
 # Visual Studio and Visual Studio Code cache/options directory
-# .vs/
+.vs/
 .vscode/
 .ionide/
 
