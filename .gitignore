@@ -125,7 +125,6 @@ publish/
 ClientBin/
 ~$*
 *~
-*.db
 *.dbmdl
 *.dbproj.schemaview
 *.jfm
