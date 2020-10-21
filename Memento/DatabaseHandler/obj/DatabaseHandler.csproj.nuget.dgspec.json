@@ -1,24 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\DatabaseHandler\\DatabaseHandler.csproj": {}
+    "D:\\Навчання\\Програмна інженерія\\Memento\\Memento\\DatabaseHandler\\DatabaseHandler.csproj": {}
   },
   "projects": {
-    "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\DatabaseHandler\\DatabaseHandler.csproj": {
+    "D:\\Навчання\\Програмна інженерія\\Memento\\Memento\\DatabaseHandler\\DatabaseHandler.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\DatabaseHandler\\DatabaseHandler.csproj",
+        "projectUniqueName": "D:\\Навчання\\Програмна інженерія\\Memento\\Memento\\DatabaseHandler\\DatabaseHandler.csproj",
         "projectName": "DatabaseHandler",
-        "projectPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\DatabaseHandler\\DatabaseHandler.csproj",
-        "packagesPath": "C:\\Users\\Serhiy\\.nuget\\packages\\",
-        "outputPath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\DatabaseHandler\\obj\\",
+        "projectPath": "D:\\Навчання\\Програмна інженерія\\Memento\\Memento\\DatabaseHandler\\DatabaseHandler.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "D:\\Навчання\\Програмна інженерія\\Memento\\Memento\\DatabaseHandler\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Serhiy\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -40,6 +42,12 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.Data.Sqlite": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
