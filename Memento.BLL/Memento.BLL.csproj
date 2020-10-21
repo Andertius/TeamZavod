@@ -1,21 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-<<<<<<< HEAD
-=======
-    <OutputType>Exe</OutputType>
->>>>>>> develop
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
     <ProjectReference Include="..\Memento.DAL\Memento.DAL.csproj" />
-=======
-    <None Update="First Sample full.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
->>>>>>> develop
   </ItemGroup>
 
 </Project>

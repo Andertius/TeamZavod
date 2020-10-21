@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2ldLyrV+TdbRqeeXpIUM2zpj7Z/784+7GOYb7PcdRKvWRR4H0Nz7g1bnNLjsSTrW0MzBp+FwXLcc03EqfjM7Qw==",
+  "dgSpecHash": "NuH8w5V6X3APUbPSr84JIDRLSebsVzrBDy8VI6uI5h7nfClm0l/Yi0nmnFxP5RXG8TkFihjFH3ush4RUMLqdrg==",
   "success": true,
-  "projectFilePath": "D:\\OneDrive\\Projects\\C#\\Memento\\Memento\\Memento\\DatabaseHandler\\DatabaseHandler.csproj",
+  "projectFilePath": "D:\\Memento\\DatabaseHandler\\DatabaseHandler.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
