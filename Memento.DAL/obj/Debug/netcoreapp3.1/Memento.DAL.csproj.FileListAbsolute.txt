@@ -1,5 +1,0 @@
-D:\OneDrive\Projects\C#\Memento\Memento\Memento\Memento.DAL\bin\Debug\netcoreapp3.1\Memento.DAL.deps.json
-D:\OneDrive\Projects\C#\Memento\Memento\Memento\Memento.DAL\bin\Debug\netcoreapp3.1\Memento.DAL.dll
-D:\OneDrive\Projects\C#\Memento\Memento\Memento\Memento.DAL\obj\Debug\netcoreapp3.1\Memento.DAL.csprojAssemblyReference.cache
-D:\OneDrive\Projects\C#\Memento\Memento\Memento\Memento.DAL\obj\Debug\netcoreapp3.1\Memento.DAL.AssemblyInfoInputs.cache
-D:\OneDrive\Projects\C#\Memento\Memento\Memento\Memento.DAL\obj\Debug\netcoreapp3.1\Memento.DAL.AssemblyInfo.cs
