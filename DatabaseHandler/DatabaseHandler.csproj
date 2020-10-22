@@ -6,8 +6,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="Card_Table_Data.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Database.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="DBCreatorScript.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Deck_Table_Data.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Deck_To_Card_Table_Data.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="First Sample full.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Tag_To_Card_Table_Data.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     
     <!-- <ProjectReference Include="..\Memento.DAL\Memento.DAL.csproj" /> -->
