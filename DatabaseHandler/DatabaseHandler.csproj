@@ -1,14 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+<<<<<<< HEAD
     <OutputType>Exe</OutputType>
+=======
+>>>>>>> origin/methods_for_db
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
     <None Update="First Sample full.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+=======
+<<<<<<< HEAD:Memento.BLL/Memento.BLL.csproj
+    <ProjectReference Include="..\Memento.DAL\Memento.DAL.csproj" />
+=======
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="3.1.9" />
+>>>>>>> origin/methods_for_db:DatabaseHandler/DatabaseHandler.csproj
+>>>>>>> origin/methods_for_db
   </ItemGroup>
 
 </Project>

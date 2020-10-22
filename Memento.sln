@@ -3,13 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseHandler", "DatabaseHandler\DatabaseHandler.csproj", "{5ED1D035-9F81-44EE-9BEC-81AC00399560}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memento.DAL", "Memento.DAL\Memento.DAL.csproj", "{E66EE9DF-05BD-4897-B3A7-52FB82BF7593}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memento.BLL", "Memento.BLL\Memento.BLL.csproj", "{C740AD92-282B-4A17-87A0-885846C12E68}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memento", "Memento\Memento.csproj", "{1E2D377A-DB46-4381-BA3F-CAE27B71267C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseHandler", "DatabaseHandler\DatabaseHandler.csproj", "{5ED1D035-9F81-44EE-9BEC-81AC00399560}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +15,6 @@ Global
 		{5ED1D035-9F81-44EE-9BEC-81AC00399560}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5ED1D035-9F81-44EE-9BEC-81AC00399560}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5ED1D035-9F81-44EE-9BEC-81AC00399560}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E66EE9DF-05BD-4897-B3A7-52FB82BF7593}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E66EE9DF-05BD-4897-B3A7-52FB82BF7593}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E66EE9DF-05BD-4897-B3A7-52FB82BF7593}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E66EE9DF-05BD-4897-B3A7-52FB82BF7593}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C740AD92-282B-4A17-87A0-885846C12E68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C740AD92-282B-4A17-87A0-885846C12E68}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C740AD92-282B-4A17-87A0-885846C12E68}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C740AD92-282B-4A17-87A0-885846C12E68}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E2D377A-DB46-4381-BA3F-CAE27B71267C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E2D377A-DB46-4381-BA3F-CAE27B71267C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E2D377A-DB46-4381-BA3F-CAE27B71267C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E2D377A-DB46-4381-BA3F-CAE27B71267C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
