@@ -13,8 +13,7 @@ CREATE TABLE "Deck_Table" (
 	"tag_name"	TEXT,
 	"deck_name"	TEXT NOT NULL,
 	"number_of_cards"	INT NOT NULL,
-	PRIMARY KEY("deck_id" AUTOINCREMENT),
-	FOREIGN KEY("tag_name") REFERENCES "Tag_Table"("tag_name")
+	PRIMARY KEY("deck_id" AUTOINCREMENT)
 )
 
 CREATE TABLE "Deck_To_Card_Table"(
