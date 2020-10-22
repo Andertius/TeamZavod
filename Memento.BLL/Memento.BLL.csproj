@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<< HEAD:Memento.BLL/Memento.BLL.csproj
     <ProjectReference Include="..\Memento.DAL\Memento.DAL.csproj" />
-=======
     <PackageReference Include="Microsoft.Data.Sqlite" Version="3.1.9" />
->>>>>>> origin/methods_for_db:DatabaseHandler/DatabaseHandler.csproj
   </ItemGroup>
 
 </Project>
