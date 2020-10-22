@@ -8,11 +8,7 @@ namespace DatabaseHandler
     {
         static void FillDatabase()
         {
-            using SqliteConnection connection = new SqliteConnection("Data Source=Database.db");
-<<<<<<< HEAD
-
-=======
->>>>>>> 8fbb4fba47efee20097725fef204978eaffe8904
+            SqliteConnection connection = new SqliteConnection("Data Source=Database.db");
             connection.Open();
 
             string[] decks = File.ReadAllLines("Deck_Table_Data.txt");
@@ -30,11 +26,7 @@ namespace DatabaseHandler
             }
 
             string[] cards = File.ReadAllLines("Card_Table_Data.txt");
-<<<<<<< HEAD
             for (int i = 0; i < cards.Length; i++)
-=======
-            for (int i = 1; i < cards.Length; i++)
->>>>>>> 8fbb4fba47efee20097725fef204978eaffe8904
             {
                 SqliteCommand com = connection.CreateCommand();
                 string[] card = cards[i].Split(", ");
@@ -50,11 +42,7 @@ namespace DatabaseHandler
             }
 
             string[] deckToCard = File.ReadAllLines("Deck_To_Card_Table_Data.txt");
-<<<<<<< HEAD
             for (int i = 0; i < deckToCard.Length; i++)
-=======
-            for (int i = 1; i < deckToCard.Length; i++)
->>>>>>> 8fbb4fba47efee20097725fef204978eaffe8904
             {
                 SqliteCommand com = connection.CreateCommand();
                 string[] line = deckToCard[i].Split();
@@ -66,11 +54,7 @@ namespace DatabaseHandler
             }
 
             string[] tagToCard = File.ReadAllLines("Tag_To_Card_Table_Data.txt");
-<<<<<<< HEAD
             for (int i = 0; i < tagToCard.Length; i++)
-=======
-            for (int i = 1; i < tagToCard.Length; i++)
->>>>>>> 8fbb4fba47efee20097725fef204978eaffe8904
             {
                 SqliteCommand com = connection.CreateCommand();
                 string[] line = tagToCard[i].Split();
@@ -80,6 +64,8 @@ namespace DatabaseHandler
                 com.Prepare();
                 com.ExecuteNonQuery();
             }
+
+            connection.Close();
         }
 
         static void Main()
