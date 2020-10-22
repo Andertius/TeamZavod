@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Memento.BLL
+namespace Memento.DAL
 {
-    public class Card
+    public class Card : IEquatable<Card>
     {
         public Card()
         {

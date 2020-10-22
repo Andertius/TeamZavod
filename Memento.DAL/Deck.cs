@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Memento.BLL
+namespace Memento.DAL
 {
     public class Deck : IEquatable<Deck>, IEnumerable<Card>, ICollection<Card>
     {
