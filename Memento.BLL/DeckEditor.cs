@@ -13,25 +13,21 @@ namespace Memento.BLL
         public DeckEditor()
         {
             Deck = new Deck();
-            cancelationToken = new CancellationTokenSource();
         }
 
         public DeckEditor(Deck deck)
         {
             Deck = new Deck(deck);
-            cancelationToken = new CancellationTokenSource();
         }
 
         public DeckEditor(string deckName)
         {
             Deck = Repository.FetchDeck(deckName);
-            cancelationToken = new CancellationTokenSource();
         }
 
         public DeckEditor(int deckId)
         {
             Deck = Repository.FetchDeck(deckId);
-            cancelationToken = new CancellationTokenSource();
         }
 
         public Deck Deck { get; private set; }
