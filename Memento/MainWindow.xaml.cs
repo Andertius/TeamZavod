@@ -24,7 +24,7 @@ namespace Memento
         {
             InitializeComponent();
 
-            Decks = Repository.FetchAllDecks();
+            Decks = Repository.FetchAllDecks().ToList();
             IsInEditor = false;
             IsInLearningProcess = false;
         }
