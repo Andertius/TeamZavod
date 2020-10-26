@@ -9,6 +9,9 @@
     <None Update="Card_Table_Data.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Database.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="DBCreatorScript.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
