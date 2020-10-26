@@ -1,4 +1,7 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Sqlite;
 
 namespace Memento.DAL
 {
@@ -34,12 +37,26 @@ namespace Memento.DAL
             ImagePath = card.ImagePath;
         }
 
+        [Key]
+        [Column("card_id")]
         public int Id { get; set; }
+
+        [Column("word")]
         public string Word { get; set; }
+
+        [Column("description")]
         public string Description { get; set; }
+
+        [Column("transcription")]
         public string Transcription { get; set; }
+
+        [Column("difficulty_level")]
         public Difficulty Difficulty { get; set; }
+
+        [Column("image_path")]
         public string ImagePath { get; set; }
+
+        //добавити масив тегів
 
         public override string ToString()
         {
