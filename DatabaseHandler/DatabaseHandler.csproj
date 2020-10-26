@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Database.db" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Card_Table_Data.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

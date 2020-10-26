@@ -68,7 +68,7 @@ namespace Memento.BLL
                 {
                     Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - Deck.Count / 5);
                 }
-                else if (e.RememberValue == (int)RememberingLevels.Got_it)
+                else if (e.RememberValue == (int)RememberingLevels.GotIt)
                 {
                     Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - Deck.Count / 3);
                 }

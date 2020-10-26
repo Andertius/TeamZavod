@@ -9,8 +9,8 @@ namespace Memento.BLL
         {
             TimePassed = time;
         }
-        public TimeSpan TimePassed { get; }
 
+        public TimeSpan TimePassed { get; }
     }
 
     public class StatCardLearnedEventArgs : EventArgs
@@ -22,6 +22,4 @@ namespace Memento.BLL
 
         public Card LearnedCard { get; }
     }
-
-
 }

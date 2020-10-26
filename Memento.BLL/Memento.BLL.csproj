@@ -9,4 +9,10 @@
     <PackageReference Include="Microsoft.Data.Sqlite" Version="3.1.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Statistics.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

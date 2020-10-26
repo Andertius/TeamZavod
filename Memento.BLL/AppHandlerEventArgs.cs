@@ -9,6 +9,7 @@ namespace Memento.BLL
         {
             Card = new Card(card);
         }
+
         public Card Card { get; set; }
         public bool IsFlipped { get; set; }
     }
@@ -19,6 +20,7 @@ namespace Memento.BLL
         {
             Card = new Card(card);
         }
+
         public Card Card { get; set; }
         public int RememberValue { get; }
     }
@@ -29,6 +31,7 @@ namespace Memento.BLL
         {
             Card = new Card(card);
         }
+
         public Card Card { get; set; }
     }
 }
