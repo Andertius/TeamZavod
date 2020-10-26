@@ -6,10 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Database.db" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Card_Table_Data.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Database.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="DBCreatorScript.sql">
@@ -30,6 +31,12 @@
     
     <!-- <ProjectReference Include="..\Memento.DAL\Memento.DAL.csproj" /> -->
     <PackageReference Include="Microsoft.Data.Sqlite" Version="3.1.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Database.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

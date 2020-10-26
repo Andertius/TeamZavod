@@ -68,9 +68,65 @@ namespace DatabaseHandler
             connection.Close();
         }
 
+        static void PrintDatabaseData()
+        {
+            SqliteConnection connection = new SqliteConnection("Data Source=Database.db");
+            connection.Open();
+
+            SqliteCommand com = connection.CreateCommand();
+            com.CommandText = "SELECT deck_id, deck_name, tag_name, number_of_cards FROM Deck_Table";
+
+            SqliteDataReader reader = com.ExecuteReader();
+            Console.WriteLine("-------------------------------------------------------Deck_Table-------------------------------------------------------\n");
+            Console.WriteLine("deck_id \t deck_name \t tag_name \t number_of_cards");
+
+            while (reader.Read())
+            {
+                Console.WriteLine($"{reader.GetInt32(0)} \t {reader.GetString(1)} \t {reader.GetString(2)} \t {reader.GetInt32(3)}");
+            }
+            reader.Close();
+
+            com.CommandText = "SELECT card_id, word, transcription, description, difficulty_level, image_path FROM Card_Table";
+            reader = com.ExecuteReader();
+            Console.WriteLine("\n-------------------------------------------------------Card_Table-------------------------------------------------------\n");
+            Console.WriteLine("card_id \t word \t transcription \t description \t difficulty_level \t image_path");
+
+            while (reader.Read())
+            {
+                Console.WriteLine($"{reader.GetInt32(0)} \t {reader.GetString(1)} \t {reader.GetString(2)} \t {reader.GetInt32(3)} " +
+                    $" \t {reader.GetString(4)} \t {reader.GetString(5)}");
+            }
+            reader.Close();
+
+            com.CommandText = "SELECT deck_id, card_id FROM Deck_To_Card_Table";
+            reader = com.ExecuteReader();
+            Console.WriteLine("\n---------------------------------------------------Deck_To_Card_Table---------------------------------------------------\n");
+            Console.WriteLine("deck_id \t card_id");
+
+            while (reader.Read())
+            {
+                Console.WriteLine($"{reader.GetInt32(0)} \t {reader.GetInt32(1)}");
+            }
+            reader.Close();
+
+            com.CommandText = "SELECT card_id, tag_name FROM Tag_To_Card_Table";
+            reader = com.ExecuteReader();
+            Console.WriteLine("\n---------------------------------------------------Tag_To_Card_Table----------------------------------------------------\n");
+            Console.WriteLine("card_id \t tag_name");
+
+            while (reader.Read())
+            {
+                Console.WriteLine($"{reader.GetInt32(0)} \t {reader.GetString(1)}");
+            }
+            reader.Close();
+
+            connection.Close();
+        }
+
         static void Main()
         {
             FillDatabase();
+            PrintDatabaseData();
         }
     }
 }
