@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 using Memento.DAL;
 
@@ -27,55 +25,64 @@ namespace Memento.BLL
 
         public void Start()
         {
-            //шафл деки
-
+            RadndomizeDeck();
         }
 
-        //flip card
+        public void Stop()
+        {
+           
+        }
+
+        public void RadndomizeDeck()
+        {
+            Random rand = new Random();
+            for (int i = 0; i < Deck.Count - 1; i++)
+            {
+                int j = rand.Next(i, Deck.Count - 1);
+                Card card = Deck[i];
+                Deck[i] = Deck[j];
+                Deck[j] = card;
+            }
+        }
         public void FlipCard(object sender, AppHandlerFlipEventArgs e)
         {
-            e.isFlipped = !e.isFlipped;
+            e.IsFlipped = !e.IsFlipped;
         }
 
-        //nextCard
-        public void NextCard(object sender, AppHandlerMoveCardEventArgs e)
+
+        public void NextCard(object sender, AppHandlerNextCardEventArgs e)
         {
             if (e.Card.Id != -1 && Deck.Cards.IndexOf(e.Card) < Deck.Count)
             {
-                e.Card = Deck[e.Card.Id + 1];
+                Deck.Remove(e.Card);
+                e.Card = Deck[0];
             }
         }
 
-        //MoveCardIntoDeck
+
         public void MoveCardIntoDeck(object sender, AppHandlerMoveCardEventArgs e)
         {
-            if (e.Card.Id != -1 && Deck.Cards.IndexOf(e.Card) < Deck.Count- Deck.Count/10)
+            if (e.Card.Id != -1 && Deck.Cards.IndexOf(e.Card) < Deck.Count - Deck.Count / 10)
             {
-                if (e.RememberValue == 3)
+                if (e.RememberValue == (int)RememberingLevels.Trivial)
                 {
-                    Deck.Remove(e.Card);
-                    Deck.InsertCard(Deck.Count - Deck.Count / 5, e.Card);
+                    Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - Deck.Count / 5);
                 }
-                else if (e.RememberValue == 2)
+                else if (e.RememberValue == (int)RememberingLevels.Got_it)
                 {
-                    Deck.Remove(e.Card);
-                    Deck.InsertCard(Deck.Count - Deck.Count / 3, e.Card);
+                    Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - Deck.Count / 3);
                 }
-                else if (e.RememberValue == 1)
+                else if (e.RememberValue == (int)RememberingLevels.Again)
                 {
-                    Deck.Remove(e.Card);
-                    Deck.InsertCard(Deck.Count - 2 * Deck.Count / 3, e.Card);
+                    Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - 2 * Deck.Count / 3);
                 }
             }
             else
             {
-                Deck.Remove(e.Card);
-                Deck.Add(e.Card);
+                Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - 1);
             }
         }
 
-        //Cancel
-        //{canelationtoken=stop}
 
 
     }

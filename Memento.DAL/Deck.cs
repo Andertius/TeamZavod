@@ -61,6 +61,11 @@ namespace Memento.DAL
             Cards.Insert(newIndex, card);
         }
 
+        public int IndexOf(Card card)
+        {
+            return Cards.IndexOf(card);
+        }
+
         public void Clear()
             => Cards.Clear();
 

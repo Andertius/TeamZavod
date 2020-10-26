@@ -19,6 +19,14 @@ namespace Memento.BLL
         public TimeSpan AvarageTimePerDay { get; set; }
         public List<Card> CardsLearnedToday { get; set; }
 
-        //ev subr AddSpentTimeToday(object sender, StatEventArgs e)
+       public void AddSpentTimeToday(object sender, StatAddSpentTimeEventArgs e)
+        {
+            TimeSpentToday += e.TimePassed;
+        }
+
+       public void AddCardLearned(object sender, StatCardLearnedEventArgs e)
+        {
+            CardsLearnedToday.Add(e.LearnedCard);
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Memento.BLL
             Card = new Card(card);
         }
         public Card Card { get; set; }
-        public bool isFlipped { get; set; }
+        public bool IsFlipped { get; set; }
     }
 
     public class AppHandlerMoveCardEventArgs : EventArgs
@@ -21,5 +21,14 @@ namespace Memento.BLL
         }
         public Card Card { get; set; }
         public int RememberValue { get; }
+    }
+
+    public class AppHandlerNextCardEventArgs : EventArgs
+    {
+        public AppHandlerNextCardEventArgs(Card card)
+        {
+            Card = new Card(card);
+        }
+        public Card Card { get; set; }
     }
 }
