@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using ConsoleTables;
 using Microsoft.Data.Sqlite;
 
 namespace DatabaseHandler
@@ -75,50 +76,53 @@ namespace DatabaseHandler
 
             SqliteCommand com = connection.CreateCommand();
             com.CommandText = "SELECT deck_id, deck_name, tag_name, number_of_cards FROM Deck_Table";
+            ConsoleTable table = new ConsoleTable("deck_id", "deck_name", "tag_name", "number_of_cards");
+            Console.WriteLine("Deck_Table\n");
 
             SqliteDataReader reader = com.ExecuteReader();
-            Console.WriteLine("-------------------------------------------------------Deck_Table-------------------------------------------------------\n");
-            Console.WriteLine("deck_id \t deck_name \t tag_name \t number_of_cards");
-
             while (reader.Read())
             {
-                Console.WriteLine($"{reader.GetInt32(0)} \t {reader.GetString(1)} \t {reader.GetString(2)} \t {reader.GetInt32(3)}");
+                table.AddRow(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3));
             }
             reader.Close();
+            table.Write();
 
             com.CommandText = "SELECT card_id, word, transcription, description, difficulty_level, image_path FROM Card_Table";
-            reader = com.ExecuteReader();
-            Console.WriteLine("\n-------------------------------------------------------Card_Table-------------------------------------------------------\n");
-            Console.WriteLine("card_id \t word \t transcription \t description \t difficulty_level \t image_path");
+            table = new ConsoleTable("card_id", "word", "transcription", "description", "difficulty_level", "image_path");
+            Console.WriteLine("\nCard_Table\n");
 
+            reader = com.ExecuteReader();
             while (reader.Read())
             {
-                Console.WriteLine($"{reader.GetInt32(0)} \t {reader.GetString(1)} \t {reader.GetString(2)} \t {reader.GetInt32(3)} " +
-                    $" \t {reader.GetString(4)} \t {reader.GetString(5)}");
+                table.AddRow(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4),
+                    reader.GetString(5));
             }
             reader.Close();
+            table.Write();
 
             com.CommandText = "SELECT deck_id, card_id FROM Deck_To_Card_Table";
-            reader = com.ExecuteReader();
-            Console.WriteLine("\n---------------------------------------------------Deck_To_Card_Table---------------------------------------------------\n");
-            Console.WriteLine("deck_id \t card_id");
+            table = new ConsoleTable("deck_id", "card_id");
+            Console.WriteLine("\nDeck_To_Card_Table\n");
 
+            reader = com.ExecuteReader();
             while (reader.Read())
             {
-                Console.WriteLine($"{reader.GetInt32(0)} \t {reader.GetInt32(1)}");
+                table.AddRow(reader.GetInt32(0), reader.GetInt32(1));
             }
             reader.Close();
+            table.Write();
 
             com.CommandText = "SELECT card_id, tag_name FROM Tag_To_Card_Table";
-            reader = com.ExecuteReader();
-            Console.WriteLine("\n---------------------------------------------------Tag_To_Card_Table----------------------------------------------------\n");
-            Console.WriteLine("card_id \t tag_name");
+            table = new ConsoleTable("card_id", "tag_name");
+            Console.WriteLine("\nTag_To_Card_Table\n");
 
+            reader = com.ExecuteReader();
             while (reader.Read())
             {
-                Console.WriteLine($"{reader.GetInt32(0)} \t {reader.GetString(1)}");
+                table.AddRow(reader.GetInt32(0), reader.GetString(1));
             }
             reader.Close();
+            table.Write();
 
             connection.Close();
         }
