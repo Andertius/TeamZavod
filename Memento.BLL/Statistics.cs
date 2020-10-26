@@ -6,6 +6,7 @@ using Memento.DAL;
 
 namespace Memento.BLL
 {
+    //StatEventArgs (TimeSpan t);
     public class Statistics
     {
         public Statistics()
@@ -18,5 +19,6 @@ namespace Memento.BLL
         public TimeSpan AvarageTimePerDay { get; set; }
         public List<Card> CardsLearnedToday { get; set; }
 
+        //ev subr AddSpentTimeToday(object sender, StatEventArgs e)
     }
 }

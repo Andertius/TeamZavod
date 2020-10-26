@@ -27,7 +27,20 @@ namespace Memento.BLL
 
         public void Start()
         {
-
+            //шафл деки
+            //відлік часу
+            //while(canelationtoken){}
         }
+
+        //flip card
+
+        //nextCard
+
+        //MoveCardIntoDeck
+
+        //Cancel
+        //{canelationtoken=stop}
+
+
     }
 }
