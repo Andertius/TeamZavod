@@ -28,15 +28,51 @@ namespace Memento.BLL
         public void Start()
         {
             //шафл деки
-            //відлік часу
-            //while(canelationtoken){}
+
         }
 
         //flip card
+        public void FlipCard(object sender, AppHandlerFlipEventArgs e)
+        {
+            e.isFlipped = !e.isFlipped;
+        }
 
         //nextCard
+        public void NextCard(object sender, AppHandlerMoveCardEventArgs e)
+        {
+            if (e.Card.Id != -1 && Deck.Cards.IndexOf(e.Card) < Deck.Count)
+            {
+                e.Card = Deck[e.Card.Id + 1];
+            }
+        }
 
         //MoveCardIntoDeck
+        public void MoveCardIntoDeck(object sender, AppHandlerMoveCardEventArgs e)
+        {
+            if (e.Card.Id != -1 && Deck.Cards.IndexOf(e.Card) < Deck.Count- Deck.Count/10)
+            {
+                if (e.RememberValue == 3)
+                {
+                    Deck.Remove(e.Card);
+                    Deck.InsertCard(Deck.Count - Deck.Count / 5, e.Card);
+                }
+                else if (e.RememberValue == 2)
+                {
+                    Deck.Remove(e.Card);
+                    Deck.InsertCard(Deck.Count - Deck.Count / 3, e.Card);
+                }
+                else if (e.RememberValue == 1)
+                {
+                    Deck.Remove(e.Card);
+                    Deck.InsertCard(Deck.Count - 2 * Deck.Count / 3, e.Card);
+                }
+            }
+            else
+            {
+                Deck.Remove(e.Card);
+                Deck.Add(e.Card);
+            }
+        }
 
         //Cancel
         //{canelationtoken=stop}

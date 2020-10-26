@@ -3,14 +3,23 @@ using System;
 
 namespace Memento.BLL
 {
-    class AppHandlerEventArgs : EventArgs
+    public class AppHandlerFlipEventArgs : EventArgs
     {
-        public AppHandlerEventArgs(Card card)
+        public AppHandlerFlipEventArgs(Card card)
         {
             Card = new Card(card);
         }
         public Card Card { get; set; }
-        public bool isFlipped = false;
+        public bool isFlipped { get; set; }
     }
-    
+
+    public class AppHandlerMoveCardEventArgs : EventArgs
+    {
+        public AppHandlerMoveCardEventArgs(Card card)
+        {
+            Card = new Card(card);
+        }
+        public Card Card { get; set; }
+        public int RememberValue { get; }
+    }
 }
