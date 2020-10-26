@@ -15,7 +15,7 @@ namespace Memento.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlite( connectionString:"Data Source=Database.db");
+            options.UseSqlite( connectionString:"Data Source=DatabaseDAL.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
