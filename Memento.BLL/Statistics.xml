@@ -1,0 +1,13 @@
+<xml version="1.0" encoding="UTF-8">
+
+<Statistics>
+    <GeneralInfo>
+        <FirstLogin>0</FirstLogin>
+        <LastLogin>0</LastLogin>
+        <TotalHours>0</TotalHours>
+    </GeneralInfo>
+
+    <HoursToday>0</HoursToday>
+    <AverageHoursToday>0</AverageHoursToday>
+    <CardsToday>0</CardsToday>
+</Statistics>

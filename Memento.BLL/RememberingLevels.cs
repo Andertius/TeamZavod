@@ -3,7 +3,7 @@
     public enum RememberingLevels
     {
         Again,
-        Got_it,
+        GotIt,
         Trivial
     }
 }
