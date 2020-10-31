@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Memento.UserControls;
 using Memento.BLL;
 using Memento.DAL;
 
@@ -33,15 +34,10 @@ namespace Memento
         public DeckEditor DeckEditor { get; set; }
         public List<Deck> Decks { get; private set; }
 
+        public DeckEditorUserControl DeckEditorPage { get; set; }
+
         public bool IsInEditor { get; private set; }
         public bool IsInLearningProcess { get; private set; }
-
-        //Deck editor events
-        public event EventHandler<DeckEditorAddCardEventArgs> CardAdded;
-        public event EventHandler<DeckEditorRemoveCardEventArgs> CardRemoved;
-        public event EventHandler<DeckEditorDeckEventArgs> DeckChanged;
-        public event EventHandler<DeckEditorDeckEventArgs> ChangesSaved;
-        public event EventHandler<ExitDeckEditorEventArgs> EditorExited;
 
         public void StartLearning(object sender, RoutedEventArgs e)
         {
@@ -51,13 +47,16 @@ namespace Memento
 
         public void StartEditing(object sender, RoutedEventArgs e)
         {
-            DeckEditor = new DeckEditor((int)((Button)sender).Tag);
+            //unsubscribe all events for all the other pages
 
-            CardAdded += DeckEditor.AddCard;
-            CardRemoved += DeckEditor.RemoveCard;
-            DeckChanged += DeckEditor.ChangeDeck;
-            ChangesSaved += DeckEditor.SaveChanges;
-            EditorExited += DeckEditor.ExitEditor;
+            //Button Tag is the deck id
+            Content = DeckEditorPage = new DeckEditorUserControl(Int32.Parse((string)((Button)sender).Tag))
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            //DeckEditorPage.MakeVisible += MakeMainPPageVisible;
         }
     }
 }
