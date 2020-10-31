@@ -24,11 +24,11 @@ namespace Memento.DAL
             modelBuilder.Entity<DeckModel>().ToTable("Deck_Table");
 
             modelBuilder.Entity<TagtoCardModel>()
-                .ToTable("\"Tag_To_Card_Table\"")
+                .ToTable("Tag_To_Card_Table")
                 .HasKey(c => new { c.TagName, c.CardID });
 
             modelBuilder.Entity<DeckToCardModel>()
-                .ToTable("\"Deck_To_Card_Table\"")
+                .ToTable("Deck_To_Card_Table")
                 .HasKey(c => new { c.CardID, c.DeckID });
 
             modelBuilder.Entity<DeckToCardModel>()

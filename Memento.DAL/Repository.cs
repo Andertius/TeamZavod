@@ -20,8 +20,7 @@ namespace Memento.DAL
 
                 Card crd = new Card();
 
-                var help = context.Cards.FromSqlRaw($"SELECT * FROM Card_Table INNER JOIN Deck_To_Card_Table ON Deck_To_Card_Table.card_id = Card_Table.card_id WHERE Deck_To_Card_Table.deck_id = (SELECT deck_id FROM Deck_Table  WHERE deck_name = {deckName})").ToList();
-
+                var help = context.Cards.FromSqlInterpolated($"SELECT Card_Table.card_id, description, difficulty_level, image_path, transcription, word FROM Card_Table, Deck_To_Card_Table WHERE Deck_To_Card_Table.card_id = Card_Table.card_id AND Deck_To_Card_Table.deck_id = (SELECT deck_id FROM Deck_Table  WHERE deck_name = {deckName})").ToList();
                 foreach (var item in help)
                 {
                     //Difficulty diff
@@ -50,7 +49,7 @@ namespace Memento.DAL
 
                 for (int i = 0; i < cards.Count; i++)
                 {
-                    var tags = context.Tags.FromSqlRaw($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {cards[i].Id}").ToList();
+                    var tags = context.Tags.Where(x => x.CardID == cards[i].Id).ToList();
                     List<string> answerTags = new List<string>();
 
                     foreach (var item in tags)
@@ -62,7 +61,7 @@ namespace Memento.DAL
                     cards[i].Tags = new List<string>(answerTags);
                 }
 
-                var deckdetails = context.Decks.FromSqlRaw($"SELECT * FROM Deck_Table WHERE deck_name = {deckName}").ToList();
+                var deckdetails = context.Decks.Where(x => x.DeckName == deckName).ToList();
 
                 var deck = new Deck();
 
@@ -90,7 +89,7 @@ namespace Memento.DAL
 
                 Card crd = new Card();
 
-                var help = context.Cards.FromSqlRaw($"SELECT * FROM Card_Table INNER JOIN Deck_To_Card_Table ON Deck_To_Card_Table.card_id = Card_Table.card_id WHERE Deck_To_Card_Table.deck_id = (SELECT deck_id FROM Deck_Table  WHERE deck_id = {id})").ToList();
+                var help = context.Cards.FromSqlInterpolated($"SELECT Card_Table.card_id, description, difficulty_level, image_path, transcription, word FROM Card_Table, Deck_To_Card_Table WHERE Deck_To_Card_Table.card_id = Card_Table.card_id AND Deck_To_Card_Table.deck_id = (SELECT deck_id FROM Deck_Table  WHERE deck_id = {id})").ToList();
 
                 foreach (var item in help)
                 {
@@ -120,7 +119,7 @@ namespace Memento.DAL
 
                 for (int i = 0; i < cards.Count; i++)
                 {
-                    var tags = context.Tags.FromSqlRaw($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {cards[i].Id}").ToList();
+                    var tags = context.Tags.Where(x => x.CardID == cards[i].Id).ToList();
                     List<string> answerTags = new List<string>();
 
                     foreach (var item in tags)
@@ -132,7 +131,7 @@ namespace Memento.DAL
                     cards[i].Tags = new List<string>(answerTags);
                 }
 
-                var deckdetails = context.Decks.FromSqlRaw($"SELECT * FROM Deck_Table WHERE deck_id = {id}").ToList();
+                var deckdetails = context.Decks.Where(x => x.Id == id).ToList();
 
                 var deck = new Deck();
 
@@ -158,7 +157,7 @@ namespace Memento.DAL
             {
                 Card crd = new Card();
 
-                var help = context.Cards.FromSqlRaw($"SELECT * FROM \"Card_Table\" WHERE card_id = {id}").ToList();
+                var help = context.Cards.FromSqlInterpolated($"SELECT * FROM \"Card_Table\" WHERE card_id = {id}").ToList();
 
                 foreach (var item in help)
                 {
@@ -187,7 +186,7 @@ namespace Memento.DAL
 
                 }
 
-                var tags = context.Tags.FromSqlRaw($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {id}").ToList();
+                var tags = context.Tags.FromSqlInterpolated($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {id}").ToList();
 
                 List<string> answerTags = new List<string>();
 
@@ -241,7 +240,7 @@ namespace Memento.DAL
 
                 Card crd = new Card();
 
-                var help = context.Cards.FromSqlRaw($"SELECT * FROM Card_Table").ToList();
+                var help = context.Cards.FromSqlInterpolated($"SELECT * FROM Card_Table").ToList();
 
                 foreach (var item in help)
                 {
@@ -271,7 +270,7 @@ namespace Memento.DAL
 
                 for (int i = 0; i < cards.Count; i++)
                 {
-                    var tags = context.Tags.FromSqlRaw($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {cards[i].Id}").ToList();
+                    var tags = context.Tags.FromSqlInterpolated($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {cards[i].Id}").ToList();
                     List<string> answerTags = new List<string>();
 
                     foreach (var item in tags)

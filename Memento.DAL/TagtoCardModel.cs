@@ -14,10 +14,8 @@ namespace Memento.DAL
         [Column("card_id")]
         public int CardID { get; set; }
 
-        
+        [NotMapped]
         public int CardId { get; set; }
-
-        [ForeignKey("CardId")]
 
         public CardModel Card { get; set; }
 

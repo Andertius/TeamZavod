@@ -35,6 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Memento.DAL\Memento.DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Database.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
