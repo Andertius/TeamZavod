@@ -52,8 +52,8 @@ namespace Memento
             //Button Tag is the deck id
             Content = DeckEditorPage = new DeckEditorUserControl(Int32.Parse((string)((Button)sender).Tag))
             {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
             };
 
             //DeckEditorPage.MakeVisible += MakeMainPPageVisible;

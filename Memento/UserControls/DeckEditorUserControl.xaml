@@ -6,7 +6,7 @@
              mc:Ignorable="d" d:Background="White"
              d:DesignHeight="1080" d:DesignWidth="1920">
     <UserControl.Resources>
-        <Style TargetType="{x:Type RadioButton}" >
+        <Style TargetType="{x:Type RadioButton}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
@@ -15,8 +15,10 @@
                                 <Grid/>
                             </BulletDecorator.Bullet>
 
-                            <TextBlock x:Name="DifficultyText" FontSize="43.2" Margin="0 0 0 12">
-                                <ContentPresenter />
+                            <TextBlock x:Name="DifficultyText"
+                                       VerticalAlignment="Stretch" Margin="0 0 0 5"
+                                       HorizontalAlignment="Center">
+                                <ContentPresenter/>
                             </TextBlock>
                         </BulletDecorator>
 
@@ -31,40 +33,44 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="48"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="3*" MinWidth="600"/>
             <ColumnDefinition Width="36"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*" MinWidth="400"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text=" Memento - DeckEditor" Grid.ColumnSpan="2" FontSize="28.8"/>
+        <TextBlock Grid.Row="0" Text=" Memento - DeckEditor" Grid.ColumnSpan="2"/>
 
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="24"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="42*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="21*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Margin="0 48 0 0">
+            <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="30*"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="1" VerticalAlignment="Center">
+                <Grid Grid.Column="1" VerticalAlignment="Center"
+                      HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="288"/>
                     </Grid.ColumnDefinitions>
@@ -74,98 +80,117 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="Difficulty" FontSize="57.6" Grid.Row="0"
+                    <TextBlock Text="Difficulty" Grid.Row="0" Margin="0 0 0 5"
                                  HorizontalAlignment="Center"/>
-                    <StackPanel Grid.Row="1">
-                        <RadioButton Content="Beginner"
-                                 HorizontalAlignment="Center"/>
-                        <RadioButton Content="Intermediate"
-                                 HorizontalAlignment="Center"/>
-                        <RadioButton Content="Advanced"
-                                 HorizontalAlignment="Center"/>
-                        <RadioButton Content="None" IsChecked="True"
-                                 HorizontalAlignment="Center"/>
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                        <RadioButton Content="Beginner"/>
+                        <RadioButton Content="Intermediate"/>
+                        <RadioButton Content="Advanced"/>
+                        <RadioButton Content="None" IsChecked="True"/>
                     </StackPanel>
                 </Grid>
 
-                <Rectangle Grid.Column="3"
-                       Width="720"
-                       Height="480"
-                       Stroke="DarkGray"
-                       Fill="LightGray"
-                       HorizontalAlignment="Center"/>
+                <Grid Grid.Column="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="14*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="3" Text="Image" FontSize="76.8"
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="14*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Grid.Row="1" Grid.Column="1" Stroke="DarkGray"
+                           Fill="LightGray"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="Image" FontSize="76.8"
                        HorizontalAlignment="Center" Foreground="Gray"
                        VerticalAlignment="Center"/>
 
-                <Image Grid.Column="3" Source="{Binding CurrentCard.ImagePath}"
+                    <Image Grid.Row="1" Grid.Column="1" Source="{Binding CurrentCard.ImagePath}"
                        ImageFailed="Image_ImageFailed"/>
 
-                <Button Grid.Column="3" Click="Button_Click">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                    <Button Grid.Row="1" Grid.Column="1" Click="Button_Click">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>                
             </Grid>
 
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="3" MinHeight="200">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="48"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0" VerticalAlignment="Center">
+                <Grid Grid.Column="0" VerticalAlignment="Stretch">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="36"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
-
-                    <TextBox Grid.Row="0" Width="420" Height="84" x:Name="WordTextBox"
+                    
+                    <TextBox Grid.Row="1" x:Name="WordTextBox"
                              Background="#F7F7F7F7" TextAlignment="Center"
                              VerticalContentAlignment="Center" FontSize="28.8"/>
 
-                    <TextBlock Grid.Row="0" IsHitTestVisible="False" Text="Word"
+                    <TextBlock Grid.Row="1" IsHitTestVisible="False" Text="Word"
                            HorizontalAlignment="Center" Foreground="DarkGray"
                            VerticalAlignment="Center" FontSize="28.8">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Text, ElementName=WordTextBox}" Value="">
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding Text, ElementName=WordTextBox}" Value=""/>
+                                            <Condition Binding="{Binding IsFocused, ElementName=WordTextBox}" Value="False"/>
+                                        </MultiDataTrigger.Conditions>
                                         <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
+                                    </MultiDataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
 
-                    <TextBox Grid.Row="2" Width="420" Height="84" Background="#F7F7F7F7" x:Name="TranscriptionTextBox"
+                    <TextBox Grid.Row="3" Background="#F7F7F7F7" x:Name="TranscriptionTextBox"
                              TextAlignment="Center" VerticalContentAlignment="Center" FontSize="28.8"/>
 
-                    <TextBlock Grid.Row="2" IsHitTestVisible="False" Text="Transcription"
+                    <TextBlock Grid.Row="3" IsHitTestVisible="False" Text="Transcription"
                            HorizontalAlignment="Center" Foreground="DarkGray"
                            VerticalAlignment="Center" FontSize="28.8">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Text, ElementName=TranscriptionTextBox}" Value="">
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding Text, ElementName=TranscriptionTextBox}" Value=""/>
+                                            <Condition Binding="{Binding IsFocused, ElementName=TranscriptionTextBox}" Value="False"/>
+                                        </MultiDataTrigger.Conditions>
                                         <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
+                                    </MultiDataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
@@ -173,54 +198,67 @@
                 </Grid>
 
                 <TextBox Name="DescriptionTextBox" Background="#F7F7F7F7"
-                         Grid.Column="2" Width="840" Height="240" FontSize="28.8"/>
+                         Grid.Column="2"/>
 
                 <TextBlock Grid.Column="2" IsHitTestVisible="False" Text="Description..."
-                           HorizontalAlignment="Left" FontSize="28.8"
-                           Margin="7.2 2.4 0 0" Foreground="DarkGray">
+                           HorizontalAlignment="Left"
+                           Margin="5,2,0,0" Foreground="DarkGray">
                     <TextBlock.Style>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Text, ElementName=DescriptionTextBox}" Value="">
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Text, ElementName=DescriptionTextBox}" Value=""/>
+                                        <Condition Binding="{Binding IsFocused, ElementName=DescriptionTextBox}" Value="False"/>
+                                    </MultiDataTrigger.Conditions>
                                     <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
+                                </MultiDataTrigger>
                             </Style.Triggers>
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
             </Grid>
 
-            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Save Card" Margin="0 0 120 0" Width="240" Height="48" FontSize="28.8"/>
-                <Button Content="Cancel" Width="240" Height="48" FontSize="28.8"/>
+            <StackPanel Grid.Row="5" Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <Button Content="Save Card" Margin="0 0 120 0" Width="240" FontSize="28.8"/>
+                <Button Content="Cancel" Width="240" FontSize="28.8"/>
             </StackPanel>
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="3">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="24"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="24"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="24"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <ComboBox Grid.Row="0" Name="DecksComboBox" Height="48" Width="288"
-                      ItemsSource="{Binding DeckEditor.Deck}" FontSize="28.8"/>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                <ComboBox Grid.Row="0" Name="DecksComboBox" Width="100" Margin="0 0 25 0"
+                      ItemsSource="{Binding DeckEditor.Deck}"/>
 
-            <StackPanel Grid.Row="2" Orientation="Horizontal">
-                <Button Content="New Card" Width="204" Height="48" Margin="0 0 12 0" FontSize="28.8"/>
-                <Button Content="Remove Card" Width="204" Height="48" FontSize="28.8"/>
+                <Button Content="New Card" Margin="0 0 12 0" Width="100"/>
+                <Button Content="Remove Card" Width="100"/>
             </StackPanel>
 
-            <TextBlock Grid.Row="4" Text="Cards: " FontSize="28.8"/>
+            <TextBlock Grid.Row="2" Text="Cards: "/>
 
-            <ScrollViewer Grid.Row="6">
-                
+            <ScrollViewer Grid.Row="4">
+
+            </ScrollViewer>
+
+            <TextBlock Grid.Row="6" Text="Filters: "/>
+            
+            <ScrollViewer Grid.Row="8">
+
             </ScrollViewer>
         </Grid>
     </Grid>

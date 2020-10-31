@@ -11,4 +11,10 @@
     <ProjectReference Include="..\Memento.DAL\Memento.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Database.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

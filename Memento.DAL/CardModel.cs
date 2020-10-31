@@ -29,6 +29,6 @@ namespace Memento.DAL
 
         //[ForeignKey("CardModelFK")]
         public List<TagtoCardModel> Tags { get; set; }
-        public List<DeckToCardModel> Decks { get; set; }
+        public List<DeckToCard> Decks { get; set; }
     }
 }

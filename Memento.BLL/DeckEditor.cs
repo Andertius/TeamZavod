@@ -36,7 +36,7 @@ namespace Memento.BLL
         {
             if (e.Card.Id == -1)
             {
-                e.Card.Id = Repository.AddCard(e.Card);
+                Repository.AddCard(e.Card);
             }
 
             Deck.Add(e.Card);
