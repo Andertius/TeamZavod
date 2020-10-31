@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.Sqlite;
@@ -55,6 +56,8 @@ namespace Memento.DAL
 
         [Column("image_path")]
         public string ImagePath { get; set; }
+
+        public List<string> Tags { get; set; }
 
         //добавити масив тегів
 

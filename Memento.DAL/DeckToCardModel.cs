@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Memento.DAL
 {
-    class DeckToCard
+    class DeckToCardModel
     {
         [Column("card_id")]
         public int DeckID { get; set; }
@@ -16,5 +16,8 @@ namespace Memento.DAL
         //[ForeignKey("CardModel")]
         public int CardId { get; set; }
         public CardModel Card { get; set; }
+
+        public int DeckId { get; set; }
+        public DeckModel Deck { get; set; }
     }
 }
