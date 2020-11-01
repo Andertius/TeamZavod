@@ -108,8 +108,12 @@
                            HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="Image" FontSize="76.8"
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="Image"
                        HorizontalAlignment="Center" Foreground="Gray"
+                       VerticalAlignment="Center"/>
+                    
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="(Click to add)"
+                       HorizontalAlignment="Center" Foreground="Gray" Margin="0 25 0 0"
                        VerticalAlignment="Center"/>
 
                     <Image Grid.Row="1" Grid.Column="1" Source="{Binding CurrentCard.ImagePath}"
@@ -255,7 +259,7 @@
 
             </ScrollViewer>
 
-            <TextBlock Grid.Row="6" Text="Filters: "/>
+            <TextBlock Grid.Row="6" Text="Tags: "/>
             
             <ScrollViewer Grid.Row="8">
 
