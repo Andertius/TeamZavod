@@ -10,31 +10,37 @@ namespace Memento.DAL
     {
         public DbSet<CardModel> Cards { get; set; }
         public DbSet<TagtoCardModel> Tags { get; set; }
-        //public DbSet<DeckToCard> DeckToCards { get; set; }
-        //public DbSet<Deck> Decks { get; set; }
+        public DbSet<DeckToCardModel> DeckToCards { get; set; }
+        public DbSet<DeckModel> Decks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlite( connectionString:"Data Source=DatabaseDAL.db");
+            options.UseSqlite( connectionString: "Data Source=DatabaseDAL.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CardModel>().ToTable("\"Card_Table\"");
-            // modelBuilder.Entity<Deck>().ToTable("Deck_Table");
+            modelBuilder.Entity<CardModel>().ToTable("Card_Table");
+            modelBuilder.Entity<DeckModel>().ToTable("Deck_Table");
 
             modelBuilder.Entity<TagtoCardModel>()
-                .ToTable("\"Tag_To_Card_Table\"")
+                .ToTable("Tag_To_Card_Table")
                 .HasKey(c => new { c.TagName, c.CardID });
 
-            modelBuilder.Entity<DeckToCard>()
-                .ToTable("\"Deck_To_Card_Table\"")
+            modelBuilder.Entity<DeckToCardModel>()
+                .ToTable("Deck_To_Card_Table")
                 .HasKey(c => new { c.CardID, c.DeckID });
 
-            modelBuilder.Entity<DeckToCard>()
+            modelBuilder.Entity<DeckToCardModel>()
                 .HasOne(p => p.Card)
                 .WithMany(b => b.Decks)
                 .HasForeignKey(b => b.CardId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<DeckToCardModel>()
+                .HasOne(p => p.Card)
+                .WithMany(b => b.Decks)
+                .HasForeignKey(b => b.DeckId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             //modelBuilder.Entity<CardModel>()

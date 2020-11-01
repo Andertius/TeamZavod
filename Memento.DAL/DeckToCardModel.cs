@@ -14,10 +14,14 @@ namespace Memento.DAL
         public int CardID { get; set; }
 
         //[ForeignKey("CardModel")]
+        [NotMapped]
         public int CardId { get; set; }
-        public CardModel Card { get; set; }
 
+        public CardModel Card { get; set; }
+        
+        [NotMapped]
         public int DeckId { get; set; }
+
         public DeckModel Deck { get; set; }
     }
 }
