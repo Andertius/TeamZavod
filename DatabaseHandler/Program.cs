@@ -2,6 +2,8 @@
 using System.IO;
 using ConsoleTables;
 using Microsoft.Data.Sqlite;
+using Memento.DAL;
+using System.Linq;
 
 namespace DatabaseHandler
 {
@@ -129,8 +131,10 @@ namespace DatabaseHandler
 
         static void Main()
         {
-            FillDatabase();
-            PrintDatabaseData();
+            var smth = Repository.FetchDeck("Fruits");
+
+            smth.Cards.ForEach(x => Console.WriteLine($"{x.Id}"));
+
         }
     }
 }
