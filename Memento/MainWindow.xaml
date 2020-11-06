@@ -8,5 +8,5 @@
         Title="Memento" Height="450" Width="800" WindowState="Maximized">
 
 
-    <Button Content="Show me" Height="20" Width="75" Click="StartEditing" Tag="1"/>
+    <Button Content="Show me" Height="20" Width="75" Click="StartEditing" Tag="2"/>
 </Window>

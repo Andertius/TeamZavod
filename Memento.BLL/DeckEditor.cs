@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
@@ -13,24 +14,29 @@ namespace Memento.BLL
         public DeckEditor()
         {
             Deck = new Deck();
+            AllDecks = Repository.FetchAllDecks().ToList();
         }
 
         public DeckEditor(Deck deck)
         {
             Deck = new Deck(deck);
+            AllDecks = Repository.FetchAllDecks().ToList();
         }
 
         public DeckEditor(string deckName)
         {
             Deck = Repository.FetchDeck(deckName);
+            AllDecks = Repository.FetchAllDecks().ToList();
         }
 
         public DeckEditor(int deckId)
         {
             Deck = Repository.FetchDeck(deckId);
+            AllDecks = Repository.FetchAllDecks().ToList();
         }
 
         public Deck Deck { get; private set; }
+        public List<Deck> AllDecks { get; private set; }
 
         public void AddCard(object sender, DeckEditorAddCardEventArgs e)
         {

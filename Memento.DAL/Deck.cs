@@ -95,14 +95,7 @@ namespace Memento.DAL
 
         public override string ToString()
         {
-            string result = "";
-
-            foreach (var card in Cards)
-            {
-                result += $"{card}\n";
-            }
-
-            return result;
+            return DeckName;
         }
 
         public override int GetHashCode()
