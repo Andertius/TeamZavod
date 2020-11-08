@@ -4,13 +4,72 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Memento"
-        mc:Ignorable="d"
-        Title="Memento" Height="450" Width="800" WindowState="Maximized">
+        mc:Ignorable="d" d:Background="White"
+        Title="Memento"
+        d:DesignHeight="1080" d:DesignWidth="1920">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260*" />
+            <ColumnDefinition Width="250*" />
+            <ColumnDefinition Width="170*" />
+            <ColumnDefinition Width="540*" />
+            <ColumnDefinition Width="170*" />
+            <ColumnDefinition Width="250*" />
+            <ColumnDefinition Width="260*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="174*" />
+            <RowDefinition Height="174*" />
+            <RowDefinition Height="174*" />
+            <RowDefinition Height="174*" />
+            <RowDefinition Height="174*" />
+            <RowDefinition Height="174*" />
+        </Grid.RowDefinitions>
+
+        <Line Grid.Row="0" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Grid.ColumnSpan="7" />
+        <TextBlock Grid.Row="1" Text="Memento" />
+        <Line Grid.Row="2" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Grid.ColumnSpan="7" />
+
+        <StackPanel Grid.Row="4" Grid.Column="1" VerticalAlignment="Bottom">
+            <ComboBox SelectedIndex="0" Background="White">
+                <TextBlock Text="Pick Deck" />
+            </ComboBox>
+            <Line X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" />
+        </StackPanel>
+
+        <Button Grid.Row="7" Grid.Column="1" Content="Statistics" Background="White" BorderBrush="White" VerticalAlignment="Bottom" />
+        <Line Grid.Row="8" Grid.Column="1" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform"
+              VerticalAlignment="Top" />
+
+        <StackPanel Grid.Row="4" Grid.Column="5" VerticalAlignment="Bottom">
+            <Button Content="Settings" Background="White" BorderBrush="White" Click="OpenSettings"/>
+            <Line X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform" />
+        </StackPanel>
 
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-        <Button Content="Show me" Height="20" Width="75" Click="StartEditing" Tag="2"/>
-        <Button Content="Settings" Height="20" Width="75" Click="OpenSettings"/>
-    </StackPanel>
+        <Button Grid.Row="7" Grid.Column="5" Content="Deck Editor" Background="White" BorderBrush="White" Click="StartEditing" Tag="2"
+                VerticalAlignment="Bottom"/>
+        <Line Grid.Row="8" Grid.Column="5" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" 
+                  VerticalAlignment="Top"/>
+
+        <Ellipse Grid.Row="5" Grid.Column="3" Grid.RowSpan="3"
+                Canvas.Top="50"
+                Canvas.Left="50"
+                Fill="White"
+                Height="{Binding RowDefinitions/ActualHeight, ElementName=Row1, Mode=OneWay}"
+                Width="{Binding ColumnDefinitions/ActualWidth, ElementName=Col1, Mode=OneWay}"
+                StrokeThickness="4"
+                Stroke="Black" />
+        <TextBlock Grid.Row="6" Grid.Column="3" Text="Review" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="42" />
+        <Line Grid.Row="5" Grid.Column="2" X1="0" Y1="0" X2="1" Y2="1" Stroke="Black" StrokeThickness="1" Stretch="Uniform" />
+        <Line Grid.Row="5" Grid.Column="4" X1="0" Y1="1" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform" />
+        <Line Grid.Row="7" Grid.Column="2" X1="0" Y1="1" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform" />
+        <Line Grid.Row="7" Grid.Column="4" X1="0" Y1="0" X2="1" Y2="1" Stroke="Black" StrokeThickness="1" Stretch="Uniform" />
+    </Grid>
 
 </Window>

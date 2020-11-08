@@ -33,7 +33,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         
-        <Line Grid.Row="0" X1="0" Y1="0" X2="1"  Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Grid.ColumnSpan="7"/>
+        <Line Grid.Row="0" X1="0" Y1="0" X2="1"  Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Grid.ColumnSpan="7" />
         <TextBlock Grid.Row="1" Text="Memento - Settings" />
         <Line Grid.Row="2" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Grid.ColumnSpan="7" />
         
