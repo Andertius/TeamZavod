@@ -8,6 +8,11 @@
         Title="Memento"
         d:DesignHeight="1080" d:DesignWidth="1920">
 
+    <Window.Resources>
+        <Image x:Key="exitIcon" Source="exit.png" />
+        <Image x:Key="helpIcon" Source="help.png" />
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="260*" />
@@ -36,9 +41,12 @@
         <Line Grid.Row="2" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Grid.ColumnSpan="7" />
 
         <StackPanel Grid.Row="4" Grid.Column="1" VerticalAlignment="Bottom">
-            <ComboBox SelectedIndex="0" Background="White">
-                <TextBlock Text="Pick Deck" />
-            </ComboBox>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Pick Deck" HorizontalAlignment="Center" />
+                <RibbonComboBox>
+                    <TextBlock Text="some deck" />
+                </RibbonComboBox>
+            </StackPanel>
             <Line X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" />
         </StackPanel>
 
@@ -70,6 +78,11 @@
         <Line Grid.Row="5" Grid.Column="4" X1="0" Y1="1" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform" />
         <Line Grid.Row="7" Grid.Column="2" X1="0" Y1="1" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform" />
         <Line Grid.Row="7" Grid.Column="4" X1="0" Y1="0" X2="1" Y2="1" Stroke="Black" StrokeThickness="1" Stretch="Uniform" />
+
+        <StackPanel Grid.Row="10" Grid.Column="6" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Content="{StaticResource helpIcon}" Background="White" BorderBrush="White" Width="50" />
+            <Button Content="{StaticResource exitIcon}" Background="White" BorderBrush="White" Width="50" />
+        </StackPanel>
     </Grid>
 
 </Window>
