@@ -38,7 +38,7 @@
         <Line Grid.Row="2" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Grid.ColumnSpan="7" />
 
         <Button Grid.Row="3" FontFamily="Segoe MDL2 Assets" Content="&#xE72B;" Background="White" BorderBrush="White"
-                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Click="BackToMainWindow">
             <Button.LayoutTransform>
                 <ScaleTransform ScaleX="3" ScaleY="3" />
             </Button.LayoutTransform>

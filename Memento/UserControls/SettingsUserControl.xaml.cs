@@ -22,5 +22,10 @@ namespace Memento.UserControls
         {
             InitializeComponent();
         }
+
+        public void BackToMainWindow(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }

@@ -8,11 +8,6 @@
         Title="Memento"
         d:DesignHeight="1080" d:DesignWidth="1920">
 
-    <Window.Resources>
-        <Image x:Key="exitIcon" Source="exit.png" />
-        <Image x:Key="helpIcon" Source="help.png" />
-    </Window.Resources>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="260*" />
@@ -40,30 +35,30 @@
         <TextBlock Grid.Row="1" Text="Memento" />
         <Line Grid.Row="2" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Grid.ColumnSpan="7" />
 
-        <StackPanel Grid.Row="4" Grid.Column="1" VerticalAlignment="Bottom">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Text="Pick Deck" HorizontalAlignment="Center" />
-                <RibbonComboBox>
-                    <TextBlock Text="some deck" />
-                </RibbonComboBox>
-            </StackPanel>
-            <Line X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" />
+        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+                    Grid.ColumnSpan="2">
+            <TextBlock Text="Pick Deck" HorizontalAlignment="Center" FontSize="30" />
+            <RibbonComboBox>
+                <TextBlock Text="some deck" />
+            </RibbonComboBox>
         </StackPanel>
+        <Line Grid.Row="5" Grid.Column="1" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" 
+              VerticalAlignment="Top" />
 
-        <Button Grid.Row="7" Grid.Column="1" Content="Statistics" Background="White" BorderBrush="White" VerticalAlignment="Bottom" />
+        <Button Grid.Row="7" Grid.Column="1" Content="Statistics" Background="White" BorderBrush="White" VerticalAlignment="Bottom"
+                FontSize="30" />
         <Line Grid.Row="8" Grid.Column="1" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform"
               VerticalAlignment="Top" />
 
-        <StackPanel Grid.Row="4" Grid.Column="5" VerticalAlignment="Bottom">
-            <Button Content="Settings" Background="White" BorderBrush="White" Click="OpenSettings"/>
-            <Line X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform" />
-        </StackPanel>
+        <Button Grid.Row="4" Grid.Column="5" VerticalAlignment="Bottom" Content="Settings" Background="White" BorderBrush="White" 
+                Click="OpenSettings" FontSize="30" />
+        <Line Grid.Row="5" Grid.Column="5" VerticalAlignment="Top" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform" />
 
 
         <Button Grid.Row="7" Grid.Column="5" Content="Deck Editor" Background="White" BorderBrush="White" Click="StartEditing" Tag="2"
-                VerticalAlignment="Bottom"/>
+                VerticalAlignment="Bottom" FontSize="30" />
         <Line Grid.Row="8" Grid.Column="5" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" 
-                  VerticalAlignment="Top"/>
+                  VerticalAlignment="Top" />
 
         <Ellipse Grid.Row="5" Grid.Column="3" Grid.RowSpan="3"
                 Canvas.Top="50"

@@ -8,17 +8,11 @@
 
   <ItemGroup>
     <None Remove="exit.png" />
-    <None Remove="help.png" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Memento.BLL\Memento.BLL.csproj" />
     <ProjectReference Include="..\Memento.DAL\Memento.DAL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="exit.png" />
-    <Resource Include="help.png" />
   </ItemGroup>
 
   <ItemGroup>
