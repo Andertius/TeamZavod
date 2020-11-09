@@ -73,6 +73,7 @@
     <None Remove="images\walrus.jpg" />
     <None Remove="images\whale.jpg" />
     <None Remove="images\zucchini.jpg" />
+    <None Remove="exit.png" />
   </ItemGroup>
 
   <ItemGroup>

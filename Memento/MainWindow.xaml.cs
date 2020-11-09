@@ -35,6 +35,7 @@ namespace Memento
         public List<Deck> Decks { get; private set; }
 
         public DeckEditorUserControl DeckEditorPage { get; set; }
+        public SettingsUserControl SettingsPage { get; set; }
 
         public bool IsInEditor { get; private set; }
         public bool IsInLearningProcess { get; private set; }
@@ -64,6 +65,15 @@ namespace Memento
         {
             DeckEditorPage.MakeMainPageVisible -= GoToMainPage;
             Content = A;
+        }
+
+        public void OpenSettings(object sender, RoutedEventArgs e)
+        {
+            Content = SettingsPage = new SettingsUserControl()
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
         }
     }
 }
