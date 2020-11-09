@@ -53,10 +53,17 @@ namespace Memento
             Content = DeckEditorPage = new DeckEditorUserControl(Int32.Parse((string)((Button)sender).Tag))
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
+                VerticalAlignment = VerticalAlignment.Stretch,
             };
 
-            //DeckEditorPage.MakeVisible += MakeMainPPageVisible;
+            DeckEditorPage.MakeMainPageVisible += GoToMainPage;
+            Title = "Memento - Deck Editor";
+        }
+
+        public void GoToMainPage(object sender, EventArgs e)
+        {
+            DeckEditorPage.MakeMainPageVisible -= GoToMainPage;
+            Content = A;
         }
     }
 }

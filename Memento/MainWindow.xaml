@@ -7,6 +7,5 @@
         mc:Ignorable="d"
         Title="Memento" Height="450" Width="800" WindowState="Maximized">
 
-
-    <Button Content="Show me" Height="20" Width="75" Click="StartEditing" Tag="2"/>
+    <Button x:Name="A" Content="Show me" Height="20" Width="75" Click="StartEditing" Tag="2"/>
 </Window>
