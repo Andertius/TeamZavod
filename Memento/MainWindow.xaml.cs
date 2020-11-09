@@ -65,6 +65,7 @@ namespace Memento
         {
             DeckEditorPage.MakeMainPageVisible -= GoToMainPageFromDeckEditor;
             Content = MainPageContent;
+            Title = "Memento";
         }
 
         public void OpenSettings(object sender, RoutedEventArgs e)
@@ -74,6 +75,26 @@ namespace Memento
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
             };
+
+            SettingsPage.MakeMainPageVisible += GoToMainPageFromSetings;
+            Title = "Memento - Settings";
+        }
+
+        public void GoToMainPageFromSetings(object sender, EventArgs e)
+        {
+            SettingsPage.MakeMainPageVisible -= GoToMainPageFromSetings;
+            Content = MainPageContent;
+            Title = "Memento";
+        }
+
+        public void Help_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
