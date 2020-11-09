@@ -8,7 +8,16 @@
         mc:Ignorable="d" d:Background="White"
         Title="Memento" WindowState="Maximized"
         d:DesignHeight="1080" d:DesignWidth="1920">
-    
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="White" />
+        </Style>
+        <Style TargetType="Line">
+            <Setter Property="Stroke" Value="Black" />
+        </Style>
+    </Window.Resources>
+
     <Grid x:Name="MainPageContent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="260*" />
@@ -36,24 +45,24 @@
         <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" 
                     Grid.ColumnSpan="2">
             <TextBlock Text="Pick Deck" HorizontalAlignment="Center" FontSize="30" />
-            <RibbonComboBox ItemsSource="{Binding Decks}" />
+            <RibbonComboBox ItemsSource="{Binding Decks}"/>
         </StackPanel>
         <Line Grid.Row="5" Grid.Column="1" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" 
               VerticalAlignment="Top" />
 
-        <Button Grid.Row="7" Grid.Column="1" Content="Statistics" Background="White" BorderBrush="White" VerticalAlignment="Bottom"
+        <Button Grid.Row="7" Grid.Column="1" Content="Statistics" BorderBrush="White" VerticalAlignment="Bottom"
                 FontSize="30" />
-        <Line Grid.Row="8" Grid.Column="1" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform"
+        <Line Grid.Row="8" Grid.Column="1" X1="0" Y1="0" X2="1" Y2="0" StrokeThickness="4" Stretch="Uniform"
               VerticalAlignment="Top" />
 
-        <Button Grid.Row="4" Grid.Column="5" VerticalAlignment="Bottom" Content="Settings" Background="White" BorderBrush="White" 
+        <Button Grid.Row="4" Grid.Column="5" VerticalAlignment="Bottom" Content="Settings" BorderBrush="White" 
                 Click="OpenSettings" FontSize="30" />
-        <Line Grid.Row="5" Grid.Column="5" VerticalAlignment="Top" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform" />
+        <Line Grid.Row="5" Grid.Column="5" VerticalAlignment="Top" X1="0" Y1="0" X2="1" Y2="0" StrokeThickness="4" Stretch="Uniform" />
 
 
-        <Button Grid.Row="7" Grid.Column="5" Content="Deck Editor" Background="White" BorderBrush="White" Click="StartEditing" Tag="2"
+        <Button Grid.Row="7" Grid.Column="5" Content="Deck Editor" BorderBrush="White" Click="StartEditing" Tag="2"
                 VerticalAlignment="Bottom" FontSize="30" />
-        <Line Grid.Row="8" Grid.Column="5" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" 
+        <Line Grid.Row="8" Grid.Column="5" X1="0" Y1="0" X2="1" Y2="0" StrokeThickness="1" Stretch="Uniform" 
               VerticalAlignment="Top" />
 
         <Ellipse Grid.Row="5" Grid.Column="3" Grid.RowSpan="3"
@@ -69,18 +78,18 @@
             <TextBlock Text="Start " FontSize="50" />
             <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE768;" FontSize="50" VerticalAlignment="Bottom" />
         </StackPanel>
-        <Line Grid.Row="5" Grid.Column="2" X1="0" Y1="0" X2="1" Y2="1" Stroke="Black" StrokeThickness="1" Stretch="Uniform" />
-        <Line Grid.Row="5" Grid.Column="4" X1="0" Y1="1" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform" />
-        <Line Grid.Row="7" Grid.Column="2" X1="0" Y1="1" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform" />
-        <Line Grid.Row="7" Grid.Column="4" X1="0" Y1="0" X2="1" Y2="1" Stroke="Black" StrokeThickness="1" Stretch="Uniform" />
+        <Line Grid.Row="5" Grid.Column="2" X1="0" Y1="0" X2="1" Y2="1" StrokeThickness="1" Stretch="Uniform" />
+        <Line Grid.Row="5" Grid.Column="4" X1="0" Y1="1" X2="1" Y2="0" StrokeThickness="4" Stretch="Uniform" />
+        <Line Grid.Row="7" Grid.Column="2" X1="0" Y1="1" X2="1" Y2="0" StrokeThickness="4" Stretch="Uniform" />
+        <Line Grid.Row="7" Grid.Column="4" X1="0" Y1="0" X2="1" Y2="1" StrokeThickness="1" Stretch="Uniform" />
 
         <StackPanel Grid.Row="10" Grid.Column="6" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button FontFamily="Segoe MDL2 Assets" Content="&#xE897;" Background="White" BorderBrush="White" Click="Help_Click">
+            <Button FontFamily="Segoe MDL2 Assets" Content="&#xE897;" BorderBrush="White" Click="Help_Click">
                 <Button.LayoutTransform>
                     <ScaleTransform ScaleX="3" ScaleY="3" />
                 </Button.LayoutTransform>
             </Button>
-            <Button FontFamily="Segoe MDL2 Assets" Content="&#xF3B1;" Background="White" BorderBrush="White" Click="Exit_Click">
+            <Button FontFamily="Segoe MDL2 Assets" Content="&#xF3B1;" BorderBrush="White" Click="Exit_Click">
                 <Button.LayoutTransform>
                     <ScaleTransform ScaleX="3" ScaleY="3" />
                 </Button.LayoutTransform>

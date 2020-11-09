@@ -43,7 +43,7 @@ namespace Memento
         public void StartLearning(object sender, RoutedEventArgs e)
         {
             LearningProcess = new AppHandler((int)((Button)sender).Tag);
-            LearningProcess.Start();
+            LearningProcess.Start(SettingsPage.AppSettings.CardsOrder, SettingsPage.AppSettings.ShowImages);
         }
 
         public void StartEditing(object sender, RoutedEventArgs e)
@@ -89,7 +89,7 @@ namespace Memento
 
         public void Help_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show(Decks[0].ToString());
         }
 
         public void Exit_Click(object sender, RoutedEventArgs e)
