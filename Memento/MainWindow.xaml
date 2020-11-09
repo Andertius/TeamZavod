@@ -67,8 +67,12 @@
                  Height="{Binding RowDefinitions/ActualHeight, ElementName=Row1, Mode=OneWay}"
                  Width="{Binding ColumnDefinitions/ActualWidth, ElementName=Col1, Mode=OneWay}"
                  StrokeThickness="4"
-                 Stroke="Black" />
-        <TextBlock Grid.Row="6" Grid.Column="3" Text="Review" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="42" />
+                 Stroke="Black" 
+                 MouseUp="StartLearning" />
+        <StackPanel Grid.Row="6" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Start " FontSize="50" />
+            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE768;" FontSize="50" VerticalAlignment="Bottom" />
+        </StackPanel>
         <Line Grid.Row="5" Grid.Column="2" X1="0" Y1="0" X2="1" Y2="1" Stroke="Black" StrokeThickness="1" Stretch="Uniform" />
         <Line Grid.Row="5" Grid.Column="4" X1="0" Y1="1" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform" />
         <Line Grid.Row="7" Grid.Column="2" X1="0" Y1="1" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform" />
