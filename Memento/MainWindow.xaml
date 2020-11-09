@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Memento"
+        xmlns:dal="clr-namespace:Memento.DAL;assembly=Memento.DAL"
         mc:Ignorable="d" d:Background="White"
         Title="Memento" WindowState="Maximized"
         d:DesignHeight="1080" d:DesignWidth="1920">
+    
     <Grid x:Name="MainPageContent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="260*" />
@@ -17,7 +19,7 @@
             <ColumnDefinition Width="250*" />
             <ColumnDefinition Width="260*"/>
         </Grid.ColumnDefinitions>
-            
+
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" />
             <RowDefinition Height="20" />
@@ -31,16 +33,10 @@
             <RowDefinition Height="174*" />
         </Grid.RowDefinitions>
 
-        <Line Grid.Row="0" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Grid.ColumnSpan="7" />
-        <TextBlock Grid.Row="1" Text="Memento" />
-        <Line Grid.Row="2" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Grid.ColumnSpan="7" />
-
         <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" 
                     Grid.ColumnSpan="2">
             <TextBlock Text="Pick Deck" HorizontalAlignment="Center" FontSize="30" />
-            <RibbonComboBox>
-                <TextBlock Text="some deck" />
-            </RibbonComboBox>
+            <RibbonComboBox ItemsSource="{Binding Decks}" />
         </StackPanel>
         <Line Grid.Row="5" Grid.Column="1" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" 
               VerticalAlignment="Top" />
@@ -79,12 +75,12 @@
         <Line Grid.Row="7" Grid.Column="4" X1="0" Y1="0" X2="1" Y2="1" Stroke="Black" StrokeThickness="1" Stretch="Uniform" />
 
         <StackPanel Grid.Row="10" Grid.Column="6" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button FontFamily="Segoe MDL2 Assets" Content="&#xE897;" Background="White" BorderBrush="White">
+            <Button FontFamily="Segoe MDL2 Assets" Content="&#xE897;" Background="White" BorderBrush="White" Click="Help_Click">
                 <Button.LayoutTransform>
                     <ScaleTransform ScaleX="3" ScaleY="3" />
                 </Button.LayoutTransform>
             </Button>
-            <Button FontFamily="Segoe MDL2 Assets" Content="&#xF3B1;" Background="White" BorderBrush="White">
+            <Button FontFamily="Segoe MDL2 Assets" Content="&#xF3B1;" Background="White" BorderBrush="White" Click="Exit_Click">
                 <Button.LayoutTransform>
                     <ScaleTransform ScaleX="3" ScaleY="3" />
                 </Button.LayoutTransform>

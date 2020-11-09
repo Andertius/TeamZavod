@@ -23,9 +23,11 @@ namespace Memento.UserControls
             InitializeComponent();
         }
 
-        public void BackToMainWindow(object sender, RoutedEventArgs e)
+        public event EventHandler MakeMainPageVisible;
+
+        public void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            MakeMainPageVisible?.Invoke(this, EventArgs.Empty);
         }
     }
 }

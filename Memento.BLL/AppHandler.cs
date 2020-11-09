@@ -25,7 +25,6 @@ namespace Memento.BLL
 
         public void Start()
         {
-            
             RadndomizeDeck();
         }
 
