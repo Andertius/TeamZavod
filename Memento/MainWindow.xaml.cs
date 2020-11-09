@@ -57,14 +57,14 @@ namespace Memento
                 VerticalAlignment = VerticalAlignment.Stretch,
             };
 
-            DeckEditorPage.MakeMainPageVisible += GoToMainPage;
+            DeckEditorPage.MakeMainPageVisible += GoToMainPageFromDeckEditor;
             Title = "Memento - Deck Editor";
         }
 
-        public void GoToMainPage(object sender, EventArgs e)
+        public void GoToMainPageFromDeckEditor(object sender, EventArgs e)
         {
-            DeckEditorPage.MakeMainPageVisible -= GoToMainPage;
-            Content = A;
+            DeckEditorPage.MakeMainPageVisible -= GoToMainPageFromDeckEditor;
+            Content = MainPageContent;
         }
 
         public void OpenSettings(object sender, RoutedEventArgs e)

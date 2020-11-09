@@ -39,6 +39,7 @@
                             <Trigger Property="IsChecked" Value="true">
                                 <Setter TargetName="DifficultyText" Property="FontWeight" Value="Bold"/>
                                 <Setter TargetName="DifficultyText" Property="TextDecorations" Value="Underline"/>
+                                <!--<Setter TargetName="DifficultyText" Property="Border" Value="None"/>-->
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -63,16 +64,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text=" Memento - DeckEditor" Grid.ColumnSpan="2"/>
-
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="24"/>
-                <RowDefinition Height="42*"/>
+                <RowDefinition Height="35*"/>
                 <RowDefinition Height="3*"/>
-                <RowDefinition Height="21*"/>
+                <RowDefinition Height="12*"/>
                 <RowDefinition Height="2*"/>
-                <RowDefinition Height="4*"/>
+                <RowDefinition Height="2*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -92,22 +91,23 @@
                     </Grid.RowDefinitions>
                     
                     <Viewbox VerticalAlignment="Stretch"
-                         HorizontalAlignment="Stretch" Grid.Row="1">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
+                             HorizontalAlignment="Stretch" Grid.Row="1">
+                        <StackPanel HorizontalAlignment="Center">
                             <TextBlock Text="Difficulty" Grid.Row="0" Margin="0 0 0 5"
-                                 HorizontalAlignment="Center" FontStyle="Italic"/>
-                            <StackPanel Grid.Row="1" HorizontalAlignment="Center">
-                                <RadioButton Content="Beginner" IsChecked="{Binding Path=CurrentCard.Difficulty, Converter={StaticResource enumBooleanConverter}, ConverterParameter={x:Static dal:Difficulty.Beginner}}"/>
-                                <RadioButton Content="Intermediate" IsChecked="{Binding Path=CurrentCard.Difficulty, Converter={StaticResource enumBooleanConverter}, ConverterParameter={x:Static dal:Difficulty.Intermediate}}"/>
-                                <RadioButton Content="Advanced" IsChecked="{Binding Path=CurrentCard.Difficulty, Converter={StaticResource enumBooleanConverter}, ConverterParameter={x:Static dal:Difficulty.Advanced}}"/>
-                                <RadioButton Content="None" IsChecked="{Binding Path=CurrentCard.Difficulty, Converter={StaticResource enumBooleanConverter}, ConverterParameter={x:Static dal:Difficulty.None}}"/>
-                            </StackPanel>
-                        </Grid>
+                                       HorizontalAlignment="Center" FontStyle="Italic"/>
+                            
+                            <RadioButton Content="Beginner"
+                                         IsChecked="{Binding Path=CurrentCard.Difficulty,Converter={StaticResource enumBooleanConverter}, ConverterParameter={x:Static dal:Difficulty.Beginner}}"/>
+                            
+                            <RadioButton Content="Intermediate"
+                                         IsChecked="{Binding Path=CurrentCard.Difficulty, Converter={StaticResource enumBooleanConverter}, ConverterParameter={x:Static dal:Difficulty.Intermediate}}"/>
+                            
+                            <RadioButton Content="Advanced"
+                                         IsChecked="{Binding Path=CurrentCard.Difficulty, Converter={StaticResource enumBooleanConverter}, ConverterParameter={x:Static dal:Difficulty.Advanced}}"/>
+                            
+                            <RadioButton Content="None"
+                                         IsChecked="{Binding Path=CurrentCard.Difficulty, Converter={StaticResource enumBooleanConverter}, ConverterParameter={x:Static dal:Difficulty.None}}"/>
+                        </StackPanel>
                     </Viewbox>
                 </Grid>
 
@@ -125,22 +125,22 @@
                     </Grid.RowDefinitions>
 
                     <Rectangle Grid.Row="1" Grid.Column="1" Stroke="DarkGray"
-                           Fill="LightGray"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Stretch"/>
+                               Fill="LightGray"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"/>
 
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="Image"
-                       HorizontalAlignment="Center" Foreground="Gray"
-                       VerticalAlignment="Center"/>
+                               HorizontalAlignment="Center" Foreground="Gray"
+                               VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="(Click to add)"
-                       HorizontalAlignment="Center" Foreground="Gray" Margin="0 25 0 0"
-                       VerticalAlignment="Center"/>
+                               HorizontalAlignment="Center" Foreground="Gray" Margin="0 25 0 0"
+                               VerticalAlignment="Center"/>
 
                     <Image Grid.Row="1" Grid.Column="1" Source="{Binding CurrentCard.ImagePath}"
-                       ImageFailed="Image_ImageFailed"/>
+                           x:Name="CardImage"/>
 
-                    <Button Grid.Row="1" Grid.Column="1" Click="Button_Click">
+                    <Button Grid.Row="1" Grid.Column="1" Click="ImageButton_Click">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="Transparent"/>
@@ -169,20 +169,20 @@
 
                 <Grid Grid.Column="0" VerticalAlignment="Stretch">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="3*"/>
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="3*"/>
-                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="3*"/>
                     </Grid.RowDefinitions>
-                    
+
                     <TextBox Grid.Row="1" x:Name="WordTextBox" Text="{Binding CurrentCard.Word, Mode = TwoWay}"
-                             Background="#F7F7F7F7" TextAlignment="Center"
-                             VerticalContentAlignment="Center"/>
+                             Background="#F7F7F7F7" TextAlignment="Center" MaxLength="100"
+                             VerticalContentAlignment="Center" TextWrapping="Wrap"/>
 
                     <TextBlock Grid.Row="1" IsHitTestVisible="False" Text="Word"
-                           HorizontalAlignment="Center" Foreground="DarkGray"
-                           VerticalAlignment="Center">
+                               HorizontalAlignment="Center" Foreground="DarkGray"
+                               VerticalAlignment="Center">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -200,12 +200,12 @@
                     </TextBlock>
 
                     <TextBox Grid.Row="3" Background="#F7F7F7F7" x:Name="TranscriptionTextBox"
-                             TextAlignment="Center" VerticalContentAlignment="Center"
-                             Text="{Binding CurrentCard.Transcription, Mode = TwoWay}"/>
+                             TextAlignment="Center" VerticalContentAlignment="Center" TextWrapping="Wrap"
+                             Text="{Binding CurrentCard.Transcription, Mode = TwoWay}" MaxLength="100"/>
 
                     <TextBlock Grid.Row="3" IsHitTestVisible="False" Text="Transcription"
-                           HorizontalAlignment="Center" Foreground="DarkGray"
-                           VerticalAlignment="Center">
+                               HorizontalAlignment="Center" Foreground="DarkGray"
+                               VerticalAlignment="Center">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -223,8 +223,8 @@
                     </TextBlock>
                 </Grid>
 
-                <TextBox Name="DescriptionTextBox" Background="#F7F7F7F7"
-                         Grid.Column="2" MaxLength="200" Text="{Binding CurrentCard.Description, Mode = TwoWay}"/>
+                <TextBox x:Name="DescriptionTextBox" Background="#F7F7F7F7" TextWrapping="Wrap"
+                         Grid.Column="2" MaxLength="500" Text="{Binding CurrentCard.Description, Mode = TwoWay}"/>
 
                 <TextBlock Grid.Column="2" IsHitTestVisible="False" Text="Description..."
                            HorizontalAlignment="Left"
@@ -245,17 +245,13 @@
                     </TextBlock.Style>
                 </TextBlock>
 
-                <TextBlock Grid.Column="2" IsHitTestVisible="False" Text="0/200"
+                <TextBlock Grid.Column="2" IsHitTestVisible="False" Text="0/500"
                            HorizontalAlignment="Right" VerticalAlignment="Bottom"
                            Margin="0 0 5 3" Foreground="DarkGray" x:Name="DescriptionLimit"/>
             </Grid>
-
-            <StackPanel Grid.Row="5" Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                <Button Content="Save Card" Margin="0 0 120 0" Width="100"/>
-                <Button Content="Cancel" Width="100"/>
-            </StackPanel>
+            
+            <Button Grid.Row="5" Content="Exit" Width="100" Height="20" HorizontalAlignment="Left"
+                    x:Name="GoBackButton" Click="GoBackButton_Click"/>
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="3">

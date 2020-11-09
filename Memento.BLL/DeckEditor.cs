@@ -38,14 +38,25 @@ namespace Memento.BLL
         public Deck Deck { get; private set; }
         public List<Deck> AllDecks { get; private set; }
 
-        public void AddCard(object sender, DeckEditorAddCardEventArgs e)
+        public void AddCard(object sender, DeckEditorCardEventArgs e)
         {
-            if (e.Card.Id == -1)
+            if (!Deck.Contains(e.Card))
             {
-                Repository.AddCard(e.Card);
+                if (e.Card.Id == -1)
+                {
+                    Repository.AddCard(e.Card);
+                }
+
+                Deck.Add(e.Card);
+                return;
             }
 
-            Deck.Add(e.Card);
+            throw new ArgumentException("The card is already in the deck");
+        }
+
+        public void UpdateCard(object sender, DeckEditorCardEventArgs e)
+        {
+            Deck[Deck.IndexOf(e.Card)] = new Card(e.Card);
         }
 
         public void RemoveCard(object sender, DeckEditorRemoveCardEventArgs e)
@@ -61,11 +72,6 @@ namespace Memento.BLL
         public void SaveChanges(object sender, DeckEditorDeckEventArgs e)
         {
             Repository.UpdateDeck(e.Deck.Id, e.Deck);
-        }
-
-        public void ExitEditor(object sender, ExitDeckEditorEventArgs e)
-        {
-             
         }
     }
 }

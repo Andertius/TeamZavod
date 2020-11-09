@@ -3,9 +3,9 @@ using System;
 
 namespace Memento.BLL
 {
-    public class DeckEditorAddCardEventArgs : EventArgs
+    public class DeckEditorCardEventArgs : EventArgs
     {
-        public DeckEditorAddCardEventArgs(Card card)
+        public DeckEditorCardEventArgs(Card card)
         {
             Card = new Card(card);
         }
@@ -32,13 +32,5 @@ namespace Memento.BLL
         }
 
         public Deck Deck { get; set; }
-    }
-
-    public class ExitDeckEditorEventArgs : EventArgs
-    {
-        public ExitDeckEditorEventArgs()
-        { }
-
-        public bool Exited { get; set; }
     }
 }

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 using Memento.DAL;
 using Memento.BLL;
 using System.ComponentModel;
-using System.Linq;
 
 namespace Memento.UserControls
 {
@@ -33,6 +30,9 @@ namespace Memento.UserControls
             CardAdded += DeckEditor.AddCard;
             CardAdded += RefreshDataGrid;
 
+            CardUpdated += DeckEditor.UpdateCard;
+            CardUpdated += RefreshDataGrid;
+
             CardRemoved += DeckEditor.RemoveCard;
             CardRemoved += RefreshDataGrid;
 
@@ -40,13 +40,12 @@ namespace Memento.UserControls
             DeckChanged += RefreshDataGrid;
 
             ChangesSaved += DeckEditor.SaveChanges;
-            EditorExited += DeckEditor.ExitEditor;
 
             var dp = DependencyPropertyDescriptor.FromProperty(TextBox.TextProperty, typeof(TextBox));
 
             dp.AddValueChanged(DescriptionTextBox, (sender, args) =>
             {
-                DescriptionLimit.Text = DescriptionTextBox.Text.Length + "/200";
+                DescriptionLimit.Text = DescriptionTextBox.Text.Length + "/500";
             });
 
             DecksCombox.SelectedValue = DeckEditor.Deck;
@@ -65,11 +64,11 @@ namespace Memento.UserControls
         }
 
         //Deck editor events
-        public event EventHandler<DeckEditorAddCardEventArgs> CardAdded;
+        public event EventHandler<DeckEditorCardEventArgs> CardAdded;
+        public event EventHandler<DeckEditorCardEventArgs> CardUpdated;
         public event EventHandler<DeckEditorRemoveCardEventArgs> CardRemoved;
         public event EventHandler<DeckEditorDeckEventArgs> DeckChanged;
         public event EventHandler<DeckEditorDeckEventArgs> ChangesSaved;
-        public event EventHandler<ExitDeckEditorEventArgs> EditorExited;
 
         public event EventHandler MakeMainPageVisible;
 
@@ -80,7 +79,14 @@ namespace Memento.UserControls
 
         public void SaveCard(object sender, RoutedEventArgs e)
         {
-            CardAdded?.Invoke(this, new DeckEditorAddCardEventArgs(CurrentCard));
+            if (DeckEditor.Deck.Contains(CurrentCard))
+            {
+                CardUpdated?.Invoke(this, new DeckEditorCardEventArgs(CurrentCard));
+            }
+            else
+            {
+                CardAdded?.Invoke(this, new DeckEditorCardEventArgs(CurrentCard));
+            }
         }
 
         public void SaveCardCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -129,16 +135,23 @@ namespace Memento.UserControls
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             CurrentCard = DeckEditor.Deck[DeckEditor.Deck.IndexOf((Card)CardsDataGrid.SelectedItem)];
+
+            try
+            {
+                CardImage.Source = new BitmapImage(new Uri($"pack://application:,,,/Memento;component/{CurrentCard.ImagePath}"));
+            }
+            catch (UriFormatException)
+            {
+                MessageBox.Show("Image path does not exist", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        private void Image_ImageFailed(object sender, ExceptionRoutedEventArgs e)
+        private void ImageButton_Click(object sender, RoutedEventArgs e)
         {
+            var imageDialog = new ImagesWindow();
+            imageDialog.ShowDialog();
 
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
+            CardImage.Source = imageDialog.ImageSource;
         }
 
         private void RefreshDataGrid(object sender, EventArgs e)
