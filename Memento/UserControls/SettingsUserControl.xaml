@@ -36,7 +36,15 @@
         <Line Grid.Row="0" X1="0" Y1="0" X2="1"  Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Grid.ColumnSpan="7" />
         <TextBlock Grid.Row="1" Text="Memento - Settings" />
         <Line Grid.Row="2" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Grid.ColumnSpan="7" />
-        
+
+        <Button Grid.Row="3" FontFamily="Segoe MDL2 Assets" Content="&#xE72B;" Background="White" BorderBrush="White"
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
+            <Button.LayoutTransform>
+                <ScaleTransform ScaleX="3" ScaleY="3" />
+            </Button.LayoutTransform>
+        </Button>
+
+
         <TextBlock Grid.Row="3" Grid.Column="2" Text="Customize your Memento" FontSize="42" HorizontalAlignment="Center" 
                    VerticalAlignment="Center" Grid.ColumnSpan="3" />
         <Line Grid.Row="4" Grid.Column="3" X1="0" Y1="1" X2="0" Y2="0" Stroke="Black" StrokeThickness="5" Stretch="Uniform" Grid.RowSpan="7" />

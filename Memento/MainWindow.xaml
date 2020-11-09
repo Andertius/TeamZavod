@@ -80,8 +80,16 @@
         <Line Grid.Row="7" Grid.Column="4" X1="0" Y1="0" X2="1" Y2="1" Stroke="Black" StrokeThickness="1" Stretch="Uniform" />
 
         <StackPanel Grid.Row="10" Grid.Column="6" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Content="{StaticResource helpIcon}" Background="White" BorderBrush="White" Width="50" />
-            <Button Content="{StaticResource exitIcon}" Background="White" BorderBrush="White" Width="50" />
+            <Button FontFamily="Segoe MDL2 Assets" Content="&#xE897;" Background="White" BorderBrush="White">
+                <Button.LayoutTransform>
+                    <ScaleTransform ScaleX="3" ScaleY="3" />
+                </Button.LayoutTransform>
+            </Button>
+            <Button FontFamily="Segoe MDL2 Assets" Content="&#xF3B1;" Background="White" BorderBrush="White">
+                <Button.LayoutTransform>
+                    <ScaleTransform ScaleX="3" ScaleY="3" />
+                </Button.LayoutTransform>
+            </Button>
         </StackPanel>
     </Grid>
 
