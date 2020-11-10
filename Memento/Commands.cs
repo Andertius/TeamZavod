@@ -14,5 +14,13 @@ namespace Memento
         {
             new KeyGesture(Key.S, ModifierKeys.Control)
         }));
+
+        public static readonly RoutedCommand ExitCommand = new RoutedUICommand("Exit", nameof(ExitCommand), typeof(MainWindow),
+        new InputGestureCollection(new InputGesture[]
+        {
+            new KeyGesture(Key.Escape)
+        }));
+
+        public static readonly RoutedCommand StartLearningCommand = new RoutedUICommand("Start", nameof(StartLearningCommand), typeof(MainWindow));
     }
 }

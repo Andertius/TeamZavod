@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using Memento.UserControls;
 using Memento.BLL;
 using Memento.DAL;
+using System.Diagnostics;
 
 namespace Memento
 {
@@ -23,16 +24,28 @@ namespace Memento
     {
         public MainWindow()
         {
+            DataContext = this;
             InitializeComponent();
 
             Decks = Repository.FetchAllDecks().ToList();
             IsInEditor = false;
             IsInLearningProcess = false;
+            //PickDeckCombox.ItemsSource = Decks;
+        }
+
+        private readonly DependencyProperty DecksProperty = DependencyProperty.Register(nameof(Decks), typeof(List<Deck>), typeof(MainWindow),
+            new PropertyMetadata(new List<Deck>()));
+
+        public List<Deck> Decks
+        {
+            get => (List<Deck>)GetValue(DecksProperty);
+            private set => SetValue(DecksProperty, value);
         }
 
         public AppHandler LearningProcess { get; private set; }
         public DeckEditor DeckEditor { get; set; }
-        public List<Deck> Decks { get; private set; }
+        //public List<Deck> Decks { get; private set; }
+        public Settings AppSettings { get; set; }
 
         public DeckEditorUserControl DeckEditorPage { get; set; }
         public SettingsUserControl SettingsPage { get; set; }
@@ -43,7 +56,7 @@ namespace Memento
         public void StartLearning(object sender, RoutedEventArgs e)
         {
             LearningProcess = new AppHandler((int)((Button)sender).Tag);
-            LearningProcess.Start();
+            LearningProcess.Start(SettingsPage.AppSettings.CardsOrder, SettingsPage.AppSettings.ShowImages);
         }
 
         public void StartEditing(object sender, RoutedEventArgs e)
@@ -72,29 +85,57 @@ namespace Memento
 
         public void OpenSettings(object sender, RoutedEventArgs e)
         {
-            Content = SettingsPage = new SettingsUserControl()
+            if (AppSettings is null)
+            {
+                AppSettings = new Settings();
+            }
+            Content = SettingsPage = new SettingsUserControl(AppSettings)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
             };
 
-            SettingsPage.MakeMainPageVisible += GoToMainPageFromSetings;
+            SettingsPage.MakeMainPageVisible += GoToMainPageFromSettings;
             Title = "Memento - Settings";
         }
 
-        public void GoToMainPageFromSetings(object sender, EventArgs e)
+        public void GoToMainPageFromSettings(object sender, EventArgs e)
         {
-            SettingsPage.MakeMainPageVisible -= GoToMainPageFromSetings;
+            SettingsPage.MakeMainPageVisible -= GoToMainPageFromSettings;
             Content = MainPageContent;
             Title = "Memento";
         }
 
         public void Help_Click(object sender, RoutedEventArgs e)
         {
-
+            if (HelpPanel.Visibility == Visibility.Visible)
+            {
+                HelpPanel.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                HelpPanel.Visibility = Visibility.Visible;
+            }
         }
 
-        public void Exit_Click(object sender, RoutedEventArgs e)
+        public void Guide_Click(object sender, RoutedEventArgs e)
+        {
+            HelpPanel.Visibility = Visibility.Hidden;
+        }
+
+        public void About_Click(object sender, RoutedEventArgs e)
+        {
+            HelpPanel.Visibility = Visibility.Hidden;
+            AboutWindow aboutWindow = new AboutWindow();
+            aboutWindow.ShowDialog();
+        }
+
+        public void SupportUs_Click(object sender, RoutedEventArgs e)
+        {
+            HelpPanel.Visibility = Visibility.Hidden;
+        }
+
+        private void ExitProgram(object sender, ExecutedRoutedEventArgs e)
         {
             this.Close();
         }
@@ -103,5 +144,10 @@ namespace Memento
         {
             Title = e.Title;
         }
+
+        //private void StartLearning(object sender, ExecutedRoutedEventArgs e)
+        //{
+
+        //}
     }
 }
