@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using Memento.UserControls;
 using Memento.BLL;
 using Memento.DAL;
+using System.Diagnostics;
 
 namespace Memento
 {
@@ -89,12 +90,36 @@ namespace Memento
 
         public void Help_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Decks[0].ToString());
+            if (HelpPanel.Visibility == Visibility.Visible)
+            {
+                HelpPanel.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                HelpPanel.Visibility = Visibility.Visible;
+            }
         }
 
         public void Exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        public void Guide_Click(object sender, RoutedEventArgs e)
+        {
+            HelpPanel.Visibility = Visibility.Hidden;
+        }
+
+        public void About_Click(object sender, RoutedEventArgs e)
+        {
+            HelpPanel.Visibility = Visibility.Hidden;
+            AboutWindow aboutWindow = new AboutWindow();
+            aboutWindow.ShowDialog();
+        }
+
+        public void SupportUs_Click(object sender, RoutedEventArgs e)
+        {
+            HelpPanel.Visibility = Visibility.Hidden;
         }
     }
 }

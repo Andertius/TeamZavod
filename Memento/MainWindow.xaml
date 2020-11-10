@@ -16,6 +16,12 @@
         <Style TargetType="Line">
             <Setter Property="Stroke" Value="Black" />
         </Style>
+        <Style TargetType="MenuItem">
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="BorderBrush" Value="Black" />
+        </Style>
+        
     </Window.Resources>
 
     <Grid x:Name="MainPageContent">
@@ -95,5 +101,14 @@
                 </Button.LayoutTransform>
             </Button>
         </StackPanel>
+
+        <StackPanel Grid.Row="8" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                    Visibility="Hidden" x:Name="HelpPanel">
+            <MenuItem Header="Guide" Click="Guide_Click" />
+            <MenuItem Header="About" Click="About_Click" />
+            <MenuItem Header="Support us" Click="SupportUs_Click" />
+            
+        </StackPanel>
+
     </Grid>
 </Window>
