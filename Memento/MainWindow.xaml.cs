@@ -58,12 +58,14 @@ namespace Memento
             };
 
             DeckEditorPage.MakeMainPageVisible += GoToMainPageFromDeckEditor;
+            DeckEditorPage.BecameEdited += ChangeMainTitle;
             Title = "Memento - Deck Editor";
         }
 
         public void GoToMainPageFromDeckEditor(object sender, EventArgs e)
         {
             DeckEditorPage.MakeMainPageVisible -= GoToMainPageFromDeckEditor;
+            DeckEditorPage.BecameEdited -= ChangeMainTitle;
             Content = MainPageContent;
             Title = "Memento";
         }
@@ -95,6 +97,11 @@ namespace Memento
         public void Exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        public void ChangeMainTitle(object sender, CardEditedEventArgs e)
+        {
+            Title = e.Title;
         }
     }
 }
