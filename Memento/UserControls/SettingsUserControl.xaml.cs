@@ -34,14 +34,37 @@ namespace Memento.UserControls
 
         public void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
-            double hoursPerDay = Double.Parse(HrsTextBox.Text);
-            int cardsPerDay = Int32.Parse(CardsTextBox.Text);
-            bool showImages = (bool)ImagesCheckBox.IsChecked;
+            double hoursPerDay;
+            bool isOkHrs = Double.TryParse(HrsTextBox.Text, out hoursPerDay);
+            if (hoursPerDay < 0 || hoursPerDay > 24)
+                isOkHrs = false;
 
-            string val = CardOrderCombox.Text;
-            CardOrder cardsOrder = (val == "Ascending") ? CardOrder.Ascending : (val == "Descending") ? CardOrder.Descending : CardOrder.Random;
-            AppSettings = new Settings(hoursPerDay, cardsPerDay, cardsOrder, showImages);
-            MakeMainPageVisible?.Invoke(this, EventArgs.Empty);
+            int cardsPerDay;
+            bool isOkCardsNum = Int32.TryParse(CardsTextBox.Text, out cardsPerDay);
+            if (cardsPerDay < 0 || cardsPerDay > 1000)
+                isOkCardsNum = false;
+
+            if (isOkHrs && isOkCardsNum)
+            {
+                bool showImages = (bool)ImagesCheckBox.IsChecked;
+
+                string val = CardOrderCombox.Text;
+                CardOrder cardsOrder = (val == "Ascending") ? CardOrder.Ascending : (val == "Descending") ? CardOrder.Descending : CardOrder.Random;
+
+                AppSettings = new Settings(hoursPerDay, cardsPerDay, cardsOrder, showImages);
+                MakeMainPageVisible?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                if (!isOkHrs)
+                {
+                    MessageBox.Show("Invalid Daily Milestone (hrs)");
+                }
+                else
+                {
+                    MessageBox.Show("Invalid Daily Milestone (cards)");
+                }
+            }
         }
 
         private void Handle()
