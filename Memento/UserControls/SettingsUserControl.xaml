@@ -50,29 +50,29 @@
         <TextBlock Grid.Row="7" Grid.Column="1" Text="Daily Milestone (cards)" FontSize="30" HorizontalAlignment="Center" 
                    VerticalAlignment="Center" />
         <TextBlock Grid.Row="9" Grid.Column="1" Text="Theme" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <StackPanel Grid.Row="5" Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBox AcceptsReturn="True" BorderThickness="0" Text="3.5" FontSize="30"  HorizontalAlignment="Center" 
-                     VerticalAlignment="Center" x:Name="HrsTextBox" />
+        <StackPanel Grid.Row="5" Grid.Column="2" Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox AcceptsReturn="True" BorderThickness="0" FontSize="30"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="HrsTextBox" />
             <Line X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="2" Stretch="Uniform" />
         </StackPanel>
         <StackPanel Grid.Row="7" Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBox AcceptsReturn="True" BorderThickness="0" Text="25" FontSize="30" HorizontalAlignment="Center" 
+            <TextBox AcceptsReturn="True" BorderThickness="0" FontSize="30" HorizontalAlignment="Center" 
                      VerticalAlignment="Center" x:Name="CardsTextBox" />
             <Line X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="2" Stretch="Uniform" />
         </StackPanel>
-        <ComboBox Grid.Row="9" Grid.Column="2" Height="50" SelectedIndex="0" x:Name="ThemeCombox" SelectionChanged="Theme_SelectionChanged"
+        <ComboBox Grid.Row="9" Grid.Column="2" Height="50" x:Name="ThemeCombox" SelectionChanged="Theme_SelectionChanged"
                   DropDownClosed="Theme_DropDownClosed">
             <TextBlock Text="Light" FontSize="26" />
             <TextBlock Text="Dark" FontSize="26" />
         </ComboBox>
         <TextBlock Grid.Row="6" Grid.Column="4" Text="Card Order" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
         <TextBlock Grid.Row="8" Grid.Column="4" Text="Show Card Images" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <ComboBox Grid.Row="6" Grid.Column="5" Height="50" SelectedIndex="0" x:Name="CardOrderCombox">
+        <ComboBox Grid.Row="6" Grid.Column="5" Height="50" x:Name="CardOrderCombox">
             <TextBlock Text="Random" FontSize="26" />
             <TextBlock Text="Ascending" FontSize="26" />
             <TextBlock Text="Descending" FontSize="26" />
         </ComboBox>
-        <CheckBox Grid.Row="8" Grid.Column="5" IsChecked="True"  HorizontalAlignment="Center" VerticalAlignment="Center" 
+        <CheckBox Grid.Row="8" Grid.Column="5"  HorizontalAlignment="Center" VerticalAlignment="Center" 
                   x:Name="ImagesCheckBox">
             <CheckBox.LayoutTransform>
                 <ScaleTransform ScaleX="3" ScaleY="3" />

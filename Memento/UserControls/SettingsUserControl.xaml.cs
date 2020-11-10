@@ -19,17 +19,25 @@ namespace Memento.UserControls
     /// </summary>
     public partial class SettingsUserControl : UserControl
     {
-        public SettingsUserControl()
+        public SettingsUserControl(Settings settings)
         {
             InitializeComponent();
-            AppSettings = new Settings();
-            AppTheme = Theme.Light;
+            AppSettings = settings;
+            HrsTextBox.Text = AppSettings.HoursPerDay.ToString();
+            CardsTextBox.Text = AppSettings.CardsPerDay.ToString();
+            ThemeCombox.SelectedIndex = AppSettings.AppTheme == Theme.Light ? 0 : 1;
+            CardOrderCombox.SelectedIndex = AppSettings.CardsOrder == CardOrder.Random ? 0 : AppSettings.CardsOrder == CardOrder.Ascending ?
+                1 : 2;
+            if (AppSettings.ShowImages)
+                ImagesCheckBox.IsChecked = true;
+            else
+                ImagesCheckBox.IsChecked = false;
         }
 
         public event EventHandler MakeMainPageVisible;
 
-        public Theme AppTheme { get; set; }
         public Settings AppSettings { get; set; }
+        public Theme AppTheme { get; set; }
         private bool handle = false;
 
         public void GoBackButton_Click(object sender, RoutedEventArgs e)
@@ -51,7 +59,11 @@ namespace Memento.UserControls
                 string val = CardOrderCombox.Text;
                 CardOrder cardsOrder = (val == "Ascending") ? CardOrder.Ascending : (val == "Descending") ? CardOrder.Descending : CardOrder.Random;
 
-                AppSettings = new Settings(hoursPerDay, cardsPerDay, cardsOrder, showImages);
+                AppSettings.HoursPerDay = hoursPerDay;
+                AppSettings.CardsPerDay = cardsPerDay;
+                AppSettings.CardsOrder = cardsOrder;
+                AppSettings.ShowImages = showImages;
+                AppSettings.AppTheme = AppTheme;
                 MakeMainPageVisible?.Invoke(this, EventArgs.Empty);
             }
             else

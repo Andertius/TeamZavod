@@ -29,11 +29,13 @@ namespace Memento
             Decks = Repository.FetchAllDecks().ToList();
             IsInEditor = false;
             IsInLearningProcess = false;
+            PickDeckCombox.ItemsSource = Decks;
         }
 
         public AppHandler LearningProcess { get; private set; }
         public DeckEditor DeckEditor { get; set; }
         public List<Deck> Decks { get; private set; }
+        public Settings AppSettings { get; set; }
 
         public DeckEditorUserControl DeckEditorPage { get; set; }
         public SettingsUserControl SettingsPage { get; set; }
@@ -71,7 +73,11 @@ namespace Memento
 
         public void OpenSettings(object sender, RoutedEventArgs e)
         {
-            Content = SettingsPage = new SettingsUserControl()
+            if (AppSettings is null)
+            {
+                AppSettings = new Settings();
+            }
+            Content = SettingsPage = new SettingsUserControl(AppSettings)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
