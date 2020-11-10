@@ -24,17 +24,27 @@ namespace Memento
     {
         public MainWindow()
         {
+            DataContext = this;
             InitializeComponent();
 
             Decks = Repository.FetchAllDecks().ToList();
             IsInEditor = false;
             IsInLearningProcess = false;
-            PickDeckCombox.ItemsSource = Decks;
+            //PickDeckCombox.ItemsSource = Decks;
+        }
+
+        private readonly DependencyProperty DecksProperty = DependencyProperty.Register(nameof(Decks), typeof(List<Deck>), typeof(MainWindow),
+            new PropertyMetadata(new List<Deck>()));
+
+        public List<Deck> Decks
+        {
+            get => (List<Deck>)GetValue(DecksProperty);
+            private set => SetValue(DecksProperty, value);
         }
 
         public AppHandler LearningProcess { get; private set; }
         public DeckEditor DeckEditor { get; set; }
-        public List<Deck> Decks { get; private set; }
+        //public List<Deck> Decks { get; private set; }
         public Settings AppSettings { get; set; }
 
         public DeckEditorUserControl DeckEditorPage { get; set; }
@@ -83,13 +93,13 @@ namespace Memento
                 VerticalAlignment = VerticalAlignment.Stretch
             };
 
-            SettingsPage.MakeMainPageVisible += GoToMainPageFromSetings;
+            SettingsPage.MakeMainPageVisible += GoToMainPageFromSettings;
             Title = "Memento - Settings";
         }
 
-        public void GoToMainPageFromSetings(object sender, EventArgs e)
+        public void GoToMainPageFromSettings(object sender, EventArgs e)
         {
-            SettingsPage.MakeMainPageVisible -= GoToMainPageFromSetings;
+            SettingsPage.MakeMainPageVisible -= GoToMainPageFromSettings;
             Content = MainPageContent;
             Title = "Memento";
         }
@@ -104,11 +114,6 @@ namespace Memento
             {
                 HelpPanel.Visibility = Visibility.Visible;
             }
-        }
-
-        public void Exit_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
 
         public void Guide_Click(object sender, RoutedEventArgs e)
@@ -127,5 +132,15 @@ namespace Memento
         {
             HelpPanel.Visibility = Visibility.Hidden;
         }
+
+        private void ExitProgram(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        //private void StartLearning(object sender, ExecutedRoutedEventArgs e)
+        //{
+
+        //}
     }
 }

@@ -7,7 +7,7 @@
              xmlns:dal="clr-namespace:Memento.DAL;assembly=Memento.DAL"
              mc:Ignorable="d" d:Background="White"
              d:DesignHeight="1080" d:DesignWidth="1920">
-    <Grid>
+    <Grid x:Name="SettingsGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="18*" />
             <ColumnDefinition Width="45.5*" />

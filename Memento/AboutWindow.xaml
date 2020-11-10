@@ -14,7 +14,11 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text=" Our Team" FontSize="30" />
-        <Image Grid.Row="1" Source="Images/team.png" />
+        <Image Grid.Row="1" x:Name="Img">
+            <Image.Source>
+                <BitmapImage UriSource="Images/team.png" />
+            </Image.Source>
+        </Image>
         <Button Grid.Row="2" Content="Close" Height="20" Width="75" HorizontalAlignment="Left" Margin="298,15,0,15" 
                 RenderTransformOrigin="0.667,0.616" Click="Close_Click" />
 

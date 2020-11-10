@@ -9,6 +9,14 @@
         Title="Memento" WindowState="Maximized"
         d:DesignHeight="1080" d:DesignWidth="1920">
 
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:Commands.ExitCommand}"
+                        Executed="ExitProgram"/>
+
+        <!--<CommandBinding Command="{x:Static local:Commands.StartLearningCommand}"
+                        Executed="StartLearning"/>-->
+    </Window.CommandBindings>
+
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Background" Value="White" />
@@ -51,7 +59,7 @@
         <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                     Grid.ColumnSpan="2">
             <TextBlock Text="Pick Deck " HorizontalAlignment="Center" FontSize="30" />
-            <ComboBox x:Name="PickDeckCombox" FontSize="24" />
+            <ComboBox x:Name="PickDeckCombox" ItemsSource="{Binding Decks}" FontSize="24" />
         </StackPanel>
         <!--<ComboBox Grid.Row="4" Grid.Column="1" FontSize="20" VerticalAlignment="Bottom" x:Name="PickDeckCombox" />-->
         <Line Grid.Row="5" Grid.Column="1" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="1" Stretch="Uniform" 
@@ -96,7 +104,9 @@
                     <ScaleTransform ScaleX="3" ScaleY="3" />
                 </Button.LayoutTransform>
             </Button>
-            <Button FontFamily="Segoe MDL2 Assets" Content="&#xF3B1;" BorderBrush="White" Click="Exit_Click">
+            <Button FontFamily="Segoe MDL2 Assets" Content="&#xF3B1;" 
+                    Command="{x:Static local:Commands.ExitCommand}"
+                    BorderBrush="White">
                 <Button.LayoutTransform>
                     <ScaleTransform ScaleX="3" ScaleY="3" />
                 </Button.LayoutTransform>
