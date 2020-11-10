@@ -36,6 +36,7 @@ namespace Memento
 
         public DeckEditorUserControl DeckEditorPage { get; set; }
         public SettingsUserControl SettingsPage { get; set; }
+        public StatisticsUserControl StatisticsPage { get; set; }
 
         public bool IsInEditor { get; private set; }
         public bool IsInLearningProcess { get; private set; }
@@ -74,6 +75,22 @@ namespace Memento
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
             };
+        }
+
+        private void OpenStatistics(object sender, RoutedEventArgs e)
+        {
+            Content = StatisticsPage = new StatisticsUserControl(1.5, 3, 26)
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
+            StatisticsPage.MakeMainPageVisible += GoToMainPageFromStatistics;
+        }
+
+        public void GoToMainPageFromStatistics(object sender, EventArgs e)
+        {
+            StatisticsPage.MakeMainPageVisible -= GoToMainPageFromStatistics;
+            Content = MainPageContent;
         }
     }
 }

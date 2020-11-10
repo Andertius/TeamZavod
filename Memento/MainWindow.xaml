@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Memento"
-        mc:Ignorable="d" d:Background="White"
+        mc:Ignorable="d" 
         Title="Memento" WindowState="Maximized"
         d:DesignHeight="1080" d:DesignWidth="1920">
     <Grid x:Name="MainPageContent">
@@ -46,7 +46,7 @@
               VerticalAlignment="Top" />
 
         <Button Grid.Row="7" Grid.Column="1" Content="Statistics" Background="White" BorderBrush="White" VerticalAlignment="Bottom"
-                FontSize="30" />
+                FontSize="30" Click="OpenStatistics"/>
         <Line Grid.Row="8" Grid.Column="1" X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="4" Stretch="Uniform"
               VerticalAlignment="Top" />
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
+using Memento.UserControls;
 
 namespace Memento
 {
@@ -14,6 +15,12 @@ namespace Memento
         new InputGestureCollection(new InputGesture[]
         {
             new KeyGesture(Key.S, ModifierKeys.Control)
+        }));
+
+        public static readonly RoutedCommand GoBackCommand = new RoutedUICommand("Back", nameof(GoBackCommand), typeof(StatisticsUserControl),
+        new InputGestureCollection(new InputGesture[]
+        {
+            new KeyGesture(Key.Escape)
         }));
     }
 }
