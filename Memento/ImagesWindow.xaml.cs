@@ -1,6 +1,4 @@
-﻿using Memento.DAL;
-using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -9,20 +7,25 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
+using Microsoft.Win32;
+
 namespace Memento
 {
     public partial class ImagesWindow : Window
     {
-        public ImagesWindow()
+        public ImagesWindow(ImageSource imgSource)
         {
             InitializeComponent();
 
-            var cards = Repository.FetchAllCards();
+            ImageSource = imgSource;
+            CurrentImage.Source = imgSource;
+
+            var images = Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "images"));
             ImagesDictionary = new SortedDictionary<string, string>();
 
-            foreach (var card in cards)
+            foreach (var image in images)
             {
-                ImagesDictionary.Add(Path.GetFileName(card.ImagePath), card.ImagePath);
+                ImagesDictionary.Add(Path.GetFileName(image), image);
             }
 
             RenderImages(this, EventArgs.Empty);
@@ -40,12 +43,18 @@ namespace Memento
             var button = sender as Button;
             var image = button.Content as Image;
 
-            ImageSource = image.Source;
             CurrentImage.Source = image.Source;
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
+            ImageSource = CurrentImage.Source;
+            Close();
+        }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            ImageSource = null;
             Close();
         }
 
@@ -58,8 +67,7 @@ namespace Memento
 
             if (openImageDialog.ShowDialog() == true)
             {
-                var solutionDirectory = Directory.GetParent(Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory())));
-                string copyPath = $"{solutionDirectory}\\images\\{Path.GetFileName(openImageDialog.FileName)}";
+                string copyPath = Path.Combine(Directory.GetCurrentDirectory(), "images", Path.GetFileName(openImageDialog.FileName));
 
                 try
                 {
@@ -70,7 +78,7 @@ namespace Memento
                     MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
-                ImagesDictionary.Add(Path.GetFileName(openImageDialog.FileName), $"images\\{Path.GetFileName(openImageDialog.FileName)}");
+                ImagesDictionary.Add(Path.GetFileName(openImageDialog.FileName), Path.Combine(Directory.GetCurrentDirectory(), "images", Path.GetFileName(openImageDialog.FileName)));
 
                 RenderImages(this, EventArgs.Empty);
             }
@@ -82,11 +90,10 @@ namespace Memento
 
             foreach (var item in ImagesDictionary)
             {
-                if (item.Key.Contains(SearchTextBox.Text))
+                if (item.Key.ToLower().Contains(SearchTextBox.Text.ToLower()))
                 {
                     var stackPanel = new StackPanel() { Margin = new Thickness(0, 0, 10, 10) };
-                    var solutionDirectory = Directory.GetParent(Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory())));
-                    string path = $"{solutionDirectory}\\{item.Value}";
+                    string path = Path.Combine("images", item.Value);
 
                     var finalImage = new Button
                     {

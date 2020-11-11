@@ -1,13 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
+
 using Microsoft.EntityFrameworkCore.Sqlite;
 
 namespace Memento.DAL
 {
-    public class Card : IEquatable<Card>
+    public class Card : IEquatable<Card>, INotifyPropertyChanged
     {
+        private int id;
+        private string word;
+        private string description;
+        private string transcription;
+        private Difficulty difficulty;
+        private string imagePath;
+        private ObservableCollection<string> tags;
+
         public Card()
         {
             Id = -1;
@@ -16,6 +28,7 @@ namespace Memento.DAL
             Transcription = "";
             Difficulty = Difficulty.None;
             ImagePath = "";
+            Tags = new ObservableCollection<string>();
         }
 
         public Card(string word, string description, string transcription = "", string imagePath = "", Difficulty difficulty = Difficulty.None)
@@ -26,6 +39,7 @@ namespace Memento.DAL
             Transcription = transcription;
             Difficulty = difficulty;
             ImagePath = imagePath;
+            Tags = new ObservableCollection<string>();
         }
 
         public Card(Card card)
@@ -36,28 +50,80 @@ namespace Memento.DAL
             Transcription = card.Transcription;
             Difficulty = card.Difficulty;
             ImagePath = card.ImagePath;
+            Tags = new ObservableCollection<string>(card.Tags);
         }
 
-        [Key]
-        [Column("card_id")]
-        public int Id { get; set; }
+        public int Id
+        {
+            get => id;
+            set
+            {
+                id = value;
+                OnPropertyChanged();
+            }
+        }
 
-        [Column("word")]
-        public string Word { get; set; }
+        public string Word
+        {
+            get => word;
+            set
+            {
+                word = value;
+                OnPropertyChanged();
+            }
+        }
 
-        [Column("description")]
-        public string Description { get; set; }
+        public string Description
+        {
+            get => description;
+            set
+            {
+                description = value;
+                OnPropertyChanged();
+            }
+        }
 
-        [Column("transcription")]
-        public string Transcription { get; set; }
+        public string Transcription
+        {
+            get => transcription;
+            set
+            {
+                transcription = value;
+                OnPropertyChanged();
+            }
+        }
 
-        [Column("difficulty_level")]
-        public Difficulty Difficulty { get; set; }
+        public Difficulty Difficulty
+        {
+            get => difficulty;
+            set
+            {
+                difficulty = value;
+                OnPropertyChanged();
+            }
+        }
 
-        [Column("image_path")]
-        public string ImagePath { get; set; }
+        public string ImagePath
+        {
+            get => imagePath;
+            set
+            {
+                imagePath = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public List<string> Tags { get; set; }
+        public ObservableCollection<string> Tags
+        {
+            get => tags;
+            set
+            {
+                tags = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         //добавити масив тегів
 
@@ -79,6 +145,11 @@ namespace Memento.DAL
         public bool Equals(Card card)
         {
             return Id == card.Id;
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -1,42 +1,53 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
 using Memento.DAL;
 
 namespace Memento.BLL
 {
-    public class DeckEditor
+    public class DeckEditor : INotifyPropertyChanged
     {
+        private Deck deck;
+
         public DeckEditor()
         {
             Deck = new Deck();
-            AllDecks = Repository.FetchAllDecks().ToList();
+            AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks());
         }
 
         public DeckEditor(Deck deck)
         {
             Deck = new Deck(deck);
-            AllDecks = Repository.FetchAllDecks().ToList();
+            AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks());
         }
 
         public DeckEditor(string deckName)
         {
             Deck = Repository.FetchDeck(deckName);
-            AllDecks = Repository.FetchAllDecks().ToList();
+            AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks());
         }
 
         public DeckEditor(int deckId)
         {
             Deck = Repository.FetchDeck(deckId);
-            AllDecks = Repository.FetchAllDecks().ToList();
+            AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks());
         }
 
-        public Deck Deck { get; private set; }
-        public List<Deck> AllDecks { get; private set; }
+        public Deck Deck
+        {
+            get => deck;
+            private set
+            {
+                deck = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Deck> AllDecks { get; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public void AddCard(object sender, DeckEditorCardEventArgs e)
         {
@@ -72,6 +83,11 @@ namespace Memento.BLL
         public void SaveChanges(object sender, DeckEditorDeckEventArgs e)
         {
             Repository.UpdateDeck(e.Deck.Id, e.Deck);
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

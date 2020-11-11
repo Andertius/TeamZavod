@@ -6,16 +6,16 @@
              xmlns:local="clr-namespace:Memento"
              xmlns:dal="clr-namespace:Memento.DAL;assembly=Memento.DAL"
              mc:Ignorable="d" d:Background="White"
-             d:DesignHeight="1080" d:DesignWidth="1920">
+             d:DesignHeight="1000" d:DesignWidth="1920">
     <UserControl.CommandBindings>
+        <CommandBinding Command="{x:Static local:Commands.NewCardCommand}"
+                        Executed="NewCard"/>
+        
         <CommandBinding Command="{x:Static local:Commands.SaveCardCommand}"
                         Executed="SaveCard" CanExecute="SaveCardCommand_CanExecute"/>
-        
+
         <CommandBinding Command="{x:Static local:Commands.RemoveCardCommand}"
                         Executed="RemoveCard" CanExecute="RemoveCardCommand_CanExecute"/>
-
-        <CommandBinding Command="{x:Static local:Commands.SaveDeckCommand}"
-                        Executed="SaveDeck"/>
     </UserControl.CommandBindings>
 
     <UserControl.Resources>
@@ -45,9 +45,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
-
-        <local:EnumBooleanConverter x:Key="enumBooleanConverter"/>
+        </Style>        
     </UserControl.Resources>
 
     <Grid>
@@ -67,7 +65,7 @@
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="24"/>
-                <RowDefinition Height="35*"/>
+                <RowDefinition Height="30*"/>
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="12*"/>
                 <RowDefinition Height="2*"/>
@@ -93,20 +91,24 @@
                     <Viewbox VerticalAlignment="Stretch"
                              HorizontalAlignment="Stretch" Grid.Row="1">
                         <StackPanel HorizontalAlignment="Center">
+                            <StackPanel.Resources>
+                                <local:EqualsConverter x:Key="equalsConverter"/>
+                            </StackPanel.Resources>
+                            
                             <TextBlock Text="Difficulty" Grid.Row="0" Margin="0 0 0 5"
                                        HorizontalAlignment="Center" FontStyle="Italic"/>
                             
-                            <RadioButton Content="Beginner"
-                                         IsChecked="{Binding Path=CurrentCard.Difficulty,Converter={StaticResource enumBooleanConverter}, ConverterParameter={x:Static dal:Difficulty.Beginner}}"/>
-                            
-                            <RadioButton Content="Intermediate"
-                                         IsChecked="{Binding Path=CurrentCard.Difficulty, Converter={StaticResource enumBooleanConverter}, ConverterParameter={x:Static dal:Difficulty.Intermediate}}"/>
-                            
-                            <RadioButton Content="Advanced"
-                                         IsChecked="{Binding Path=CurrentCard.Difficulty, Converter={StaticResource enumBooleanConverter}, ConverterParameter={x:Static dal:Difficulty.Advanced}}"/>
-                            
-                            <RadioButton Content="None"
-                                         IsChecked="{Binding Path=CurrentCard.Difficulty, Converter={StaticResource enumBooleanConverter}, ConverterParameter={x:Static dal:Difficulty.None}}"/>
+                            <RadioButton x:Name="BeginnerButton" Content="Beginner"
+                                         IsChecked="{Binding Path=CurrentCard.Difficulty, Converter={StaticResource equalsConverter}, ConverterParameter={x:Static dal:Difficulty.Beginner}}"/>
+
+                            <RadioButton x:Name="IntermediateButton" Content="Intermediate"
+                                         IsChecked="{Binding Path=CurrentCard.Difficulty, Converter={StaticResource equalsConverter}, ConverterParameter={x:Static dal:Difficulty.Intermediate}}"/>
+
+                            <RadioButton x:Name="AdvancedButton" Content="Advanced"
+                                         IsChecked="{Binding Path=CurrentCard.Difficulty, Converter={StaticResource equalsConverter}, ConverterParameter={x:Static dal:Difficulty.Advanced}}"/>
+
+                            <RadioButton x:Name="NoneButton" Content="None"
+                                         IsChecked="{Binding Path=CurrentCard.Difficulty, Converter={StaticResource equalsConverter}, ConverterParameter={x:Static dal:Difficulty.None}}"/>
                         </StackPanel>
                     </Viewbox>
                 </Grid>
@@ -176,7 +178,7 @@
                         <RowDefinition Height="3*"/>
                     </Grid.RowDefinitions>
 
-                    <TextBox Grid.Row="1" x:Name="WordTextBox" Text="{Binding CurrentCard.Word, Mode = TwoWay}"
+                    <TextBox Grid.Row="1" x:Name="WordTextBox" Text="{Binding CurrentCard.Word, Mode = TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Background="#F7F7F7F7" TextAlignment="Center" MaxLength="100"
                              VerticalContentAlignment="Center" TextWrapping="Wrap"/>
 
@@ -224,7 +226,7 @@
                 </Grid>
 
                 <TextBox x:Name="DescriptionTextBox" Background="#F7F7F7F7" TextWrapping="Wrap"
-                         Grid.Column="2" MaxLength="500" Text="{Binding CurrentCard.Description, Mode = TwoWay}"/>
+                         Grid.Column="2" MaxLength="500" Text="{Binding CurrentCard.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Grid.Column="2" IsHitTestVisible="False" Text="Description..."
                            HorizontalAlignment="Left"
@@ -275,33 +277,37 @@
                       ItemsSource="{Binding DeckEditor.AllDecks}" HorizontalAlignment="Left"/>
 
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="New Card" Width="100" Margin="0 0 12 0"/>
-                <Button Content="Save Card" Width="100" Margin="0 0 12 0"
+                <Button Content="New Card" Width="100" Margin="0 0 15 0"
+                        Command="{x:Static local:Commands.NewCardCommand}"/>
+                
+                <Button Content="Save Card" Width="100" Margin="0 0 15 0"
                         Command="{x:Static local:Commands.SaveCardCommand}"/>
 
-                <Button Content="Remove Card" Width="100" Margin="0 0 12 0"
+                <Button Content="Remove Card" Width="100" Margin="0 0 15 0"
                         Command="{x:Static local:Commands.RemoveCardCommand}"/>
-
-                <Button Content="Save Deck" Width="100"
-                        Command="{x:Static local:Commands.SaveCardCommand}"/>
             </StackPanel>
 
-            <TextBlock Grid.Row="4" Text="Cards: "/>
+            <StackPanel Grid.Row="4" Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <local:IntStringConverter x:Key="intStringConverter"/>
+                </StackPanel.Resources>
 
-            <ScrollViewer Grid.Row="6">
-                <DataGrid IsReadOnly="True" ItemsSource="{Binding DeckEditor.Deck}"
-                          x:Name="CardsDataGrid">
-                    <DataGrid.ItemContainerStyle>
-                        <Style TargetType="DataGridRow">
-                            <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
-                        </Style>
-                    </DataGrid.ItemContainerStyle>
-                    
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Card" Binding="{Binding Path=Cards}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </ScrollViewer>
+                <TextBlock Text="Cards: "/>
+                <TextBlock Text="{Binding Path=DeckEditor.Deck.Count, Converter={StaticResource intStringConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+
+            <DataGrid ItemsSource="{Binding DeckEditor.Deck.Cards}" IsReadOnly="True"
+                          x:Name="CardsDataGrid" AutoGenerateColumns="False" Grid.Row="6">
+                <DataGrid.ItemContainerStyle>
+                    <Style TargetType="DataGridRow">
+                        <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                    </Style>
+                </DataGrid.ItemContainerStyle>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Card" Binding="{Binding Path=Word}"/>
+                </DataGrid.Columns>
+            </DataGrid>
 
             <TextBlock Grid.Row="8" Text="Tags:"/>
             

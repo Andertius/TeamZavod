@@ -58,8 +58,14 @@
         <Image x:Name="CurrentImage" Width="80" Grid.Row="5" Grid.Column="1"
                HorizontalAlignment="Left"/>
 
-        <Button x:Name="OKButton" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right"
-                Content="OK" Width="75" Click="OKButton_Click" VerticalAlignment="Top"
-                Height="20"/>
+        <StackPanel Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right"
+                    VerticalAlignment="Top" Orientation="Horizontal">
+            <Button x:Name="OKButton" Height="20" Click="OKButton_Click"
+                    Content="OK" Width="75" Margin="0 0 7 0"/>
+            
+            <Button x:Name="RemoveImageButton" Height="20" Click="RemoveButton_Click"
+                    Content="Remove Image" Width="100"/>
+        </StackPanel>
+        
     </Grid>
 </Window>

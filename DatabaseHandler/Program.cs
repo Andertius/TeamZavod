@@ -133,7 +133,7 @@ namespace DatabaseHandler
         {
             var smth = Repository.FetchDeck("Fruits");
 
-            smth.Cards.ForEach(x => Console.WriteLine($"{x.Id}"));
+            //smth.Cards.ForEach(x => Console.WriteLine($"{x.Id}"));
 
         }
     }
