@@ -8,16 +8,16 @@ namespace Memento.DAL
     {
         public double HoursPerDay { get; set; }
         public int CardsPerDay { get; set; }
-        public Theme AppTheme { get; set; }
-        public CardOrder CardsOrder { get; set; }
+        public Theme Theme { get; set; }
+        public CardOrder CardOrder { get; set; }
         public bool ShowImages { get; set; }
 
         public Settings()
         {
             HoursPerDay = 3.5;
             CardsPerDay = 25;
-            AppTheme = Theme.Light;
-            CardsOrder = CardOrder.Random;
+            Theme = Theme.Light;
+            CardOrder = CardOrder.Random;
             ShowImages = true;
         }
 
@@ -25,8 +25,8 @@ namespace Memento.DAL
         {
             HoursPerDay = hrs;
             CardsPerDay = cards;
-            AppTheme = theme;
-            CardsOrder = order;
+            Theme = theme;
+            CardOrder = order;
             ShowImages = showImages;
         }
     }

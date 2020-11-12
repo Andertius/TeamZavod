@@ -53,7 +53,7 @@ namespace Memento
         public void StartLearning(object sender, RoutedEventArgs e)
         {
             LearningProcess = new AppHandler((int)((Button)sender).Tag);
-            LearningProcess.Start(SettingsPage.AppSettings.CardsOrder, SettingsPage.AppSettings.ShowImages);
+            LearningProcess.Start(SettingsPage.AppSettings.CardOrder, SettingsPage.AppSettings.ShowImages);
         }
 
         public void StartEditing(object sender, StartEditingEventArgs e)
