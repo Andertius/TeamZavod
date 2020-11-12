@@ -17,9 +17,6 @@ using Memento.DAL;
 
 namespace Memento.UserControls
 {
-    /// <summary>
-    /// Interaction logic for MainPageUserControl.xaml
-    /// </summary>
     public partial class MainPageUserControl : UserControl
     {
         public MainPageUserControl()
@@ -28,8 +25,6 @@ namespace Memento.UserControls
 
             DataContext = this;
             Decks = Repository.FetchAllDecks().ToList();
-            IsInEditor = false;
-            IsInLearningProcess = false;
         }
 
         static private readonly DependencyProperty DecksProperty = DependencyProperty.Register(nameof(Decks), typeof(List<Deck>),
@@ -41,73 +36,8 @@ namespace Memento.UserControls
             private set => SetValue(DecksProperty, value);
         }
 
-        public AppHandler LearningProcess { get; private set; }
-        public DeckEditor DeckEditor { get; set; }
-        public Settings AppSettings { get; set; }
-
-        public DeckEditorUserControl DeckEditorPage { get; set; }
-        public SettingsUserControl SettingsPage { get; set; }
-
-        public bool IsInEditor { get; private set; }
-        public bool IsInLearningProcess { get; private set; }
-
-        public void StartLearning(object sender, RoutedEventArgs e)
-        {
-            LearningProcess = new AppHandler((int)((Button)sender).Tag);
-            LearningProcess.Start(SettingsPage.AppSettings.CardsOrder, SettingsPage.AppSettings.ShowImages);
-        }
-
-        public void StartEditing(object sender, RoutedEventArgs e)
-        {
-            //unsubscribe all events for all the other pages
-
-            //Button Tag is the deck id
-            Content = DeckEditorPage = new DeckEditorUserControl(Int32.Parse((string)((Button)sender).Tag))
-            {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch,
-            };
-
-            DeckEditorPage.MakeMainPageVisible += GoToMainPageFromDeckEditor;
-            DeckEditorPage.BecameEdited += ChangeMainTitle;
-            Window.GetWindow(this).Title = "Memento - Deck Editor";
-        }
-
-        public void GoToMainPageFromDeckEditor(object sender, EventArgs e)
-        {
-            DeckEditorPage.MakeMainPageVisible -= GoToMainPageFromDeckEditor;
-            DeckEditorPage.BecameEdited -= ChangeMainTitle;
-            Content = MainPageContent;
-            Window.GetWindow(this).Title = "Memento";
-        }
-
-        public void ChangeMainTitle(object sender, CardEditedEventArgs e)
-        {
-            Window.GetWindow(this).Title = e.Title;
-        }
-
-        public void OpenSettings(object sender, RoutedEventArgs e)
-        {
-            if (AppSettings is null)
-            {
-                AppSettings = new Settings();
-            }
-            Content = SettingsPage = new SettingsUserControl(AppSettings)
-            {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
-            };
-
-            SettingsPage.MakeMainPageVisible += GoToMainPageFromSettings;
-            Window.GetWindow(this).Title = "Memento - Settings";
-        }
-
-        public void GoToMainPageFromSettings(object sender, EventArgs e)
-        {
-            SettingsPage.MakeMainPageVisible -= GoToMainPageFromSettings;
-            Content = MainPageContent;
-            Window.GetWindow(this).Title = "Memento";
-        }
+        public event EventHandler<StartEditingEventArgs> StartEditingEvent;
+        public event EventHandler OpenSettingsEvent;
 
         public void Guide_Click(object sender, RoutedEventArgs e)
         {
@@ -141,6 +71,22 @@ namespace Memento.UserControls
             {
                 HelpMenu.Visibility = Visibility.Visible;
             }
+        }
+
+        public void StartLearning(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void StartEditing(object sender, RoutedEventArgs e)
+        {
+            var deck = PickDeckCombox.SelectedItem as Deck;
+            StartEditingEvent?.Invoke(this, new StartEditingEventArgs(deck.Id));
+        }
+
+        public void OpenSettings(object sender, RoutedEventArgs e)
+        {
+            OpenSettingsEvent?.Invoke(this, EventArgs.Empty);
         }
     }
 }
