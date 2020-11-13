@@ -4,6 +4,7 @@ using System.Data.SQLite;
 using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace Memento.DAL
 {
@@ -58,7 +59,7 @@ namespace Memento.DAL
                         answerTags.Add(item.TagName);
                     }
 
-                    cards[i].Tags = new List<string>(answerTags);
+                    cards[i].Tags = new ObservableCollection<string>(answerTags);
                 }
 
                 var deckdetails = context.Decks.Where(x => x.DeckName == deckName).ToList();
@@ -128,7 +129,7 @@ namespace Memento.DAL
                         answerTags.Add(item.TagName);
                     }
 
-                    cards[i].Tags = new List<string>(answerTags);
+                    cards[i].Tags = new ObservableCollection<string>(answerTags);
                 }
 
                 var deckdetails = context.Decks.Where(x => x.Id == id).ToList();
@@ -196,7 +197,7 @@ namespace Memento.DAL
                     answerTags.Add(item.TagName);
                 }
 
-                crd.Tags = new List<string>(answerTags);
+                crd.Tags = new ObservableCollection<string>(answerTags);
 
                 return crd;
             }
@@ -279,7 +280,7 @@ namespace Memento.DAL
                         answerTags.Add(item.TagName);
                     }
 
-                    cards[i].Tags = new List<string>(answerTags);
+                    cards[i].Tags = new ObservableCollection<string>(answerTags);
                 }
 
                 return cards;

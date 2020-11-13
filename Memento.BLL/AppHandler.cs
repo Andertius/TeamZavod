@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Linq;
 using Memento.DAL;
 
 namespace Memento.BLL
@@ -23,10 +23,20 @@ namespace Memento.BLL
 
         public Deck Deck { get; }
 
-        public void Start()
+        public void Start(CardOrder order, bool showImages)
         {
-            
-            RadndomizeDeck();
+            if (order == CardOrder.Random)
+            {
+                RadndomizeDeck();
+            }
+            else if (order == CardOrder.Ascending)
+            {
+                SortDeckByAscendingDifficulty();
+            }
+            else
+            {
+                SortDeckByDescendingDifficulty();
+            }
         }
 
         public void Stop()
@@ -45,6 +55,39 @@ namespace Memento.BLL
                 Deck[j] = card;
             }
         }
+
+        public void SortDeckByAscendingDifficulty()
+        {
+            for (int i = 0; i < Deck.Count - 1; i++)
+            {
+                for (int j = 0; j < Deck.Count - i - 1; j++)
+                {
+                    if (Deck[j].Difficulty > Deck[j + 1].Difficulty)
+                    {
+                        Card card = Deck[j];
+                        Deck[j] = Deck[j + 1];
+                        Deck[j + 1] = card;
+                    }
+                }
+            }
+        }
+
+        public void SortDeckByDescendingDifficulty()
+        {
+            for (int i = 0; i < Deck.Count - 1; i++)
+            {
+                for (int j = 0; j < Deck.Count - i - 1; j++)
+                {
+                    if (Deck[j].Difficulty < Deck[j + 1].Difficulty)
+                    {
+                        Card card = Deck[j];
+                        Deck[j] = Deck[j + 1];
+                        Deck[j + 1] = card;
+                    }
+                }
+            }
+        }
+
         public void FlipCard(object sender, AppHandlerFlipEventArgs e)
         {
             e.IsFlipped = !e.IsFlipped;

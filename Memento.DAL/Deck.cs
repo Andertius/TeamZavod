@@ -1,33 +1,70 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Memento.DAL
 {
-    public class Deck : IEquatable<Deck>, IEnumerable<Card>, ICollection<Card>
+    public class Deck : IEquatable<Deck>, IEnumerable<Card>, ICollection<Card>, INotifyPropertyChanged
     {
+        private int id;
+        private string deckName;
+        private string tagName;
+
         public Deck()
         {
             Id = -1;
-            Cards = new List<Card>();
+            Cards = new ObservableCollection<Card>();
             DeckName = "";
             TagName = "";
+            Cards.CollectionChanged += (sender, e) => OnPropertyChanged(nameof(Count));
         }
 
         public Deck(Deck deck)
         {
             Id = deck.Id;
-            Cards = new List<Card>(deck.Cards.Select(card => new Card(card)));
+            Cards = new ObservableCollection<Card>(deck.Cards.Select(card => new Card(card)));
             DeckName = deck.DeckName;
             TagName = deck.TagName;
+            Cards.CollectionChanged += (sender, e) => OnPropertyChanged(nameof(Count));
         }
 
-        public int Id { get; set; }
-        public List<Card> Cards { get; }
-        public string DeckName { get; set; }
+        public int Id
+        {
+            get => id;
+            set
+            {
+                id = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Card> Cards { get; }
         public int Count { get => Cards.Count; }
-        public string TagName { get; set; }
+
+        public string DeckName
+        {
+            get => deckName;
+            set
+            {
+                deckName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string TagName
+        {
+            get => tagName;
+            set
+            {
+                tagName = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool IsReadOnly => false;
 
         public Card this[int index]
@@ -36,17 +73,21 @@ namespace Memento.DAL
             set => Cards[index] = value;
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public void Add(Card card)
             => Cards.Add(card);
 
         public void AddRange(IEnumerable<Card> cards)
-            => Cards.AddRange(cards);
+        {
+            foreach (var card in cards)
+            {
+                Add(card);
+            }
+        }
 
         public void InsertCard(int index, Card card)
             => Cards.Insert(index, card);
-
-        public void InsertRange(int index, IEnumerable<Card> cards)
-            => Cards.InsertRange(index, cards);
 
         public bool Remove(Card card)
             => Cards.Remove(card);
@@ -76,11 +117,11 @@ namespace Memento.DAL
         {
             if (array == null)
             {
-                throw new ArgumentNullException("The array cannot be null.");
+                throw new ArgumentNullException(nameof(array));
             }
             else if (arrayIndex < 0)
             {
-                throw new ArgumentOutOfRangeException("The starting array index cannot be negative.");
+                throw new ArgumentOutOfRangeException(nameof(array), "The starting array index cannot be negative.");
             }
             else if (Count > array.Length - arrayIndex + 1)
             {
@@ -94,9 +135,7 @@ namespace Memento.DAL
         }
 
         public override string ToString()
-        {
-            return DeckName;
-        }
+            => DeckName;
 
         public override int GetHashCode()
             => HashCode.Combine(Id, Cards, DeckName, TagName);
@@ -112,5 +151,10 @@ namespace Memento.DAL
 
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

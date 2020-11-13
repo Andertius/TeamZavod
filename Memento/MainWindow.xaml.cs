@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using Memento.UserControls;
 using Memento.BLL;
 using Memento.DAL;
+using System.Diagnostics;
 
 namespace Memento
 {
@@ -25,56 +26,84 @@ namespace Memento
         {
             InitializeComponent();
 
-            Decks = Repository.FetchAllDecks().ToList();
+            Content = MainPage = new MainPageUserControl()
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+            };
+
+            MainPage.StartEditingEvent += StartEditing;
+            MainPage.OpenSettingsEvent += OpenSettings;
+
             IsInEditor = false;
             IsInLearningProcess = false;
         }
 
+        public bool IsInEditor { get; private set; }
+        public bool IsInLearningProcess { get; private set; }
+
         public AppHandler LearningProcess { get; private set; }
         public DeckEditor DeckEditor { get; set; }
-        public List<Deck> Decks { get; private set; }
+        public Settings AppSettings { get; set; }
 
+        public MainPageUserControl MainPage { get; set; }
         public DeckEditorUserControl DeckEditorPage { get; set; }
         public SettingsUserControl SettingsPage { get; set; }
         public StatisticsUserControl StatisticsPage { get; set; }
 
-        public bool IsInEditor { get; private set; }
-        public bool IsInLearningProcess { get; private set; }
-
         public void StartLearning(object sender, RoutedEventArgs e)
         {
             LearningProcess = new AppHandler((int)((Button)sender).Tag);
-            LearningProcess.Start();
+            LearningProcess.Start(SettingsPage.AppSettings.CardOrder, SettingsPage.AppSettings.ShowImages);
         }
 
-        public void StartEditing(object sender, RoutedEventArgs e)
+        public void StartEditing(object sender, StartEditingEventArgs e)
         {
-            //unsubscribe all events for all the other pages
-
-            //Button Tag is the deck id
-            Content = DeckEditorPage = new DeckEditorUserControl(Int32.Parse((string)((Button)sender).Tag))
+            Content = DeckEditorPage = new DeckEditorUserControl(e.DeckId)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
             };
 
             DeckEditorPage.MakeMainPageVisible += GoToMainPageFromDeckEditor;
+            DeckEditorPage.BecameEdited += ChangeMainTitle;
             Title = "Memento - Deck Editor";
         }
 
         public void GoToMainPageFromDeckEditor(object sender, EventArgs e)
         {
             DeckEditorPage.MakeMainPageVisible -= GoToMainPageFromDeckEditor;
-            Content = MainPageContent;
+            DeckEditorPage.BecameEdited -= ChangeMainTitle;
+            Content = MainPage;
+            Title = "Memento";
         }
 
-        public void OpenSettings(object sender, RoutedEventArgs e)
+        public void ChangeMainTitle(object sender, CardEditedEventArgs e)
         {
-            Content = SettingsPage = new SettingsUserControl()
+            Title = e.Title;
+        }
+
+        public void OpenSettings(object sender, EventArgs e)
+        {
+            if (AppSettings is null)
+            {
+                AppSettings = new Settings();
+            }
+            Content = SettingsPage = new SettingsUserControl(AppSettings)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
             };
+
+            SettingsPage.MakeMainPageVisible += GoToMainPageFromSettings;
+            Title = "Memento - Settings";
+        }
+
+        public void GoToMainPageFromSettings(object sender, EventArgs e)
+        {
+            SettingsPage.MakeMainPageVisible -= GoToMainPageFromSettings;
+            Content = MainPage;
+            Title = "Memento";
         }
 
         private void OpenStatistics(object sender, RoutedEventArgs e)
