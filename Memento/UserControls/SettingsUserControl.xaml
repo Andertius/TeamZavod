@@ -7,6 +7,28 @@
              xmlns:dal="clr-namespace:Memento.DAL;assembly=Memento.DAL"
              mc:Ignorable="d" d:Background="White"
              d:DesignHeight="1080" d:DesignWidth="1920">
+
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="Line">
+            <Setter Property="Stroke" Value="Black" />
+            <Setter Property="StrokeThickness" Value="2" />
+            <Setter Property="Stretch" Value="Uniform" />
+        </Style>
+    </UserControl.Resources>
+
     <Grid x:Name="SettingsGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="18*" />
@@ -33,47 +55,79 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Button Grid.Row="3" FontFamily="Segoe MDL2 Assets" Content="&#xE72B;" Background="White" BorderBrush="White"
-                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Click="GoBackButton_Click">
+        <Button Grid.Row="3" FontFamily="Segoe MDL2 Assets" 
+                Content="&#xE72B;" 
+                Background="White" 
+                BorderBrush="White"
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Margin="10" 
+                Click="GoBackButton_Click">
             <Button.LayoutTransform>
                 <ScaleTransform ScaleX="3" ScaleY="3" />
             </Button.LayoutTransform>
         </Button>
 
 
-        <TextBlock Grid.Row="3" Grid.Column="2" Text="Customize your Memento" FontSize="42" HorizontalAlignment="Center" 
-                   VerticalAlignment="Center" Grid.ColumnSpan="3" />
-        <Line Grid.Row="4" Grid.Column="3" X1="0" Y1="1" X2="0" Y2="0" Stroke="Black" StrokeThickness="5" Stretch="Uniform" Grid.RowSpan="7" />
+        <TextBlock Grid.Row="3" Grid.Column="2" 
+                   Text="Customize your Memento" 
+                   FontSize="42" 
+                   Grid.ColumnSpan="3" />
+        <Line Grid.Row="4" Grid.Column="3" 
+              X1="0" Y1="1" X2="0" Y2="0"
+              StrokeThickness="5" 
+              Grid.RowSpan="7" />
 
-        <TextBlock Grid.Row="5" Grid.Column="1" Text="Daily Milestone (hrs)" FontSize="30" HorizontalAlignment="Center" 
-                   VerticalAlignment="Center" />
-        <TextBlock Grid.Row="7" Grid.Column="1" Text="Daily Milestone (cards)" FontSize="30" HorizontalAlignment="Center" 
-                   VerticalAlignment="Center" />
-        <TextBlock Grid.Row="9" Grid.Column="1" Text="Theme" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <StackPanel Grid.Row="5" Grid.Column="2" Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBox AcceptsReturn="True" BorderThickness="0" FontSize="30"
-                     HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="HrsTextBox" />
-            <Line X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="2" Stretch="Uniform" />
+        <TextBlock Grid.Row="5" Grid.Column="1" 
+                   Text="Daily Milestone (hrs)"  />
+        <TextBlock Grid.Row="7" Grid.Column="1" 
+                   Text="Daily Milestone (cards)" />
+        <TextBlock Grid.Row="9" Grid.Column="1" 
+                   Text="Theme" />
+        <StackPanel Grid.Row="5" Grid.Column="2" 
+                    Orientation="Vertical"  
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <TextBox Text="{Binding AppSettings.HoursPerDay}"
+                    x:Name="HrsTextBox" />
+            <Line X1="0" Y1="0" X2="1" Y2="0" />
         </StackPanel>
-        <StackPanel Grid.Row="7" Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBox AcceptsReturn="True" BorderThickness="0" FontSize="30" HorizontalAlignment="Center" 
-                     VerticalAlignment="Center" x:Name="CardsTextBox" />
-            <Line X1="0" Y1="0" X2="1" Y2="0" Stroke="Black" StrokeThickness="2" Stretch="Uniform" />
+        <StackPanel Grid.Row="7" Grid.Column="2" 
+                    Orientation="Vertical" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center">
+            <TextBox Text="{Binding AppSettings.CardsPerDay}"
+                     x:Name="CardsTextBox" />
+            <Line X1="0" Y1="0" X2="1" Y2="0" />
         </StackPanel>
-        <ComboBox Grid.Row="9" Grid.Column="2" Height="50" x:Name="ThemeCombox" SelectionChanged="Theme_SelectionChanged"
+        
+        <ComboBox Grid.Row="9" Grid.Column="2" 
+                  Height="50" 
+                  x:Name="ThemeCombox" 
+                  SelectionChanged="Theme_SelectionChanged"
                   DropDownClosed="Theme_DropDownClosed">
             <TextBlock Text="Light" FontSize="26" />
             <TextBlock Text="Dark" FontSize="26" />
         </ComboBox>
-        <TextBlock Grid.Row="6" Grid.Column="4" Text="Card Order" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <TextBlock Grid.Row="8" Grid.Column="4" Text="Show Card Images" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <ComboBox Grid.Row="6" Grid.Column="5" Height="50" x:Name="CardOrderCombox">
+        
+        <TextBlock Grid.Row="6" Grid.Column="4" 
+                   Text="Card Order" />
+        <TextBlock Grid.Row="8" Grid.Column="4" 
+                   Text="Show Card Images" />
+        
+        <ComboBox Grid.Row="6" Grid.Column="5" 
+                  Height="50" 
+                  x:Name="CardOrderCombox">
             <TextBlock Text="Random" FontSize="26" />
             <TextBlock Text="Ascending" FontSize="26" />
             <TextBlock Text="Descending" FontSize="26" />
         </ComboBox>
-        <CheckBox Grid.Row="8" Grid.Column="5"  HorizontalAlignment="Center" VerticalAlignment="Center" 
-                  x:Name="ImagesCheckBox">
+        
+        <CheckBox Grid.Row="8" Grid.Column="5"  
+                  HorizontalAlignment="Center" 
+                  VerticalAlignment="Center" 
+                  x:Name="ImagesCheckBox"
+                  IsChecked="{Binding AppSettings.ShowImages}">
             <CheckBox.LayoutTransform>
                 <ScaleTransform ScaleX="3" ScaleY="3" />
             </CheckBox.LayoutTransform>

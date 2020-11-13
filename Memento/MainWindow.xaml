@@ -3,13 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Memento"
-        xmlns:dal="clr-namespace:Memento.DAL;assembly=Memento.DAL"
         mc:Ignorable="d" d:Background="White"
         Title="Memento" WindowState="Maximized"
         d:DesignHeight="1080" d:DesignWidth="1920">
 
     <Grid>
-        
+       
     </Grid>
 </Window>

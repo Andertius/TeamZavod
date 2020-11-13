@@ -53,8 +53,8 @@
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="BorderBrush" TargetName="border" Value="#FF33962B"/>
-                                <Setter Property="Background" TargetName="border" Value="Pink"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="MidnightBlue"/>
+                                <Setter Property="Background" TargetName="border" Value="LightBlue"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Opacity" TargetName="grid" Value="0.25"/>

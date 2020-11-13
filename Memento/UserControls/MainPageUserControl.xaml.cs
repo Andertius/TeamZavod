@@ -39,19 +39,19 @@ namespace Memento.UserControls
         public event EventHandler<StartEditingEventArgs> StartEditingEvent;
         public event EventHandler OpenSettingsEvent;
 
-        public void Guide_Click(object sender, RoutedEventArgs e)
+        private void Guide_Click(object sender, RoutedEventArgs e)
         {
             HelpMenu.Visibility = Visibility.Hidden;
         }
 
-        public void About_Click(object sender, RoutedEventArgs e)
+        private void About_Click(object sender, RoutedEventArgs e)
         {
             HelpMenu.Visibility = Visibility.Hidden;
             AboutWindow aboutWindow = new AboutWindow();
             aboutWindow.ShowDialog();
         }
 
-        public void SupportUs_Click(object sender, RoutedEventArgs e)
+        private void SupportUs_Click(object sender, RoutedEventArgs e)
         {
             HelpMenu.Visibility = Visibility.Hidden;
         }
@@ -73,12 +73,12 @@ namespace Memento.UserControls
             }
         }
 
-        public void StartLearning(object sender, RoutedEventArgs e)
+        private void StartLearning(object sender, RoutedEventArgs e)
         {
 
         }
 
-        public void StartEditing(object sender, RoutedEventArgs e)
+        private void StartEditing(object sender, RoutedEventArgs e)
         {
             if (PickDeckCombox.SelectedItem is Deck deck)
             {
@@ -90,7 +90,7 @@ namespace Memento.UserControls
             }
         }
 
-        public void OpenSettings(object sender, RoutedEventArgs e)
+        private void OpenSettings(object sender, RoutedEventArgs e)
         {
             OpenSettingsEvent?.Invoke(this, EventArgs.Empty);
         }

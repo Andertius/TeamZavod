@@ -21,36 +21,38 @@ namespace Memento.UserControls
     {
         public SettingsUserControl(Settings settings)
         {
+            DataContext = this;
             InitializeComponent();
             AppSettings = settings;
-            HrsTextBox.Text = AppSettings.HoursPerDay.ToString();
-            CardsTextBox.Text = AppSettings.CardsPerDay.ToString();
-            ThemeCombox.SelectedIndex = AppSettings.AppTheme == Theme.Light ? 0 : 1;
-            CardOrderCombox.SelectedIndex = AppSettings.CardsOrder == CardOrder.Random ? 0 : AppSettings.CardsOrder == CardOrder.Ascending ?
-                1 : 2;
-            if (AppSettings.ShowImages)
-                ImagesCheckBox.IsChecked = true;
-            else
-                ImagesCheckBox.IsChecked = false;
+            ThemeCombox.SelectedIndex = (int)AppSettings.Theme;
+            CardOrderCombox.SelectedIndex = (int)AppSettings.CardOrder;
         }
+        static private readonly DependencyProperty AppSettingsProperty = DependencyProperty.Register(nameof(AppSettings), typeof(Settings),
+            typeof(SettingsUserControl), new PropertyMetadata(new Settings()));
 
         public event EventHandler MakeMainPageVisible;
 
-        public Settings AppSettings { get; set; }
+        public Settings AppSettings
+        {
+            get => (Settings)GetValue(AppSettingsProperty);
+            private set => SetValue(AppSettingsProperty, value);
+        }
         public Theme AppTheme { get; set; }
         private bool handle = false;
 
         public void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
-            double hoursPerDay;
-            bool isOkHrs = Double.TryParse(HrsTextBox.Text, out hoursPerDay);
+            bool isOkHrs = Double.TryParse(HrsTextBox.Text, out double hoursPerDay);
             if (hoursPerDay < 0 || hoursPerDay > 24)
+            {
                 isOkHrs = false;
+            }
 
-            int cardsPerDay;
-            bool isOkCardsNum = Int32.TryParse(CardsTextBox.Text, out cardsPerDay);
+            bool isOkCardsNum = Int32.TryParse(CardsTextBox.Text, out int cardsPerDay);
             if (cardsPerDay < 0 || cardsPerDay > 1000)
+            {
                 isOkCardsNum = false;
+            }
 
             if (isOkHrs && isOkCardsNum)
             {
@@ -61,9 +63,9 @@ namespace Memento.UserControls
 
                 AppSettings.HoursPerDay = hoursPerDay;
                 AppSettings.CardsPerDay = cardsPerDay;
-                AppSettings.CardsOrder = cardsOrder;
+                AppSettings.CardOrder = cardsOrder;
                 AppSettings.ShowImages = showImages;
-                AppSettings.AppTheme = AppTheme;
+                AppSettings.Theme = AppTheme;
                 MakeMainPageVisible?.Invoke(this, EventArgs.Empty);
             }
             else
