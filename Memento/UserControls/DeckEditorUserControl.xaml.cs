@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -23,6 +25,7 @@ namespace Memento.UserControls
 
         private bool handle = true;
         private bool isCardEdited = false;
+        private bool isDeckEdited = false;
 
         private string lastSavedWord = "";
         private string lastSavedDescription = "";
@@ -35,12 +38,21 @@ namespace Memento.UserControls
             DataContext = this;
             InitializeComponent();
 
-            DeckEditor = new DeckEditor(deckId);
+            if (deckId == -1)
+            {
+                DeckEditor = new DeckEditor();
+            }
+            else
+            {
+                DeckEditor = new DeckEditor(deckId);
+            }
 
             CardAdded += DeckEditor.AddCard;
             CardUpdated += DeckEditor.UpdateCard;
             CardRemoved += DeckEditor.RemoveCard;
             DeckChanged += DeckEditor.ChangeDeck;
+            DeckChanged += ChangeTitleOnChangedDeck;
+            DeckRemoved += DeckEditor.RemoveDeck;
             ChangesSaved += DeckEditor.SaveChanges;
 
             var dp = DependencyPropertyDescriptor.FromProperty(TextBox.TextProperty, typeof(TextBox));
@@ -134,7 +146,10 @@ namespace Memento.UserControls
             });
 
             DecksCombox.SelectedValue = DeckEditor.Deck;
+            Cards = Repository.FetchAllCards().ToList();
         }
+
+        public List<Card> Cards { get; set; }
 
         public DeckEditor DeckEditor
         {
@@ -159,11 +174,32 @@ namespace Memento.UserControls
 
                     if (isCardEdited == true)
                     {
-                        BecameEdited?.Invoke(this, new CardEditedEventArgs("Memento - Deck Editor*"));
+                        TitleChanged?.Invoke(this, new ChangeTitleEventArgs($"Memento - Deck Editor - {DeckEditor.Deck.DeckName}*"));
                     }
                     else
                     {
-                        BecameEdited?.Invoke(this, new CardEditedEventArgs("Memento - Deck Editor"));
+                        TitleChanged?.Invoke(this, new ChangeTitleEventArgs($"Memento - Deck Editor - {DeckEditor.Deck.DeckName}"));
+                    }
+                }
+            }
+        }
+
+        public bool IsDeckEdited
+        {
+            get => isDeckEdited;
+            private set
+            {
+                if (isDeckEdited != value)
+                {
+                    isDeckEdited = value;
+
+                    if (isDeckEdited == true)
+                    {
+                        TitleChanged?.Invoke(this, new ChangeTitleEventArgs($"Memento - Deck Editor - {DeckEditor.Deck.DeckName}*"));
+                    }
+                    else
+                    {
+                        TitleChanged?.Invoke(this, new ChangeTitleEventArgs($"Memento - Deck Editor - {DeckEditor.Deck.DeckName}"));
                     }
                 }
             }
@@ -174,15 +210,16 @@ namespace Memento.UserControls
         public event EventHandler<DeckEditorRemoveCardEventArgs> CardRemoved;
         public event EventHandler<DeckEditorDeckEventArgs> DeckChanged;
         public event EventHandler<DeckEditorDeckEventArgs> ChangesSaved;
+        public event EventHandler<RemoveDeckEditorDeckEventArgs> DeckRemoved;
 
-        public event EventHandler<CardEditedEventArgs> BecameEdited;
+        public event EventHandler<ChangeTitleEventArgs> TitleChanged;
         public event EventHandler MakeMainPageVisible;
 
         public void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
-            if (IsCardEdited)
+            if (IsCardEdited || IsDeckEdited)
             {
-                var result = MessageBox.Show("You have unsaved change. Do you wish to save them?", "Warning", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                var result = MessageBox.Show("You have unsaved changes. Do you wish to save them?", "Warning", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
 
                 if (result == MessageBoxResult.Yes)
                 {
@@ -199,13 +236,31 @@ namespace Memento.UserControls
 
         public void NewCard(object sender, RoutedEventArgs e)
         {
-            if (IsCardEdited && ShowSaveWarning())
+            if (IsCardEdited && ShowSaveWarning(false))
             {
                 return;
             }
 
-            CurrentCard = new Card();
-            CardImage.Source = null;
+            ClearCard();
+            ChangeLastSaved();
+        }
+
+        public void NewExistingCard(object sender, RoutedEventArgs e)
+        {
+            if (IsCardEdited && ShowSaveWarning(false))
+            {
+                return;
+            }
+
+            var cardsWindow = new AllCardsWindow(Cards);
+            cardsWindow.ShowDialog();
+
+            if (!(cardsWindow.SelectedCard is null))
+            {
+                ChangeCard(cardsWindow.SelectedCard);
+                IsCardEdited = true;
+                IsDeckEdited = true;
+            }
         }
 
         public void SaveCard(object sender, RoutedEventArgs e)
@@ -213,13 +268,16 @@ namespace Memento.UserControls
             if (DeckEditor.Deck.Contains(CurrentCard))
             {
                 CardUpdated?.Invoke(this, new DeckEditorCardEventArgs(CurrentCard));
+                Cards[Cards.IndexOf(CurrentCard)] = new Card(CurrentCard);
             }
             else
             {
                 CardAdded?.Invoke(this, new DeckEditorCardEventArgs(CurrentCard));
+                Cards.Add(CurrentCard);
             }
 
             ChangeLastSaved();
+            IsDeckEdited = true;
         }
 
         public void SaveCardCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -246,18 +304,21 @@ namespace Memento.UserControls
 
         private void Handle()
         {
-            if (IsCardEdited && ShowSaveWarning())
+            if ((IsCardEdited || IsDeckEdited) && ShowSaveWarning(true))
             {
                 return;
             }
 
-            var deck = DecksCombox.SelectedItem as Deck;
-            DeckChanged?.Invoke(this, new DeckEditorDeckEventArgs(Repository.FetchDeck(deck.DeckName)));
+            if (DecksCombox.SelectedItem is Deck deck)
+            {
+                DeckChanged?.Invoke(this, new DeckEditorDeckEventArgs(Repository.FetchDeck(deck.DeckName)));
+            }
         }
 
         public void RemoveCard(object sender, RoutedEventArgs e)
         {
             CardRemoved?.Invoke(this, new DeckEditorRemoveCardEventArgs(CurrentCard));
+            IsDeckEdited = true;
         }
 
         public void RemoveCardCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -269,29 +330,22 @@ namespace Memento.UserControls
         {
             SaveCard(this, new RoutedEventArgs());
             ChangesSaved?.Invoke(this, new DeckEditorDeckEventArgs(DeckEditor.Deck));
+            IsDeckEdited = false;
+        }
+
+        public void SaveDeckCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = IsDeckEdited && DeckEditor.Deck.DeckName != String.Empty;
         }
 
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (IsCardEdited && ShowSaveWarning())
+            if (IsCardEdited && ShowSaveWarning(false))
             {
                 return;
             }
 
-            CurrentCard = DeckEditor.Deck[DeckEditor.Deck.IndexOf((Card)CardsDataGrid.SelectedItem)];
-
-            try
-            {
-                CardImage.Source = String.IsNullOrWhiteSpace(CurrentCard.ImagePath)
-                    ? null
-                    : (ImageSource)new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{CurrentCard.ImagePath}")));
-
-                ChangeLastSaved();
-            }
-            catch (UriFormatException)
-            {
-                MessageBox.Show("Image path does not exist", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            ChangeCard(DeckEditor.Deck[DeckEditor.Deck.IndexOf((Card)CardsDataGrid.SelectedItem)]);
         }
 
         private void ImageButton_Click(object sender, RoutedEventArgs e)
@@ -327,13 +381,19 @@ namespace Memento.UserControls
             IsCardEdited = false;
         }
 
-        private bool ShowSaveWarning()
+        private bool ShowSaveWarning(bool saveDeck)
         {
             var result = MessageBox.Show("You have unsaved change. Do you wish to save them?", "Warning", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
 
             if (result == MessageBoxResult.Yes)
             {
                 SaveCard(this, new RoutedEventArgs());
+
+                if (saveDeck)
+                {
+                    SaveDeck(this, new RoutedEventArgs());
+                }
+
                 return false;
             }
             else if (result == MessageBoxResult.No)
@@ -349,6 +409,87 @@ namespace Memento.UserControls
         private bool CompareImages(Image img)
         {
             return img.Source is null && lastSavedImageSource is null || (img.Source == lastSavedImageSource);
+        }
+
+        private void NewDeckButton_Click(object sender, RoutedEventArgs e)
+        {
+            if ((IsCardEdited || IsDeckEdited) && ShowSaveWarning(true))
+            {
+                return;
+            }
+
+            var newDeckWindow = new NewDeckWindow();
+            newDeckWindow.ShowDialog();
+
+            if (newDeckWindow.DeckName != String.Empty)
+            {
+                var newDeck = new Deck() { DeckName = newDeckWindow.DeckName, TagName = newDeckWindow.TagName };
+
+                if (DeckEditor.AllDecks.Contains(newDeck))
+                {
+                    MessageBox.Show($"The Deck {newDeck.DeckName} already exists", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                DeckChanged?.Invoke(this, new DeckEditorDeckEventArgs(newDeck));
+                ChangesSaved?.Invoke(this, new DeckEditorDeckEventArgs(newDeck));
+                ClearCard();
+                ChangeLastSaved();
+                DecksCombox.SelectedItem = DeckEditor.AllDecks.ElementAt(DeckEditor.AllDecks.IndexOf(newDeck));
+            }
+        }
+
+        private void RemoveDeck(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show($"Are you sure you want to delete {DeckEditor.Deck.DeckName}?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                var args = new RemoveDeckEditorDeckEventArgs(DeckEditor.Deck);
+                DeckRemoved?.Invoke(this, args);
+                
+                if (args.Removed)
+                {
+                    DeckEditor.AllDecks.Remove(DeckEditor.Deck);
+                    DeckChanged?.Invoke(this, new DeckEditorDeckEventArgs(new Deck()));
+                    ClearCard();
+                    ChangeLastSaved();
+                }
+            }
+        }
+
+        public void RemoveDeckCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = DeckEditor.Deck.DeckName != String.Empty;
+        }
+
+        private void ClearCard()
+        {
+            CurrentCard = new Card();
+            CardImage.Source = null;
+        }
+
+        private void ChangeCard(Card card)
+        {
+            CurrentCard = new Card(card);
+
+            try
+            {
+                CardImage.Source = String.IsNullOrWhiteSpace(CurrentCard.ImagePath)
+                    ? null
+                    : (ImageSource)new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{CurrentCard.ImagePath}")));
+
+                ChangeLastSaved();
+            }
+            catch (UriFormatException)
+            {
+                MessageBox.Show("Image path does not exist", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ChangeTitleOnChangedDeck(object sender, DeckEditorDeckEventArgs e)
+        {
+            TitleChanged?.Invoke(this, new ChangeTitleEventArgs($"Memento - Deck Editor - {DeckEditor.Deck.DeckName}"));
         }
     }
 }

@@ -144,7 +144,7 @@ namespace Memento.DAL
             => obj is Deck deck && Equals(deck);
 
         public bool Equals(Deck deck)
-            => Id == deck.Id;
+            => DeckName == deck.DeckName;
 
         public IEnumerator<Card> GetEnumerator()
             => Cards.GetEnumerator();

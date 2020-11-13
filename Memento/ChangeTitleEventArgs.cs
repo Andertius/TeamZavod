@@ -2,9 +2,9 @@
 
 namespace Memento
 {
-    public class CardEditedEventArgs : EventArgs
+    public class ChangeTitleEventArgs : EventArgs
     {
-        public CardEditedEventArgs(string title)
+        public ChangeTitleEventArgs(string title)
         {
             Title = title;
         }
