@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
-using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -23,8 +21,6 @@ namespace Memento.DAL
                 var help = context.Cards.FromSqlInterpolated($"SELECT Card_Table.card_id, description, difficulty_level, image_path, transcription, word FROM Card_Table, Deck_To_Card_Table WHERE Deck_To_Card_Table.card_id = Card_Table.card_id AND Deck_To_Card_Table.deck_id = (SELECT deck_id FROM Deck_Table  WHERE deck_name = {deckName})").ToList();
                 foreach (var item in help)
                 {
-                    //Difficulty diff
-
                     crd = new Card
                     {
                         Id = item.Id,
@@ -32,19 +28,11 @@ namespace Memento.DAL
                         Description = item.Description,
                         ImagePath = item.ImagePath,
                         Transcription = item.Transcription,
-                        Difficulty = item.Difficulty switch
-                        {
-                            "none" => Difficulty.None,
-                            "beginner" => Difficulty.Beginner,
-                            "advanced" => Difficulty.Advanced,
-                            "intermediate" => Difficulty.Intermediate,
-                            _ => throw new NotSupportedException("Not valid difficulty level")
-                        }
 
+                        Difficulty = DifficultyConverter.ToDifficultyConverter(item.Difficulty)
                     };
 
                     cards.Add(crd);
-
                 }
 
                 for (int i = 0; i < cards.Count; i++)
@@ -83,69 +71,55 @@ namespace Memento.DAL
             using var context = new CardsContext();
             context.Database.Migrate();
 
-            if (context.Database.CanConnect())
+            var cards = new List<Card>();
+
+            Card crd = new Card();
+
+            var help = context.Cards.FromSqlInterpolated($"SELECT Card_Table.card_id, description, difficulty_level, image_path, transcription, word FROM Card_Table, Deck_To_Card_Table WHERE Deck_To_Card_Table.card_id = Card_Table.card_id AND Deck_To_Card_Table.deck_id = (SELECT deck_id FROM Deck_Table  WHERE deck_id = {id})").ToList();
+
+            foreach (var item in help)
             {
-                var cards = new List<Card>();
-
-                Card crd = new Card();
-
-                var help = context.Cards.FromSqlInterpolated($"SELECT Card_Table.card_id, description, difficulty_level, image_path, transcription, word FROM Card_Table, Deck_To_Card_Table WHERE Deck_To_Card_Table.card_id = Card_Table.card_id AND Deck_To_Card_Table.deck_id = (SELECT deck_id FROM Deck_Table  WHERE deck_id = {id})").ToList();
-
-                foreach (var item in help)
+                crd = new Card
                 {
-                    //Difficulty diff
+                    Id = item.Id,
+                    Word = item.Word,
+                    Description = item.Description,
+                    ImagePath = item.ImagePath,
+                    Transcription = item.Transcription,
 
-                    crd = new Card
-                    {
-                        Id = item.Id,
-                        Word = item.Word,
-                        Description = item.Description,
-                        ImagePath = item.ImagePath,
-                        Transcription = item.Transcription,
-                        Difficulty = item.Difficulty switch
-                        {
-                            "none" => Difficulty.None,
-                            "beginner" => Difficulty.Beginner,
-                            "advanced" => Difficulty.Advanced,
-                            "intermediate" => Difficulty.Intermediate,
-                            _ => throw new NotSupportedException("Not valid difficulty level")
-                        }
+                    Difficulty = DifficultyConverter.ToDifficultyConverter(item.Difficulty)
+                };
 
-                    };
-
-                    cards.Add(crd);
-
-                }
-
-                for (int i = 0; i < cards.Count; i++)
-                {
-                    var tags = context.Tags.Where(x => x.CardID == cards[i].Id).ToList();
-                    List<string> answerTags = new List<string>();
-
-                    foreach (var item in tags)
-                    {
-                        //перевірка чи пустий
-                        answerTags.Add(item.TagName);
-                    }
-
-                    cards[i].Tags = new List<string>(answerTags);
-                }
-
-                var deckdetails = context.Decks.Where(x => x.Id == id).ToList();
-
-                var deck = new Deck();
-
-                foreach (var item in deckdetails)
-                {
-                    deck.TagName = item.TagName;
-                    deck.Id = item.Id;
-                    deck.DeckName = item.DeckName;
-                    deck.AddRange(cards);
-                }
-
-                return deck;
+                cards.Add(crd);
             }
-            return new Deck();
+
+            for (int i = 0; i < cards.Count; i++)
+            {
+                var tags = context.Tags.Where(x => x.CardID == cards[i].Id).ToList();
+                List<string> answerTags = new List<string>();
+
+                foreach (var item in tags)
+                {
+                    //перевірка чи пустий
+                    answerTags.Add(item.TagName);
+                }
+
+                cards[i].Tags = new List<string>(answerTags);
+            }
+
+            var deckdetails = context.Decks.Where(x => x.Id == id).ToList();
+
+            var deck = new Deck();
+
+            foreach (var item in deckdetails)
+            {
+                deck.TagName = item.TagName;
+                deck.Id = item.Id;
+                deck.DeckName = item.DeckName;
+                deck.AddRange(cards);
+            }
+
+            return deck;
         }
 
         public static Card FetchCard(int id)
@@ -153,55 +127,37 @@ namespace Memento.DAL
             using var context = new CardsContext();
             context.Database.Migrate();
 
-            if (context.Database.CanConnect())
+            Card crd = new Card();
+
+            var help = context.Cards.FromSqlInterpolated($"SELECT * FROM \"Card_Table\" WHERE card_id = {id}").ToList();
+
+            foreach (var item in help)
             {
-                Card crd = new Card();
-
-                var help = context.Cards.FromSqlInterpolated($"SELECT * FROM \"Card_Table\" WHERE card_id = {id}").ToList();
-
-                foreach (var item in help)
+                crd = new Card
                 {
-                    //Difficulty diff
+                    Id = item.Id,
+                    Word = item.Word,
+                    Description = item.Description,
+                    ImagePath = item.ImagePath,
+                    Transcription = item.Transcription,
 
-                    crd = new Card
-                    {
-                        Id = item.Id,
-                        Word = item.Word,
-                        Description = item.Description,
-                        ImagePath = item.ImagePath,
-                        Transcription = item.Transcription,
-
-                        //написати статичний інтернал клас який конвертує Difficulty в стрінг і навпаки
-
-                        Difficulty = item.Difficulty switch
-                        {
-                            "none" => Difficulty.None,
-                            "beginner" => Difficulty.Beginner,
-                            "advanced" => Difficulty.Advanced,
-                            "intermediate" => Difficulty.Intermediate,
-                            _ => throw new NotSupportedException("Not valid difficulty level")
-                        }
-
-                    };
-
-                }
-
-                var tags = context.Tags.FromSqlInterpolated($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {id}").ToList();
-
-                List<string> answerTags = new List<string>();
-
-                foreach(var item in tags)
-                {
-                    //перевірка чи пустий
-                    answerTags.Add(item.TagName);
-                }
-
-                crd.Tags = new List<string>(answerTags);
-
-                return crd;
+                    Difficulty = DifficultyConverter.ToDifficultyConverter(item.Difficulty)
+                };
             }
 
-            return new Card();
+            var tags = context.Tags.FromSqlInterpolated($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {id}").ToList();
+
+            List<string> answerTags = new List<string>();
+
+            foreach(var item in tags)
+            {
+                //перевірка чи пустий
+                answerTags.Add(item.TagName);
+            }
+
+            crd.Tags = new List<string>(answerTags);
+
+            return crd;
         }
 
         public static IEnumerable<Deck> FetchAllDecks()
@@ -223,7 +179,6 @@ namespace Memento.DAL
                 };
 
                 received_data.Add(deck);
-
             }
 
             return received_data;
@@ -232,98 +187,71 @@ namespace Memento.DAL
         public static IEnumerable<Card> FetchAllCards()
         {
             using var context = new CardsContext();
-            context.Database.Migrate();
+            //context.Database.Migrate();
 
-            if (context.Database.CanConnect())
+            var cards = new List<Card>();
+
+            Card crd = new Card();
+
+            var help = context.Cards.FromSqlInterpolated($"SELECT * FROM Card_Table").ToList();
+
+            foreach (var item in help)
             {
-                var cards = new List<Card>();
-
-                Card crd = new Card();
-
-                var help = context.Cards.FromSqlInterpolated($"SELECT * FROM Card_Table").ToList();
-
-                foreach (var item in help)
+                crd = new Card
                 {
-                    //Difficulty diff
+                    Id = item.Id,
+                    Word = item.Word,
+                    Description = item.Description,
+                    ImagePath = item.ImagePath,
+                    Transcription = item.Transcription,
 
-                    crd = new Card
-                    {
-                        Id = item.Id,
-                        Word = item.Word,
-                        Description = item.Description,
-                        ImagePath = item.ImagePath,
-                        Transcription = item.Transcription,
-                        Difficulty = item.Difficulty switch
-                        {
-                            "none" => Difficulty.None,
-                            "beginner" => Difficulty.Beginner,
-                            "advanced" => Difficulty.Advanced,
-                            "intermediate" => Difficulty.Intermediate,
-                            _ => throw new NotSupportedException("Not valid difficulty level")
-                        }
+                    Difficulty = DifficultyConverter.ToDifficultyConverter(item.Difficulty)
+                };
 
-                    };
-
-                    cards.Add(crd);
-
-                }
-
-                for (int i = 0; i < cards.Count; i++)
-                {
-                    var tags = context.Tags.FromSqlInterpolated($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {cards[i].Id}").ToList();
-                    List<string> answerTags = new List<string>();
-
-                    foreach (var item in tags)
-                    {
-                        //перевірка чи пустий
-                        answerTags.Add(item.TagName);
-                    }
-
-                    cards[i].Tags = new List<string>(answerTags);
-                }
-
-                return cards;
+                cards.Add(crd);
             }
 
-            return new List<Card>();
+            for (int i = 0; i < cards.Count; i++)
+            {
+                var tags = context.Tags.FromSqlInterpolated($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {cards[i].Id}").ToList();
+                List<string> answerTags = new List<string>();
+
+                foreach (var item in tags)
+                {
+                    //перевірка чи пустий
+                    answerTags.Add(item.TagName);
+                }
+
+                cards[i].Tags = new List<string>(answerTags);
+            }
+
+            return cards;
         }
 
         public static void AddCard(Card card)
         {
-            //returns the id of the newly created card
-            using (var context = new CardsContext())
+            using var context = new CardsContext();
+            var com = context.Cards.FromSqlRaw("SELECT * FROM \"Card_Table\" ORDER BY card_id DESC LIMIT 1").ToList();
+
+            string diff = "";
+
+            foreach (var item in com)
             {
-                //context.Database.Migrate();
-
-                var com = context.Cards.FromSqlRaw("SELECT * FROM \"Card_Table\" ORDER BY card_id DESC LIMIT 1").ToList();
-
-                string diff = "";
-
-                foreach (var item in com)
-                {
-
-                    diff = card.Difficulty switch
-                    {
-                        Difficulty.None => "none",
-                        Difficulty.Beginner => "beginner",
-                        Difficulty.Intermediate => "intermediate",
-                        Difficulty.Advanced => "advanced",
-                        _ => throw new NotSupportedException("Not valid difficulty level"),
-                    };
-                }
-
-                context.Database.ExecuteSqlInterpolated($"INSERT INTO Card_Table (image_path, word, transcription, description, difficulty_level) VALUES({card.ImagePath}, {card.Word}, {card.Transcription}, {card.Description}, {diff})");
-                    //$"VALUES('{card.ImagePath}', '{card.Word}', '{card.Transcription}', '{card.Description}', '{diff}')");
-
-                //context.Cards.Add(new CardModel { ImagePath = card.ImagePath, Word = card.Word, Transcription = card.Transcription, Description = card.Description, Difficulty = diff });
-
-                //context.SaveChanges();
-
-                com = context.Cards.FromSqlRaw("SELECT * FROM \"Card_Table\" ORDER BY card_id DESC LIMIT 1").ToList();
-
-                card.Id = com[0].Id;
-
+                diff = DifficultyConverter.ToStringConverter(card.Difficulty);
             }
+
+            context.Database.ExecuteSqlInterpolated($"INSERT INTO Card_Table (image_path, word, transcription, description, difficulty_level) VALUES({card.ImagePath}, {card.Word}, {card.Transcription}, {card.Description}, {diff})");
+
+            com = context.Cards.FromSqlRaw("SELECT * FROM \"Card_Table\" ORDER BY card_id DESC LIMIT 1").ToList();
+
+            card.Id = com[0].Id;
+
+            for (int i = 0; i < card.Tags.Count; i++)
+            {
+                AddTagToCard(card.Id, card.Tags[i].Trim());
+            }
+
+            context.SaveChanges();
         }
 
         public static void RemoveCard(int id)
@@ -331,12 +259,12 @@ namespace Memento.DAL
             using var context = new CardsContext();
             context.Database.Migrate();
 
-            Console.WriteLine(context.Database.CanConnect());
-
             context.Database.ExecuteSqlInterpolated($"DELETE FROM Tag_To_Card_Table WHERE card_id = {id}");
             context.Database.ExecuteSqlInterpolated($"DELETE FROM Deck_To_Card_Table WHERE card_id = {id}");
             context.Database.ExecuteSqlInterpolated($"DELETE FROM Card_Table WHERE card_id = {id}");
-           
+
+            var check = context.Cards.ToList();
+
             context.SaveChanges();
         }
 
@@ -352,14 +280,9 @@ namespace Memento.DAL
                 cardForUpdate.ImagePath = card.ImagePath;
                 cardForUpdate.Transcription = card.Transcription;
                 cardForUpdate.Word = card.Word;
-                cardForUpdate.Difficulty = card.Difficulty switch
-                {
-                    Difficulty.None => "none",
-                    Difficulty.Beginner => "beginner",
-                    Difficulty.Intermediate => "intermediate",
-                    Difficulty.Advanced => "advanced",
-                    _ => throw new NotSupportedException("Not valid difficulty level"),
-                };
+
+                cardForUpdate.Difficulty = DifficultyConverter.ToStringConverter(card.Difficulty);
+
                 context.SaveChanges();
             }
 
@@ -374,7 +297,6 @@ namespace Memento.DAL
             context.Database.ExecuteSqlInterpolated($"INSERT INTO Tag_To_Card_Table (tag_name, card_id) VALUES ('{tagName}', {cardId})");
 
             context.SaveChanges();
-
         }
 
         public static void RemoveTagFromCard(int cardId, string tagName)
@@ -382,6 +304,12 @@ namespace Memento.DAL
             using var context = new CardsContext();
             context.Database.Migrate();
 
+            //var tag = context.Tags.Where(x => x.CardID == cardId && x.TagName == tagName).FirstOrDefault();
+
+            //context.Tags.Remove(tag);
+            //var test = context.Tags.Find(tagName, cardId);
+
+            //Console.WriteLine($"{test.CardID}");
             context.Database.ExecuteSqlInterpolated($"DELETE FROM Tag_To_Card_Table WHERE card_id = {cardId} AND tag_name = {tagName}");
 
             context.SaveChanges();
@@ -397,6 +325,11 @@ namespace Memento.DAL
             context.SaveChanges();
 
             deck.Id = context.Decks.OrderByDescending(x => x.Id).FirstOrDefault().Id;
+
+            for (int i = 0; i < deck.Cards.Count; i++)
+            {
+                AddCardToDeck(deck.Id, deck.Cards[i].Id);
+            }
 
             //TODO: write loop that adds relationship between cards and decks
 
@@ -454,11 +387,19 @@ namespace Memento.DAL
             using var context = new CardsContext();
             context.Database.Migrate();
 
-            Console.WriteLine(context.Database.CanConnect());
-
             context.Database.ExecuteSqlInterpolated($"DELETE FROM Deck_To_Card_Table WHERE card_id = {cardId} AND deck_id = {deckId}");
 
             context.SaveChanges();
+        }
+
+        public static IEnumerable<string> FetchAllTags()
+        {
+            using var context = new CardsContext();
+            context.Database.Migrate();
+
+            var cont = context.Tags.Select(x => x.TagName).ToList();
+
+            return cont;
         }
     }
 }

@@ -7,10 +7,10 @@ namespace Memento.DAL
 {
     class DeckToCardModel
     {
-        [Column("card_id")]
+        [Column("deck_id")]
         public int DeckID { get; set; }
 
-        [Column("deck_id")]
+        [Column("card_id")]
         public int CardID { get; set; }
 
         //[ForeignKey("CardModel")]
