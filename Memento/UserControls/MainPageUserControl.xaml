@@ -117,6 +117,7 @@
             <Button Grid.Row="3" 
                     Content="Statistics" 
                     VerticalAlignment="Bottom"
+                    Click="OpenStatistics"
                     Style="{DynamicResource MainPageButtons}" />
             <Line Grid.Row="4"
                   X1="0" Y1="0" X2="1" Y2="0" 

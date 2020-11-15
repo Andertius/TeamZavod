@@ -34,6 +34,7 @@ namespace Memento
 
             MainPage.StartEditingEvent += StartEditing;
             MainPage.OpenSettingsEvent += OpenSettings;
+            MainPage.OpenStatisticsEvent += OpenStatistics;
 
             IsInEditor = false;
             IsInLearningProcess = false;
@@ -49,6 +50,7 @@ namespace Memento
         public MainPageUserControl MainPage { get; set; }
         public DeckEditorUserControl DeckEditorPage { get; set; }
         public SettingsUserControl SettingsPage { get; set; }
+        public StatisticsUserControl StatisticsPage { get; set; }
 
         private void StartLearning(object sender, RoutedEventArgs e)
         {
@@ -109,6 +111,24 @@ namespace Memento
         private void GoToMainPageFromSettings(object sender, EventArgs e)
         {
             SettingsPage.MakeMainPageVisible -= GoToMainPageFromSettings;
+            Content = MainPage;
+            Title = "Memento";
+        }
+
+        private void OpenStatistics(object sender, EventArgs e)
+        {
+            Content = StatisticsPage = new StatisticsUserControl(1.5, 3, 26)
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
+            StatisticsPage.MakeMainPageVisible += GoToMainPageFromStatistics;
+            Title = "Memento - Statistics";
+        }
+
+        public void GoToMainPageFromStatistics(object sender, EventArgs e)
+        {
+            StatisticsPage.MakeMainPageVisible -= GoToMainPageFromStatistics;
             Content = MainPage;
             Title = "Memento";
         }
