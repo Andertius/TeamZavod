@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -328,14 +329,22 @@ namespace Memento.UserControls
 
         public void SaveDeck(object sender, RoutedEventArgs e)
         {
-            SaveCard(this, new RoutedEventArgs());
+            if (DeckEditor.Deck.DeckName == String.Empty)
+            {
+                var cards = new ObservableCollection<Card>(DeckEditor.Deck.Cards);
+                IsDeckEdited = false;
+                NewDeckButton_Click(this, new RoutedEventArgs());
+                DeckChanged?.Invoke(this, new DeckEditorDeckEventArgs(DeckEditor.Deck));
+                DeckEditor.Deck.Clear();
+                DeckEditor.Deck.AddRange(cards);
+            }
+
             ChangesSaved?.Invoke(this, new DeckEditorDeckEventArgs(DeckEditor.Deck));
-            IsDeckEdited = false;
         }
 
         public void SaveDeckCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = IsDeckEdited && DeckEditor.Deck.DeckName != String.Empty;
+            e.CanExecute = IsDeckEdited;
         }
 
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
@@ -383,7 +392,7 @@ namespace Memento.UserControls
 
         private bool ShowSaveWarning(bool saveDeck)
         {
-            var result = MessageBox.Show("You have unsaved change. Do you wish to save them?", "Warning", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+            var result = MessageBox.Show("You have unsaved changes. Do you wish to save them?", "Warning", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
 
             if (result == MessageBoxResult.Yes)
             {
