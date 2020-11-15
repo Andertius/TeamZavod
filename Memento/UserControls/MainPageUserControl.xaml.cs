@@ -38,6 +38,7 @@ namespace Memento.UserControls
 
         public event EventHandler<StartEditingEventArgs> StartEditingEvent;
         public event EventHandler OpenSettingsEvent;
+        public event EventHandler OpenStatisticsEvent;
 
         private void Guide_Click(object sender, RoutedEventArgs e)
         {
@@ -87,6 +88,11 @@ namespace Memento.UserControls
         private void OpenSettings(object sender, RoutedEventArgs e)
         {
             OpenSettingsEvent?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void OpenStatistics(object sender, RoutedEventArgs e)
+        {
+            OpenStatisticsEvent?.Invoke(this, EventArgs.Empty);
         }
     }
 }
