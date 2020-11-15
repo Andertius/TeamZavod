@@ -131,9 +131,7 @@ namespace DatabaseHandler
 
         static void Main()
         {
-            var smth = Repository.FetchDeck("Fruits");
-
-            //smth.Cards.ForEach(x => Console.WriteLine($"{x.Id}"));
+            //Repository.RemoveCard(3);
 
         }
     }

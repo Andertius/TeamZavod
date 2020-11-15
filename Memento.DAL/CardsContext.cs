@@ -34,13 +34,13 @@ namespace Memento.DAL
             modelBuilder.Entity<DeckToCardModel>()
                 .HasOne(p => p.Card)
                 .WithMany(b => b.Decks)
-                .HasForeignKey(b => b.CardId)
+                .HasForeignKey(b => b.CardID)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<DeckToCardModel>()
-                .HasOne(p => p.Card)
-                .WithMany(b => b.Decks)
-                .HasForeignKey(b => b.DeckId)
+                .HasOne(p => p.Deck)
+                .WithMany(b => b.Cards)
+                .HasForeignKey(b => b.DeckID)
                 .OnDelete(DeleteBehavior.Cascade);
 
             //modelBuilder.Entity<CardModel>()
