@@ -12,11 +12,20 @@
         <CommandBinding Command="{x:Static local:Commands.NewCardCommand}"
                         Executed="NewCard"/>
         
+        <CommandBinding Command="{x:Static local:Commands.NewExistingCardCommand}"
+                        Executed="NewExistingCard"/>
+        
         <CommandBinding Command="{x:Static local:Commands.SaveCardCommand}"
                         Executed="SaveCard" CanExecute="SaveCardCommand_CanExecute"/>
 
         <CommandBinding Command="{x:Static local:Commands.RemoveCardCommand}"
                         Executed="RemoveCard" CanExecute="RemoveCardCommand_CanExecute"/>
+
+        <CommandBinding Command="{x:Static local:Commands.SaveDeckCommand}"
+                        Executed="SaveDeck" CanExecute="SaveDeckCommand_CanExecute"/>
+
+        <CommandBinding Command="{x:Static local:Commands.RemoveDeckCommand}"
+                        Executed="RemoveDeck" CanExecute="RemoveDeckCommand_CanExecute"/>
     </UserControl.CommandBindings>
 
     <UserControl.Resources>
@@ -40,7 +49,6 @@
                             <Trigger Property="IsChecked" Value="true">
                                 <Setter TargetName="DifficultyText" Property="FontWeight" Value="Bold"/>
                                 <Setter TargetName="DifficultyText" Property="TextDecorations" Value="Underline"/>
-                                <!--<Setter TargetName="DifficultyText" Property="Border" Value="None"/>-->
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -252,17 +260,20 @@
                            HorizontalAlignment="Right" VerticalAlignment="Bottom"
                            Margin="0 0 5 3" Foreground="DarkGray" x:Name="DescriptionLimit"/>
             </Grid>
-            
-            <Button Grid.Row="5" Content="Exit" Width="100" Height="20" HorizontalAlignment="Left"
-                    x:Name="GoBackButton" Click="GoBackButton_Click"/>
+
+            <Button Grid.Row="4" Content="&#xE72B;" FontFamily="Segoe MDL2 Assets"
+                    HorizontalAlignment="Left" Grid.RowSpan="2" VerticalAlignment="Bottom"
+                    x:Name="GoBackButton" Click="GoBackButton_Click"
+                    Background="White" BorderBrush="White">
+                <Button.LayoutTransform>
+                    <ScaleTransform ScaleX="3" ScaleY="3" />
+                </Button.LayoutTransform>
+            </Button>
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="3">
             <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="*"/>
@@ -272,23 +283,44 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <ComboBox Grid.Row="0" Width="100" Margin="0 0 25 0" x:Name="DecksCombox"
+            <StackPanel Grid.Row="0">
+                <ComboBox Width="100" Margin="0 0 25 20" x:Name="DecksCombox"
                       SelectionChanged="ComboBox_SelectionChanged"
                       DropDownClosed="ComboBox_DropDownClosed"
                       ItemsSource="{Binding DeckEditor.AllDecks}" HorizontalAlignment="Left"/>
 
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="New Card" Width="100" Margin="0 0 15 0"
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                            Margin="0 0 0 20">
+                    <Button x:Name="NewDeckButton" Width="100" Margin="0 0 15 0"
+                        Content="New Deck" Click="NewDeckButton_Click"/>
+
+                    <Button x:Name="SaveDeckButton" Width="100" Margin="0 0 15 0"
+                        Content="Save Deck" Command="{x:Static local:Commands.SaveDeckCommand}"/>
+
+                    <Button x:Name="RemoveDeckButton" Width="100"
+                        Content="Remove Deck" Command="{x:Static local:Commands.RemoveDeckCommand}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                            Margin="0 0 0 20">
+                    <Button Content="New Card" Width="100" Margin="0 0 15 0"
                         Command="{x:Static local:Commands.NewCardCommand}"/>
-                
-                <Button Content="Save Card" Width="100" Margin="0 0 15 0"
+
+                    <Button Content="New Existing Card" Width="120"
+                        Command="{x:Static local:Commands.NewExistingCardCommand}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                            Margin="0 0 0 20">
+                    <Button Content="Save Card" Width="100" Margin="0 0 15 0"
                         Command="{x:Static local:Commands.SaveCardCommand}"/>
 
-                <Button Content="Remove Card" Width="100" Margin="0 0 15 0"
+                    <Button Content="Remove Card" Width="100"
                         Command="{x:Static local:Commands.RemoveCardCommand}"/>
+                </StackPanel>
             </StackPanel>
 
-            <StackPanel Grid.Row="4" Orientation="Horizontal">
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <StackPanel.Resources>
                     <local:IntStringConverter x:Key="intStringConverter"/>
                 </StackPanel.Resources>
@@ -298,7 +330,7 @@
             </StackPanel>
 
             <DataGrid ItemsSource="{Binding DeckEditor.Deck.Cards}" IsReadOnly="True"
-                          x:Name="CardsDataGrid" AutoGenerateColumns="False" Grid.Row="6">
+                          x:Name="CardsDataGrid" AutoGenerateColumns="False" Grid.Row="3">
                 <DataGrid.ItemContainerStyle>
                     <Style TargetType="DataGridRow">
                         <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
@@ -306,13 +338,14 @@
                 </DataGrid.ItemContainerStyle>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Card" Binding="{Binding Path=Word}"/>
+                    <DataGridTextColumn Header="Card" Binding="{Binding Path=Word}"
+                                        Width="350"/>
                 </DataGrid.Columns>
             </DataGrid>
 
-            <TextBlock Grid.Row="8" Text="Tags:"/>
+            <TextBlock Grid.Row="5" Text="Tags:"/>
             
-            <ScrollViewer Grid.Row="10">
+            <ScrollViewer Grid.Row="7">
                 <!--<DataGrid ItemsSource="{Binding DeckEditor.Deck}" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Path=Cards.Word}"/>

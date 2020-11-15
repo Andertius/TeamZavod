@@ -80,9 +80,29 @@ namespace Memento.BLL
             Deck = new Deck(e.Deck);
         }
 
+        public void RemoveDeck(object sender, RemoveDeckEditorDeckEventArgs e)
+        {
+            if (e.Deck.Id != -1)
+            {
+                Repository.RemoveDeck(e.Deck.Id);
+                e.Removed = true;
+                return;
+            }
+
+            throw new DeckNotFoundException();
+        }
+
         public void SaveChanges(object sender, DeckEditorDeckEventArgs e)
         {
-            Repository.UpdateDeck(e.Deck.Id, e.Deck);
+            if (e.Deck.Id == -1)
+            {
+                Repository.AddDeck(e.Deck);
+                AllDecks.Add(e.Deck);
+            }
+            else
+            {
+                Repository.UpdateDeck(e.Deck.Id, e.Deck);
+            }
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")

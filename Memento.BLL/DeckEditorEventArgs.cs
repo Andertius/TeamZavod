@@ -33,4 +33,16 @@ namespace Memento.BLL
 
         public Deck Deck { get; set; }
     }
+
+    public class RemoveDeckEditorDeckEventArgs : EventArgs
+    {
+        public RemoveDeckEditorDeckEventArgs(Deck deck)
+        {
+            Deck = new Deck(deck);
+            Removed = false;
+        }
+
+        public Deck Deck { get; set; }
+        public bool Removed { get; set; }
+    }
 }

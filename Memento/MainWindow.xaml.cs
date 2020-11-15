@@ -52,13 +52,13 @@ namespace Memento
         public SettingsUserControl SettingsPage { get; set; }
         public StatisticsUserControl StatisticsPage { get; set; }
 
-        public void StartLearning(object sender, RoutedEventArgs e)
+        private void StartLearning(object sender, RoutedEventArgs e)
         {
             LearningProcess = new AppHandler((int)((Button)sender).Tag);
             LearningProcess.Start(SettingsPage.AppSettings.CardOrder, SettingsPage.AppSettings.ShowImages);
         }
 
-        public void StartEditing(object sender, StartEditingEventArgs e)
+        private void StartEditing(object sender, StartEditingEventArgs e)
         {
             Content = DeckEditorPage = new DeckEditorUserControl(e.DeckId)
             {
@@ -67,24 +67,32 @@ namespace Memento
             };
 
             DeckEditorPage.MakeMainPageVisible += GoToMainPageFromDeckEditor;
-            DeckEditorPage.BecameEdited += ChangeMainTitle;
-            Title = "Memento - Deck Editor";
+            DeckEditorPage.TitleChanged += ChangeMainTitle;
+
+            if (e.DeckId == -1)
+            {
+                Title = "Memento - Deck Editor -";
+            }
+            else
+            {
+                Title = $"Memento - Deck Editor - {DeckEditorPage.DeckEditor.Deck.DeckName}";
+            }
         }
 
-        public void GoToMainPageFromDeckEditor(object sender, EventArgs e)
+        private void GoToMainPageFromDeckEditor(object sender, EventArgs e)
         {
             DeckEditorPage.MakeMainPageVisible -= GoToMainPageFromDeckEditor;
-            DeckEditorPage.BecameEdited -= ChangeMainTitle;
+            DeckEditorPage.TitleChanged -= ChangeMainTitle;
             Content = MainPage;
             Title = "Memento";
         }
 
-        public void ChangeMainTitle(object sender, CardEditedEventArgs e)
+        private void ChangeMainTitle(object sender, ChangeTitleEventArgs e)
         {
             Title = e.Title;
         }
 
-        public void OpenSettings(object sender, EventArgs e)
+        private void OpenSettings(object sender, EventArgs e)
         {
             if (AppSettings is null)
             {
@@ -100,7 +108,7 @@ namespace Memento
             Title = "Memento - Settings";
         }
 
-        public void GoToMainPageFromSettings(object sender, EventArgs e)
+        private void GoToMainPageFromSettings(object sender, EventArgs e)
         {
             SettingsPage.MakeMainPageVisible -= GoToMainPageFromSettings;
             Content = MainPage;

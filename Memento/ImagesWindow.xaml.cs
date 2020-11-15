@@ -92,7 +92,7 @@ namespace Memento
             {
                 if (item.Key.ToLower().Contains(SearchTextBox.Text.ToLower()))
                 {
-                    var stackPanel = new StackPanel() { Margin = new Thickness(0, 0, 10, 10) };
+                    var stackPanel = new StackPanel() { Margin = new Thickness(0, 0, 10, 10), MaxWidth = 100 };
                     string path = Path.Combine("images", item.Value);
 
                     var finalImage = new Button
@@ -104,7 +104,7 @@ namespace Memento
 
                     finalImage.Click += ChooseFile;
 
-                    var imageName = new TextBlock() { Text = item.Key, HorizontalAlignment = HorizontalAlignment.Center };
+                    var imageName = new TextBlock() { Text = item.Key, HorizontalAlignment = HorizontalAlignment.Center, TextWrapping = TextWrapping.Wrap };
                     stackPanel.Children.Add(finalImage);
                     stackPanel.Children.Add(imageName);
 

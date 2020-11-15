@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Memento"
-        mc:Ignorable="d"
-        Title="About Developers" Height="450" Width="400">
+        mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Title="About Developers" Height="562" Width="500">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -13,14 +13,17 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text=" Our Team" FontSize="30" />
+        <TextBlock Text="Me and the boys" FontSize="30" HorizontalAlignment="Center"
+                   VerticalAlignment="Center" />
+
         <Image Grid.Row="1" x:Name="Img">
             <Image.Source>
-                <BitmapImage UriSource="Images/team.png" />
+                <BitmapImage UriSource="team.png"/>
             </Image.Source>
         </Image>
-        <Button Grid.Row="2" Content="Close" Height="20" Width="75" HorizontalAlignment="Left" Margin="298,15,0,15" 
-                RenderTransformOrigin="0.667,0.616" Click="Close_Click" />
+        <Button Grid.Row="2" Content="Close" Height="20" Width="75" HorizontalAlignment="Right" Margin="0,0,40,0" 
+                RenderTransformOrigin="0.667,0.616" Click="Close_Click"
+                VerticalAlignment="Center" />
 
     </Grid>
 </Window>

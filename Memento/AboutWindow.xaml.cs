@@ -19,6 +19,7 @@ namespace Memento
     {
         public AboutWindow()
         {
+            DataContext = this;
             InitializeComponent();
         }
 

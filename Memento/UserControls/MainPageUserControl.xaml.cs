@@ -81,8 +81,14 @@ namespace Memento.UserControls
 
         private void StartEditing(object sender, RoutedEventArgs e)
         {
-            var deck = PickDeckCombox.SelectedItem as Deck;
-            StartEditingEvent?.Invoke(this, new StartEditingEventArgs(deck.Id));
+            if (PickDeckCombox.SelectedItem is Deck deck)
+            {
+                StartEditingEvent?.Invoke(this, new StartEditingEventArgs(deck.Id));
+            }
+            else
+            {
+                StartEditingEvent?.Invoke(this, new StartEditingEventArgs());
+            }
         }
 
         private void OpenSettings(object sender, RoutedEventArgs e)
