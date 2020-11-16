@@ -7,6 +7,15 @@ namespace Memento.DAL
 {
     class DeckToCardModel
     {
+        public DeckToCardModel()
+        { }
+
+        public DeckToCardModel(int deckId, int cardId)
+        {
+            DeckID = deckId;
+            CardID = cardId;
+        }
+
         [Column("deck_id")]
         public int DeckID { get; set; }
 

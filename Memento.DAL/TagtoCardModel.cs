@@ -6,8 +6,17 @@ using System.Text;
 
 namespace Memento.DAL
 {
-    class TagtoCardModel
+    class TagToCardModel
     {
+        public TagToCardModel()
+        { }
+
+        public TagToCardModel(int cardId, string tag)
+        {
+            CardID = cardId;
+            TagName = tag;
+        }
+
         [Column("tag_name")]
         public string TagName { get; set; }
 

@@ -28,7 +28,7 @@ namespace Memento.DAL
         public string ImagePath { get; set; }
 
         //[ForeignKey("CardModelFK")]
-        public List<TagtoCardModel> Tags { get; set; }
+        public List<TagToCardModel> Tags { get; set; }
         public List<DeckToCardModel> Decks { get; set; }
     }
 }

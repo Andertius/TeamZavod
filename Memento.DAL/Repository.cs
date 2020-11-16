@@ -346,7 +346,8 @@ namespace Memento.DAL
             using var context = new CardsContext();
             context.Database.Migrate();
 
-            context.Database.ExecuteSqlInterpolated($"INSERT INTO Tag_To_Card_Table (tag_name, card_id) VALUES ('{tagName}', {cardId})");
+            //context.Database.ExecuteSqlInterpolated($"INSERT INTO Tag_To_Card_Table (tag_name, card_id) VALUES ('{tagName}', {cardId})");
+            context.Tags.Add(new TagToCardModel(cardId, tagName));
 
             context.SaveChanges();
         }
@@ -469,7 +470,8 @@ namespace Memento.DAL
 
             Console.WriteLine(context.Database.CanConnect());
 
-            context.Database.ExecuteSqlInterpolated($"INSERT INTO Deck_To_Card_Table (card_id, deck_id), VALUES('{cardId}', '{deckId}'");
+            //context.Database.ExecuteSqlInterpolated($"INSERT INTO Deck_To_Card_Table (card_id, deck_id), VALUES('{cardId}', '{deckId}'");
+            context.DeckToCards.Add(new DeckToCardModel(deckId, cardId));
 
             //вернути нову деку
 
