@@ -103,7 +103,7 @@ namespace Memento
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch
             };
-
+ 
             SettingsPage.MakeMainPageVisible += GoToMainPageFromSettings;
             Title = "Memento - Settings";
         }
@@ -116,7 +116,8 @@ namespace Memento
         }
 
         private void OpenStatistics(object sender, EventArgs e)
-        {
+        {   
+
             Content = StatisticsPage = new StatisticsUserControl(1.5, 3, 26)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,

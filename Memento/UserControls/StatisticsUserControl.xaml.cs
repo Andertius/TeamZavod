@@ -38,8 +38,9 @@ namespace Memento.UserControls
             todaytimespent = todayspent;
             cardslearnedtoday = cardsperday;
             AverageTimePerDay.Text = Convert.ToString(Math.Round(avgtime, 2));
-            CardLearned.Text = Convert.ToString(cardsperday);
-            TodayTimeSpent.Text = Convert.ToString(Math.Round(todayspent, 2));
+            TTSProgress.Maximum = Memento.UserControls.SettingsUserControl.
+            //CardLearned.Text = Convert.ToString(cardsperday);
+            //TodayTimeSpent.Text = Convert.ToString(Math.Round(todayspent, 2));
             //this.PreviewKeyDown += new KeyEventHandler(HandleEsc);
             timer.Interval = new TimeSpan(0, 0, 5);
             timer.Start();
@@ -49,7 +50,7 @@ namespace Memento.UserControls
         private void UpdatePage(object source, EventArgs e)
         {
             todaytimespent += 0.0013;
-            TodayTimeSpent.Text = Convert.ToString(Math.Round(todaytimespent, 2));
+            //TodayTimeSpent.Text = Convert.ToString(Math.Round(todaytimespent, 2));
         }
 
 

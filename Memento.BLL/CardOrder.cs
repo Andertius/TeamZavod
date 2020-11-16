@@ -1,4 +1,4 @@
-﻿namespace Memento.DAL
+﻿namespace Memento.BLL
 {
     public enum CardOrder
     {

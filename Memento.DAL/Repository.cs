@@ -275,11 +275,12 @@ namespace Memento.DAL
         {
             using var context = new CardsContext();
 
+            var cardForUpdate = context.Cards.Find(id);
+
             switch (options)
             {
                 case UpdateCardOptions.UpdateContent:
-                    var cardForUpdate = context.Cards.Find(id);
-
+                    
                     if (cardForUpdate != null)
                     {
                         cardForUpdate.Description = card.Description;
@@ -294,6 +295,38 @@ namespace Memento.DAL
 
                     break;
 
+                case UpdateCardOptions.UpdateTags:
+                    if(cardForUpdate != null)
+                    {
+                        for (int i = 0; i < card.Tags.Count; i++)
+                        {
+                            AddTagToCard(cardForUpdate.Id, card.Tags[i]);
+                        }
+
+                        context.SaveChanges();
+                    }
+
+                    break;
+
+                case UpdateCardOptions.UpdateAll:
+                    if (cardForUpdate != null)
+                    {
+                        cardForUpdate.Description = card.Description;
+                        cardForUpdate.ImagePath = card.ImagePath;
+                        cardForUpdate.Transcription = card.Transcription;
+                        cardForUpdate.Word = card.Word;
+
+                        cardForUpdate.Difficulty = DifficultyConverter.ToStringConverter(card.Difficulty);
+
+                        for (int i = 0; i < card.Tags.Count; i++)
+                        {
+                            AddTagToCard(cardForUpdate.Id, card.Tags[i]);
+                        }
+
+                        context.SaveChanges();
+                    }
+
+                    break;
             }
 
             ////TODO: create enum Update card options (update content, update tags, update all)

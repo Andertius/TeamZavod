@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Memento.DAL
+using Memento.DAL;
+
+namespace Memento.BLL
 {
     public class Settings
     {
