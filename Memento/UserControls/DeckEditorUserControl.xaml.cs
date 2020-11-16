@@ -21,18 +21,15 @@ namespace Memento.UserControls
         private static readonly DependencyProperty DeckEditorProperty = DependencyProperty.Register(nameof(DeckEditor), typeof(DeckEditor), typeof(DeckEditorUserControl),
             new PropertyMetadata(new DeckEditor()));
 
-        private static readonly DependencyProperty CurrentCardProperty = DependencyProperty.Register(nameof(CurrentCard), typeof(Card), typeof(DeckEditorUserControl),
-            new PropertyMetadata(new Card()));
-
         private bool handle = true;
         private bool isCardEdited = false;
-        private bool isDeckEdited = false;
 
         private string lastSavedWord = "";
         private string lastSavedDescription = "";
         private string lastSavedTranscription = "";
         private ImageSource lastSavedImageSource;
         private Difficulty lastSavedDifficulty = Difficulty.None;
+        private List<string> lastSavedTags = new List<string>();
 
         public DeckEditorUserControl(int deckId)
         {
@@ -51,8 +48,12 @@ namespace Memento.UserControls
             CardAdded += DeckEditor.AddCard;
             CardUpdated += DeckEditor.UpdateCard;
             CardRemoved += DeckEditor.RemoveCard;
+            CardChanged += DeckEditor.ChangeCard;
+            CardCleared += DeckEditor.ClearCard;
+            CardCleared += ClearImageAndTags;
             DeckChanged += DeckEditor.ChangeDeck;
             DeckChanged += ChangeTitleOnChangedDeck;
+            DeckChanged += ClearImageAndTags;
             DeckRemoved += DeckEditor.RemoveDeck;
             ChangesSaved += DeckEditor.SaveChanges;
 
@@ -100,7 +101,7 @@ namespace Memento.UserControls
 
             dpRadioButton.AddValueChanged(BeginnerButton, (sender, args) =>
             {
-                if ((bool)BeginnerButton.IsChecked && CurrentCard.Difficulty != lastSavedDifficulty)
+                if ((bool)BeginnerButton.IsChecked && DeckEditor.CurrentCard.Difficulty != lastSavedDifficulty)
                 {
                     IsCardEdited = true;
                 }
@@ -112,7 +113,7 @@ namespace Memento.UserControls
 
             dpRadioButton.AddValueChanged(IntermediateButton, (sender, args) =>
             {
-                if ((bool)IntermediateButton.IsChecked && CurrentCard.Difficulty != lastSavedDifficulty)
+                if ((bool)IntermediateButton.IsChecked && DeckEditor.CurrentCard.Difficulty != lastSavedDifficulty)
                 {
                     IsCardEdited = true;
                 }
@@ -124,7 +125,7 @@ namespace Memento.UserControls
 
             dpRadioButton.AddValueChanged(AdvancedButton, (sender, args) =>
             {
-                if ((bool)AdvancedButton.IsChecked && CurrentCard.Difficulty != lastSavedDifficulty)
+                if ((bool)AdvancedButton.IsChecked && DeckEditor.CurrentCard.Difficulty != lastSavedDifficulty)
                 {
                     IsCardEdited = true;
                 }
@@ -136,7 +137,7 @@ namespace Memento.UserControls
 
             dpRadioButton.AddValueChanged(NoneButton, (sender, args) =>
             {
-                if ((bool)NoneButton.IsChecked && CurrentCard.Difficulty != lastSavedDifficulty)
+                if ((bool)NoneButton.IsChecked && DeckEditor.CurrentCard.Difficulty != lastSavedDifficulty)
                 {
                     IsCardEdited = true;
                 }
@@ -147,21 +148,16 @@ namespace Memento.UserControls
             });
 
             DecksCombox.SelectedValue = DeckEditor.Deck;
-            Cards = Repository.FetchAllCards().ToList();
-        }
+            RenderTags(this, EventArgs.Empty);
 
-        public List<Card> Cards { get; set; }
+            var dp2 = DependencyPropertyDescriptor.FromProperty(TextBox.TextProperty, typeof(TextBox));
+            dp2.AddValueChanged(SearchTextBox, RenderTags);
+        }
 
         public DeckEditor DeckEditor
         {
             get => (DeckEditor)GetValue(DeckEditorProperty);
             set => SetValue(DeckEditorProperty, value);
-        }
-
-        public Card CurrentCard
-        {
-            get => (Card)GetValue(CurrentCardProperty);
-            set => SetValue(CurrentCardProperty, value);
         }
 
         public bool IsCardEdited
@@ -185,30 +181,11 @@ namespace Memento.UserControls
             }
         }
 
-        public bool IsDeckEdited
-        {
-            get => isDeckEdited;
-            private set
-            {
-                if (isDeckEdited != value)
-                {
-                    isDeckEdited = value;
-
-                    if (isDeckEdited == true)
-                    {
-                        TitleChanged?.Invoke(this, new ChangeTitleEventArgs($"Memento - Deck Editor - {DeckEditor.Deck.DeckName}*"));
-                    }
-                    else
-                    {
-                        TitleChanged?.Invoke(this, new ChangeTitleEventArgs($"Memento - Deck Editor - {DeckEditor.Deck.DeckName}"));
-                    }
-                }
-            }
-        }
-
         public event EventHandler<DeckEditorCardEventArgs> CardAdded;
         public event EventHandler<DeckEditorCardEventArgs> CardUpdated;
         public event EventHandler<DeckEditorRemoveCardEventArgs> CardRemoved;
+        public event EventHandler<DeckEditorCardEventArgs> CardChanged;
+        public event EventHandler CardCleared;
         public event EventHandler<DeckEditorDeckEventArgs> DeckChanged;
         public event EventHandler<DeckEditorDeckEventArgs> ChangesSaved;
         public event EventHandler<RemoveDeckEditorDeckEventArgs> DeckRemoved;
@@ -218,13 +195,13 @@ namespace Memento.UserControls
 
         public void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
-            if (IsCardEdited || IsDeckEdited)
+            if (IsCardEdited)
             {
                 var result = MessageBox.Show("You have unsaved changes. Do you wish to save them?", "Warning", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    SaveDeck(this, new RoutedEventArgs());
+                    SaveCard(this, new RoutedEventArgs());
                 }
                 else if (result == MessageBoxResult.Cancel)
                 {
@@ -237,75 +214,82 @@ namespace Memento.UserControls
 
         public void NewCard(object sender, RoutedEventArgs e)
         {
-            if (IsCardEdited && ShowSaveWarning(false))
+            if (IsCardEdited && ShowSaveWarning())
             {
                 return;
             }
 
-            ClearCard();
+            CardCleared?.Invoke(this, EventArgs.Empty);
             ChangeLastSaved();
         }
 
         public void NewExistingCard(object sender, RoutedEventArgs e)
         {
-            if (IsCardEdited && ShowSaveWarning(false))
+            if (IsCardEdited && ShowSaveWarning())
             {
                 return;
             }
 
-            var cardsWindow = new AllCardsWindow(Cards);
+            var cardsWindow = new AllCardsWindow(DeckEditor.Cards);
             cardsWindow.ShowDialog();
 
             if (!(cardsWindow.SelectedCard is null))
             {
                 ChangeCard(cardsWindow.SelectedCard);
                 IsCardEdited = true;
-                IsDeckEdited = true;
             }
         }
 
         public void SaveCard(object sender, RoutedEventArgs e)
         {
-            if (DeckEditor.Deck.Contains(CurrentCard))
+            if (DeckEditor.Deck.Contains(DeckEditor.CurrentCard))
             {
-                CardUpdated?.Invoke(this, new DeckEditorCardEventArgs(CurrentCard));
-                Cards[Cards.IndexOf(CurrentCard)] = new Card(CurrentCard);
+                CardUpdated?.Invoke(this, new DeckEditorCardEventArgs(DeckEditor.CurrentCard));
+                DeckEditor.Cards[DeckEditor.Cards.IndexOf(DeckEditor.CurrentCard)] = new Card(DeckEditor.CurrentCard);
             }
             else
             {
-                CardAdded?.Invoke(this, new DeckEditorCardEventArgs(CurrentCard));
-                Cards.Add(CurrentCard);
+                CardAdded?.Invoke(this, new DeckEditorCardEventArgs(DeckEditor.CurrentCard));
+                DeckEditor.Cards.Add(DeckEditor.CurrentCard);
             }
 
+            foreach (var tag in DeckEditor.CurrentCard.Tags)
+            {
+                if (!DeckEditor.Tags.Contains(tag))
+                {
+                    DeckEditor.Tags.Add(tag);
+                }
+            }
+
+            RenderCurrentCardTags(sender, e);
             ChangeLastSaved();
-            IsDeckEdited = true;
         }
 
         public void SaveCardCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = CurrentCard.Word != String.Empty && CurrentCard.Description != String.Empty && IsCardEdited;
+            e.CanExecute = DeckEditor.CurrentCard.Word != String.Empty && DeckEditor.CurrentCard.Description != String.Empty && IsCardEdited;
         }
 
         private void ComboBox_DropDownClosed(object sender, EventArgs e)
         {
             if (handle)
             {
-                Handle();
+                ChangeDeck();
             }
 
-            handle = true;
+            //handle = true;
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cmb = sender as ComboBox;
             handle = !cmb.IsDropDownOpen;
-            Handle();
+            ChangeDeck();
         }
 
-        private void Handle()
+        private void ChangeDeck()
         {
-            if ((IsCardEdited || IsDeckEdited) && ShowSaveWarning(true))
+            if ((IsCardEdited) && ShowSaveWarning())
             {
                 return;
             }
@@ -313,43 +297,23 @@ namespace Memento.UserControls
             if (DecksCombox.SelectedItem is Deck deck)
             {
                 DeckChanged?.Invoke(this, new DeckEditorDeckEventArgs(Repository.FetchDeck(deck.DeckName)));
+                IsCardEdited = false;
             }
         }
 
         public void RemoveCard(object sender, RoutedEventArgs e)
         {
-            CardRemoved?.Invoke(this, new DeckEditorRemoveCardEventArgs(CurrentCard));
-            IsDeckEdited = true;
+            CardRemoved?.Invoke(this, new DeckEditorRemoveCardEventArgs(DeckEditor.CurrentCard));
         }
 
         public void RemoveCardCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DeckEditor.Deck.Contains(CurrentCard);
-        }
-
-        public void SaveDeck(object sender, RoutedEventArgs e)
-        {
-            if (DeckEditor.Deck.DeckName == String.Empty)
-            {
-                var cards = new ObservableCollection<Card>(DeckEditor.Deck.Cards);
-                IsDeckEdited = false;
-                NewDeckButton_Click(this, new RoutedEventArgs());
-                DeckChanged?.Invoke(this, new DeckEditorDeckEventArgs(DeckEditor.Deck));
-                DeckEditor.Deck.Clear();
-                DeckEditor.Deck.AddRange(cards);
-            }
-
-            ChangesSaved?.Invoke(this, new DeckEditorDeckEventArgs(DeckEditor.Deck));
-        }
-
-        public void SaveDeckCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = IsDeckEdited;
+            e.CanExecute = DeckEditor.Deck.Contains(DeckEditor.CurrentCard);
         }
 
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (IsCardEdited && ShowSaveWarning(false))
+            if (IsCardEdited && ShowSaveWarning())
             {
                 return;
             }
@@ -376,33 +340,29 @@ namespace Memento.UserControls
 
         private bool CheckForEdition()
         {
-            return CurrentCard.Word != lastSavedWord || CurrentCard.Description != lastSavedDescription || CurrentCard.Transcription != lastSavedTranscription ||
-                CurrentCard.Difficulty != lastSavedDifficulty || !CompareImages(CardImage);
+            return DeckEditor.CurrentCard.Word != lastSavedWord || DeckEditor.CurrentCard.Description != lastSavedDescription ||
+                DeckEditor.CurrentCard.Transcription != lastSavedTranscription || DeckEditor.CurrentCard.Difficulty != lastSavedDifficulty ||
+                !CompareImages(CardImage) || DeckEditor.CurrentCard.Tags.SequenceEqual(lastSavedTags);
         }
 
         private void ChangeLastSaved()
         {
-            lastSavedWord = CurrentCard.Word;
-            lastSavedDescription = CurrentCard.Description;
-            lastSavedTranscription = CurrentCard.Transcription;
+            lastSavedWord = DeckEditor.CurrentCard.Word;
+            lastSavedDescription = DeckEditor.CurrentCard.Description;
+            lastSavedTranscription = DeckEditor.CurrentCard.Transcription;
             lastSavedImageSource = CardImage.Source;
-            lastSavedDifficulty = CurrentCard.Difficulty;
+            lastSavedDifficulty = DeckEditor.CurrentCard.Difficulty;
+            lastSavedTags = new List<string>(DeckEditor.CurrentCard.Tags);
             IsCardEdited = false;
         }
 
-        private bool ShowSaveWarning(bool saveDeck)
+        private bool ShowSaveWarning()
         {
             var result = MessageBox.Show("You have unsaved changes. Do you wish to save them?", "Warning", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
 
             if (result == MessageBoxResult.Yes)
             {
                 SaveCard(this, new RoutedEventArgs());
-
-                if (saveDeck)
-                {
-                    SaveDeck(this, new RoutedEventArgs());
-                }
-
                 return false;
             }
             else if (result == MessageBoxResult.No)
@@ -422,7 +382,7 @@ namespace Memento.UserControls
 
         private void NewDeckButton_Click(object sender, RoutedEventArgs e)
         {
-            if ((IsCardEdited || IsDeckEdited) && ShowSaveWarning(true))
+            if (IsCardEdited && ShowSaveWarning())
             {
                 return;
             }
@@ -442,7 +402,7 @@ namespace Memento.UserControls
 
                 DeckChanged?.Invoke(this, new DeckEditorDeckEventArgs(newDeck));
                 ChangesSaved?.Invoke(this, new DeckEditorDeckEventArgs(newDeck));
-                ClearCard();
+                CardCleared?.Invoke(this, EventArgs.Empty);
                 ChangeLastSaved();
                 DecksCombox.SelectedItem = DeckEditor.AllDecks.ElementAt(DeckEditor.AllDecks.IndexOf(newDeck));
             }
@@ -456,12 +416,12 @@ namespace Memento.UserControls
             {
                 var args = new RemoveDeckEditorDeckEventArgs(DeckEditor.Deck);
                 DeckRemoved?.Invoke(this, args);
-                
+
                 if (args.Removed)
                 {
                     DeckEditor.AllDecks.Remove(DeckEditor.Deck);
                     DeckChanged?.Invoke(this, new DeckEditorDeckEventArgs(new Deck()));
-                    ClearCard();
+                    CardCleared?.Invoke(this, EventArgs.Empty);
                     ChangeLastSaved();
                 }
             }
@@ -472,21 +432,22 @@ namespace Memento.UserControls
             e.CanExecute = DeckEditor.Deck.DeckName != String.Empty;
         }
 
-        private void ClearCard()
+        private void ClearImageAndTags(object sender, EventArgs e)
         {
-            CurrentCard = new Card();
             CardImage.Source = null;
+            RenderCurrentCardTags(sender, e);
         }
 
         private void ChangeCard(Card card)
         {
-            CurrentCard = new Card(card);
+            CardChanged?.Invoke(this, new DeckEditorCardEventArgs(card));
+            RenderCurrentCardTags(this, EventArgs.Empty);
 
             try
             {
-                CardImage.Source = String.IsNullOrWhiteSpace(CurrentCard.ImagePath)
+                CardImage.Source = String.IsNullOrWhiteSpace(DeckEditor.CurrentCard.ImagePath)
                     ? null
-                    : (ImageSource)new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{CurrentCard.ImagePath}")));
+                    : (ImageSource)new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{DeckEditor.CurrentCard.ImagePath}")));
 
                 ChangeLastSaved();
             }
@@ -499,6 +460,167 @@ namespace Memento.UserControls
         private void ChangeTitleOnChangedDeck(object sender, DeckEditorDeckEventArgs e)
         {
             TitleChanged?.Invoke(this, new ChangeTitleEventArgs($"Memento - Deck Editor - {DeckEditor.Deck.DeckName}"));
+        }
+
+        private void RenderTags(object sender, EventArgs e)
+        {
+            TagsPanel.Children.Clear();
+
+            foreach (var item in DeckEditor.Tags)
+            {
+                if (item.ToLower().Contains(SearchTextBox.Text.ToLower().Trim()))
+                {
+                    var chooseButton = new Button()
+                    {
+                        Content = item,
+                        Tag = item,
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                        Width = 65,
+                        Margin = new Thickness(0, 0, 7, 7),
+                    };
+
+                    chooseButton.Click += Select;
+
+                    TagsPanel.Children.Add(chooseButton);
+                }
+            }
+        }
+
+        private void Select(object sender, RoutedEventArgs e)
+        {
+            string tag = (string)((Button)sender).Content;
+
+            if (!DeckEditor.CurrentCard.Tags.Contains(tag))
+            {
+                DeckEditor.CurrentCard.Tags.Add(tag);
+                RenderCurrentCardTags(this, EventArgs.Empty);
+
+                if (!DeckEditor.CurrentCard.Tags.SequenceEqual(lastSavedTags))
+                {
+                    IsCardEdited = true;
+                }
+                else if (CheckForEdition())
+                {
+                    IsCardEdited = false;
+                }
+
+                if (DeckEditor.CurrentCard.Id != -1)
+                {
+                    Repository.AddTagToCard(DeckEditor.CurrentCard.Id, tag);
+                    DeckEditor.Tags.Add(tag);
+                }
+            }
+        }
+
+        private void NewTagButton_Click(object sender, RoutedEventArgs e)
+        {
+            string tag = NewTagTextBox.Text;
+
+            if (!DeckEditor.CurrentCard.Tags.Contains(tag))
+            {
+                DeckEditor.CurrentCard.Tags.Add(tag);
+                RenderCurrentCardTags(this, EventArgs.Empty);
+
+                if (!DeckEditor.CurrentCard.Tags.SequenceEqual(lastSavedTags))
+                {
+                    IsCardEdited = true;
+                }
+                else if (CheckForEdition())
+                {
+                    IsCardEdited = false;
+                }
+
+                if (DeckEditor.CurrentCard.Id != -1)
+                {
+                    Repository.AddTagToCard(DeckEditor.CurrentCard.Id, tag);
+                    DeckEditor.Tags.Add(tag);
+                }
+            }
+        }
+
+        private void RenderCurrentCardTags(object sender, EventArgs e)
+        {
+            TagsWrapPanel.Children.Clear();
+            var tagsTextBlock = new TextBlock() { Text = "Tags: " };
+            TagsWrapPanel.Children.Add(tagsTextBlock);
+
+            foreach (var tag in DeckEditor.CurrentCard.Tags)
+            {
+                var border = new Border()
+                {
+                    BorderBrush = Brushes.Black,
+                    BorderThickness = new Thickness(1),
+                    Margin = new Thickness(0, 0, 7, 7),
+                    Padding = new Thickness(3, 1, 3, 1),
+                    CornerRadius = new CornerRadius(2),
+                };
+
+                var stack = new StackPanel()
+                {
+                    Orientation = Orientation.Horizontal,
+                };
+
+                var textblock = new TextBlock()
+                {
+                    Text = tag,
+                    Margin = new Thickness(0, 0, 4, 0),
+                };
+
+                var button = new Button()
+                {
+                    Tag = tag,
+                    Content = "\u2A09",
+                    Background = Brushes.Transparent,
+                    BorderBrush = Brushes.Transparent,
+                };
+
+                //button.Style = new Style();
+                //var trigger = new Trigger()
+                //{
+                //    Property = IsMouseOverProperty,
+                //    Value = true,
+                //};
+
+                //trigger.Setters.Add(new Setter()
+                //{
+                //    Property = BackgroundProperty,
+                //    Value = Brushes.Transparent
+                //});
+
+                //button.Style.Triggers.Add(trigger);
+                button.Click += RemoveTag;
+
+                stack.Children.Add(textblock);
+                stack.Children.Add(button);
+
+                border.Child = stack;
+                TagsWrapPanel.Children.Add(border);
+            }
+        }
+
+        private void RemoveTag(object sender, RoutedEventArgs e)
+        {
+            var tag = (string)((Button)sender).Tag;
+
+            if (DeckEditor.CurrentCard.Tags.Remove(tag))
+            {
+                if (!DeckEditor.CurrentCard.Tags.SequenceEqual(lastSavedTags))
+                {
+                    IsCardEdited = true;
+                }
+                else if (CheckForEdition())
+                {
+                    IsCardEdited = false;
+                }
+
+                RenderCurrentCardTags(this, EventArgs.Empty);
+
+                if (DeckEditor.CurrentCard.Id != -1)
+                {
+                    Repository.RemoveTagFromCard(DeckEditor.CurrentCard.Id, tag);
+                    DeckEditor.Tags.Remove(tag);
+                }
+            }
         }
     }
 }

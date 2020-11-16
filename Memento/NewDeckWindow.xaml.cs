@@ -33,7 +33,7 @@ namespace Memento
                 return;
             }
 
-            DeckName = DeckNameTextBox.Text;
+            DeckName = DeckNameTextBox.Text.Trim();
             TagName = TagNameTextBox.Text.Trim();
 
             Close();

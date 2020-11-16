@@ -90,7 +90,7 @@ namespace Memento
 
             foreach (var item in ImagesDictionary)
             {
-                if (item.Key.ToLower().Contains(SearchTextBox.Text.ToLower()))
+                if (item.Key.ToLower().Contains(SearchTextBox.Text.ToLower().Trim()))
                 {
                     var stackPanel = new StackPanel() { Margin = new Thickness(0, 0, 10, 10), MaxWidth = 100 };
                     string path = Path.Combine("images", item.Value);

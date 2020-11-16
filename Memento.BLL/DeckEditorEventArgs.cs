@@ -10,7 +10,7 @@ namespace Memento.BLL
             Card = new Card(card);
         }
 
-        public Card Card { get; set; }
+        public Card Card { get; }
     }
 
     public class DeckEditorRemoveCardEventArgs : EventArgs
@@ -20,7 +20,7 @@ namespace Memento.BLL
             Card = new Card(card);
         }
 
-        public Card Card { get; set; }
+        public Card Card { get; }
         public bool CardRemoved { get; set; }
     }
 
@@ -31,7 +31,7 @@ namespace Memento.BLL
             Deck = new Deck(deck);
         }
 
-        public Deck Deck { get; set; }
+        public Deck Deck { get; }
     }
 
     public class RemoveDeckEditorDeckEventArgs : EventArgs
@@ -42,7 +42,7 @@ namespace Memento.BLL
             Removed = false;
         }
 
-        public Deck Deck { get; set; }
+        public Deck Deck { get; }
         public bool Removed { get; set; }
     }
 }
