@@ -37,7 +37,7 @@
                                     </MultiBinding>
                                 </local:Arc.EndAngle>
                             </local:Arc>
-                            <TextBlock Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat=\{0:0\}}"
+                            <TextBlock Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat=\{0:N2\}}"
                                        Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center"
                                        FontSize="36" FontWeight="Normal"/>
                         </Grid>
@@ -101,7 +101,7 @@
         <Slider Grid.Row="1" Name="CardsSlider" Maximum="100" Value="25" Visibility="Collapsed" />
 
         <Viewbox Grid.Row="4" Grid.Column="3">
-            <ProgressBar Style="{StaticResource ProgressBarStyle}" Width="150" Height="150"
+            <ProgressBar Style="{StaticResource ProgressBarStyle}" Width="150" Height="150" Name="CardsLearned"
                          Value="{Binding ElementName=CardsSlider, Path=Value}"/>
         </Viewbox>
 

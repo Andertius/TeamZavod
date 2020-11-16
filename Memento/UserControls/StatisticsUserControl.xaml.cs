@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Memento.BLL;
+
 namespace Memento.UserControls
 {
     /// <summary>
@@ -29,16 +31,20 @@ namespace Memento.UserControls
 
         DispatcherTimer timer;
 
-        public StatisticsUserControl(double avgtime, double todayspent, double cardsperday)
+        public StatisticsUserControl(double avgtime, double todayspent, double cardsperday, Settings settings)
         {
             InitializeComponent();
+            DataContext = this;
             timer = new DispatcherTimer();
             timer.Tick += UpdatePage;
             averagetime = avgtime;
             todaytimespent = todayspent;
             cardslearnedtoday = cardsperday;
             AverageTimePerDay.Text = Convert.ToString(Math.Round(avgtime, 2));
-            TTSProgress.Maximum = Memento.UserControls.SettingsUserControl.
+            TTSProgress.Maximum = settings.HoursPerDay;
+            CardsLearned.Maximum = settings.CardsPerDay;
+            CardsSlider.Value = cardsperday;
+            TTSslider.Value = todayspent;
             //CardLearned.Text = Convert.ToString(cardsperday);
             //TodayTimeSpent.Text = Convert.ToString(Math.Round(todayspent, 2));
             //this.PreviewKeyDown += new KeyEventHandler(HandleEsc);
@@ -50,6 +56,7 @@ namespace Memento.UserControls
         private void UpdatePage(object source, EventArgs e)
         {
             todaytimespent += 0.0013;
+            TTSslider.Value = todaytimespent;
             //TodayTimeSpent.Text = Convert.ToString(Math.Round(todaytimespent, 2));
         }
 

@@ -271,7 +271,7 @@ namespace Memento.DAL
             context.SaveChanges();
         }
 
-        public static void UpdateCard(int id, Card card, UpdateCardOptions options)
+        public static void UpdateCard(int id, Card card, UpdateCardOptions options = UpdateCardOptions.UpdateAll)
         {
             using var context = new CardsContext();
 
@@ -298,10 +298,15 @@ namespace Memento.DAL
                 case UpdateCardOptions.UpdateTags:
                     if(cardForUpdate != null)
                     {
+                        for (int i = 0; i < cardForUpdate.Tags.Count; i++)
+                        {
+                            RemoveTagFromCard(cardForUpdate.Id, cardForUpdate.Tags[i].TagName);
+                        }
                         for (int i = 0; i < card.Tags.Count; i++)
                         {
-                            AddTagToCard(cardForUpdate.Id, card.Tags[i]);
+                            AddTagToCard(cardForUpdate.Id, card.Tags[i].Trim());
                         }
+
 
                         context.SaveChanges();
                     }
@@ -318,9 +323,13 @@ namespace Memento.DAL
 
                         cardForUpdate.Difficulty = DifficultyConverter.ToStringConverter(card.Difficulty);
 
+                        for (int i = 0; i < cardForUpdate.Tags.Count; i++)
+                        {
+                            RemoveTagFromCard(cardForUpdate.Id, cardForUpdate.Tags[i].TagName);
+                        }
                         for (int i = 0; i < card.Tags.Count; i++)
                         {
-                            AddTagToCard(cardForUpdate.Id, card.Tags[i]);
+                            AddTagToCard(cardForUpdate.Id, card.Tags[i].Trim());
                         }
 
                         context.SaveChanges();
@@ -328,8 +337,6 @@ namespace Memento.DAL
 
                     break;
             }
-
-            ////TODO: create enum Update card options (update content, update tags, update all)
         }
 
         public static void AddTagToCard(int cardId, string tagName)
@@ -392,21 +399,62 @@ namespace Memento.DAL
             context.SaveChanges();
         }
 
-        public static void UpdateDeck(int id, Deck deck)
+        public static void UpdateDeck(int id, Deck deck, UpdateDeckOptions options = UpdateDeckOptions.UpdateAll)
         {
             using var context = new CardsContext();
 
             var deckForUpdate = context.Decks.Find(id);
 
-            if (deckForUpdate != null)
+            switch (options)
             {
-                deckForUpdate.DeckName = deck.DeckName;
-                deckForUpdate.TagName = deck.TagName;
-                context.SaveChanges();
+                case UpdateDeckOptions.UpdateContent:
+                    if (deckForUpdate != null)
+                    {
+                        deckForUpdate.DeckName = deck.DeckName;
+                        deckForUpdate.TagName = deck.TagName;
+                        context.SaveChanges();
+                    }
+
+                    break;
+
+                case UpdateDeckOptions.UpdateCards:
+                    if (deckForUpdate != null)
+                    {
+                        for (int i = 0; i < deckForUpdate.Cards.Count; i++)
+                        {
+                            RemoveCardFromDeck(deckForUpdate.Id, deckForUpdate.Cards[i].CardID);
+                        }
+                        for (int i = 0; i < deck.Cards.Count; i++)
+                        {
+                            AddCardToDeck(deckForUpdate.Id, deck.Cards[i].Id);
+                        }
+
+                        context.SaveChanges();
+                    }
+
+                    break;
+
+                case UpdateDeckOptions.UpdateAll:
+
+                    if (deckForUpdate != null)
+                    {
+                        deckForUpdate.DeckName = deck.DeckName;
+                        deckForUpdate.TagName = deck.TagName;
+
+                        for (int i = 0; i < deckForUpdate.Cards.Count; i++)
+                        {
+                            RemoveCardFromDeck(deckForUpdate.Id, deckForUpdate.Cards[i].CardID);
+                        }
+                        for (int i = 0; i < deck.Cards.Count; i++)
+                        {
+                            AddCardToDeck(deckForUpdate.Id, deck.Cards[i].Id);
+                        }
+
+                        context.SaveChanges();
+                    }
+
+                    break;
             }
-
-
-            //TODO: create enum Update deck options (update name and tag, update cards, update all)
 
         }
 

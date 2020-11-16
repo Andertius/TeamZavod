@@ -46,6 +46,7 @@ namespace Memento
         public AppHandler LearningProcess { get; private set; }
         public DeckEditor DeckEditor { get; set; }
         public Settings AppSettings { get; set; }
+        public Statistics AppStatistics { get; set; }
 
         public MainPageUserControl MainPage { get; set; }
         public DeckEditorUserControl DeckEditorPage { get; set; }
@@ -117,12 +118,30 @@ namespace Memento
 
         private void OpenStatistics(object sender, EventArgs e)
         {   
-
-            Content = StatisticsPage = new StatisticsUserControl(1.5, 3, 26)
+            if (AppStatistics is null)
             {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
-            };
+                AppStatistics = new Statistics();
+            }
+
+            if (AppSettings is null)
+            {
+                AppSettings = new Settings();
+                Content = StatisticsPage = new StatisticsUserControl(1.5, 3, 26, AppSettings)
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch
+                };
+            }
+            else
+            {
+                Content = StatisticsPage = new StatisticsUserControl(1.5, 3, 26, SettingsPage.AppSettings)
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch
+                };
+            }
+
+            
             StatisticsPage.MakeMainPageVisible += GoToMainPageFromStatistics;
             Title = "Memento - Statistics";
         }
