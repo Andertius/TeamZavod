@@ -25,10 +25,10 @@ namespace Memento.DAL
                     crd = new Card
                     {
                         Id = item.Id,
-                        Word = item.Word,
-                        Description = item.Description,
-                        ImagePath = item.ImagePath,
-                        Transcription = item.Transcription,
+                        Word = item.Word.Trim(),
+                        Description = item.Description.Trim(),
+                        ImagePath = item.ImagePath.Trim(),
+                        Transcription = item.Transcription.Trim(),
 
                         Difficulty = DifficultyConverter.ToDifficultyConverter(item.Difficulty)
                     };
@@ -44,7 +44,7 @@ namespace Memento.DAL
                     foreach (var item in tags)
                     {
                         //перевірка чи пустий
-                        answerTags.Add(item.TagName);
+                        answerTags.Add(item.TagName.Trim());
                     }
 
                     cards[i].Tags = new ObservableCollection<string>(answerTags);
@@ -56,9 +56,9 @@ namespace Memento.DAL
 
                 foreach (var item in deckdetails)
                 {
-                    deck.TagName = item.TagName;
+                    deck.TagName = item.TagName.Trim();
                     deck.Id = item.Id;
-                    deck.DeckName = item.DeckName;
+                    deck.DeckName = item.DeckName.Trim();
                     deck.AddRange(cards);
                 }
 
@@ -277,6 +277,8 @@ namespace Memento.DAL
 
             var cardForUpdate = context.Cards.Find(id);
 
+            var tags = context.Tags.FromSqlInterpolated($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {id}").ToList();
+
             switch (options)
             {
                 case UpdateCardOptions.UpdateContent:
@@ -298,9 +300,9 @@ namespace Memento.DAL
                 case UpdateCardOptions.UpdateTags:
                     if(cardForUpdate != null)
                     {
-                        for (int i = 0; i < cardForUpdate.Tags.Count; i++)
+                        for (int i = 0; i < tags.Count; i++)
                         {
-                            RemoveTagFromCard(cardForUpdate.Id, cardForUpdate.Tags[i].TagName);
+                            RemoveTagFromCard(cardForUpdate.Id, tags[i].TagName);
                         }
                         for (int i = 0; i < card.Tags.Count; i++)
                         {
@@ -323,9 +325,9 @@ namespace Memento.DAL
 
                         cardForUpdate.Difficulty = DifficultyConverter.ToStringConverter(card.Difficulty);
 
-                        for (int i = 0; i < cardForUpdate.Tags.Count; i++)
+                        for (int i = 0; i < tags.Count; i++)
                         {
-                            RemoveTagFromCard(cardForUpdate.Id, cardForUpdate.Tags[i].TagName);
+                            RemoveTagFromCard(cardForUpdate.Id, tags[i].TagName);
                         }
                         for (int i = 0; i < card.Tags.Count; i++)
                         {
@@ -405,6 +407,8 @@ namespace Memento.DAL
 
             var deckForUpdate = context.Decks.Find(id);
 
+            var cards = context.Cards.FromSqlInterpolated($"SELECT Card_Table.card_id, description, difficulty_level, image_path, transcription, word FROM Card_Table, Deck_To_Card_Table WHERE Deck_To_Card_Table.card_id = Card_Table.card_id AND Deck_To_Card_Table.deck_id = (SELECT deck_id FROM Deck_Table  WHERE deck_id = {id})").ToList();
+
             switch (options)
             {
                 case UpdateDeckOptions.UpdateContent:
@@ -420,9 +424,9 @@ namespace Memento.DAL
                 case UpdateDeckOptions.UpdateCards:
                     if (deckForUpdate != null)
                     {
-                        for (int i = 0; i < deckForUpdate.Cards.Count; i++)
+                        for (int i = 0; i < cards.Count; i++)
                         {
-                            RemoveCardFromDeck(deckForUpdate.Id, deckForUpdate.Cards[i].CardID);
+                            RemoveCardFromDeck(deckForUpdate.Id, cards[i].Id);
                         }
                         for (int i = 0; i < deck.Cards.Count; i++)
                         {
@@ -441,9 +445,9 @@ namespace Memento.DAL
                         deckForUpdate.DeckName = deck.DeckName;
                         deckForUpdate.TagName = deck.TagName;
 
-                        for (int i = 0; i < deckForUpdate.Cards.Count; i++)
+                        for (int i = 0; i < cards.Count; i++)
                         {
-                            RemoveCardFromDeck(deckForUpdate.Id, deckForUpdate.Cards[i].CardID);
+                            RemoveCardFromDeck(deckForUpdate.Id, cards[i].Id);
                         }
                         for (int i = 0; i < deck.Cards.Count; i++)
                         {
