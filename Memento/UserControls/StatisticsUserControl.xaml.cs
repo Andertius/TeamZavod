@@ -40,7 +40,7 @@ namespace Memento.UserControls
             //CardLearned.Text = Convert.ToString(cardsperday);
             //TodayTimeSpent.Text = Convert.ToString(Math.Round(todayspent, 2));
             //this.PreviewKeyDown += new KeyEventHandler(HandleEsc);
-            SecondsText.Text = Convert.ToString(AppStatistics.TimeSpentToday.TotalSeconds);
+            //SecondsText.Text = Convert.ToString(AppStatistics.TimeSpentToday.TotalSeconds);
             Timer.Interval = new TimeSpan(0, 0, 5);
             Timer.Start();
             GoBackButton.Focus();
