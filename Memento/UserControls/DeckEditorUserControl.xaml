@@ -332,8 +332,10 @@
                 </DataGrid.ItemContainerStyle>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Card" Binding="{Binding Path=Word}"
-                                        Width="350"/>
+                    <DataGridTextColumn Header="Word" Binding="{Binding Path=Word}"
+                                        Width="175"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Path=Description}"
+                                        Width="175"/>
                 </DataGrid.Columns>
             </DataGrid>
             

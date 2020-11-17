@@ -5,22 +5,26 @@ namespace Memento.BLL
 {
     public class DeckEditorCardEventArgs : EventArgs
     {
-        public DeckEditorCardEventArgs(Card card)
+        public DeckEditorCardEventArgs(Deck deck, Card card)
         {
             Card = new Card(card);
+            Deck = new Deck(deck);
         }
 
         public Card Card { get; }
+        public Deck Deck { get; }
     }
 
     public class DeckEditorRemoveCardEventArgs : EventArgs
     {
-        public DeckEditorRemoveCardEventArgs(Card card)
+        public DeckEditorRemoveCardEventArgs(Deck deck, Card card)
         {
             Card = new Card(card);
+            Deck = new Deck(deck);
         }
 
         public Card Card { get; }
+        public Deck Deck { get; }
         public bool CardRemoved { get; set; }
     }
 

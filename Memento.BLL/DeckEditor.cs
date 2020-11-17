@@ -90,11 +90,15 @@ namespace Memento.BLL
                 if (e.Card.Id == -1)
                 {
                     Repository.AddCard(e.Card);
-                }
 
-                foreach (var item in e.Card.Tags)
+                    foreach (var item in e.Card.Tags)
+                    {
+                        Repository.AddTagToCard(e.Card.Id, item.Trim());
+                    }
+                }
+                else
                 {
-                    Repository.AddTagToCard(e.Card.Id, item.Trim());
+                    Repository.AddCardToDeck(e.Deck.Id, e.Card.Id);
                 }
 
                 foreach (var tag in e.Card.Tags)
@@ -131,10 +135,12 @@ namespace Memento.BLL
         {
             e.CardRemoved = Deck.Remove(e.Card);
 
-            if (e.CardRemoved)
+            if (e.Card.Id != -1 && e.Deck.Id != -1)
             {
-                Repository.RemoveCard(e.Card.Id);
+                Repository.RemoveCardFromDeck(e.Deck.Id, e.Card.Id);
             }
+            
+            CurrentCard = new Card();
         }
 
         public void ChangeDeck(object sender, DeckEditorDeckEventArgs e)
