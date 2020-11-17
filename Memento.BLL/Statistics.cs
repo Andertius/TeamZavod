@@ -57,7 +57,7 @@ namespace Memento.BLL
 
         public void AddSpentTimeToday(object sender, StatAddSpentTimeEventArgs e)
         {
-            TimeSpentToday += e.TimePassed;
+            TimeSpentToday = TimeSpentToday.Add(e.TimePassed);
         }
 
         public void AddCardLearned(object sender, StatCardLearnedEventArgs e)

@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using Memento.BLL;
+using System.Diagnostics;
 
 namespace Memento.UserControls
 {
@@ -21,47 +22,54 @@ namespace Memento.UserControls
     /// </summary>
     public partial class StatisticsUserControl : UserControl
     {
-        private double averagetime;
-        private double todaytimespent;
-        private double cardslearnedtoday;
-
-        private double milestonetodaytimespent;
-        private double milestonecardslearnedtoday;
-        private bool check = true;
-
-        DispatcherTimer timer;
-
-        public StatisticsUserControl(double avgtime, double todayspent, double cardsperday, Settings settings)
+        public StatisticsUserControl(Statistics statistics, Settings settings)
         {
             InitializeComponent();
             DataContext = this;
-            timer = new DispatcherTimer();
-            timer.Tick += UpdatePage;
-            averagetime = avgtime;
-            todaytimespent = todayspent;
-            cardslearnedtoday = cardsperday;
-            AverageTimePerDay.Text = Convert.ToString(Math.Round(avgtime, 2));
+
+            AppStatistics = statistics;
+
+            Timer = new DispatcherTimer();
+            Timer.Tick += UpdatePage;
+
+            TimeAdd += AppStatistics.AddSpentTimeToday;
             TTSProgress.Maximum = settings.HoursPerDay;
             CardsLearned.Maximum = settings.CardsPerDay;
-            CardsSlider.Value = cardsperday;
-            TTSslider.Value = todayspent;
+            CardsSlider.Value = statistics.CardsLearnedToday.Count;
+            //TTSslider.Value = todayTimeSpent;
             //CardLearned.Text = Convert.ToString(cardsperday);
             //TodayTimeSpent.Text = Convert.ToString(Math.Round(todayspent, 2));
             //this.PreviewKeyDown += new KeyEventHandler(HandleEsc);
-            timer.Interval = new TimeSpan(0, 0, 5);
-            timer.Start();
+            SecondsText.Text = Convert.ToString(AppStatistics.TimeSpentToday.TotalSeconds);
+            Timer.Interval = new TimeSpan(0, 0, 5);
+            Timer.Start();
             GoBackButton.Focus();
+            
+        }
+
+        static private readonly DependencyProperty AppStatisticsProperty = DependencyProperty.Register(nameof(AppStatistics), typeof(Statistics),
+            typeof(StatisticsUserControl), new PropertyMetadata(new Statistics()));
+
+
+        public DispatcherTimer Timer { get; }
+
+        public Statistics AppStatistics
+        {
+            get => (Statistics)GetValue(AppStatisticsProperty);
+            private set => SetValue(AppStatisticsProperty, value);
         }
 
         private void UpdatePage(object source, EventArgs e)
         {
-            todaytimespent += 0.0013;
-            TTSslider.Value = todaytimespent;
+            //TTSslider.Value = AppStatistics.TimeSpentToday.TotalHours;
+            TimeAdd?.Invoke(this, new StatAddSpentTimeEventArgs(new TimeSpan(0, 0, 5)));
             //TodayTimeSpent.Text = Convert.ToString(Math.Round(todaytimespent, 2));
+            Debug.WriteLine(AppStatistics.TimeSpentToday.TotalSeconds);
         }
 
 
         public event EventHandler MakeMainPageVisible;
+        public event EventHandler<StatAddSpentTimeEventArgs> TimeAdd;
 
         private void GoBack_Executed(object sender, ExecutedRoutedEventArgs e)
         {

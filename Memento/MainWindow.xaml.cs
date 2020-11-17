@@ -123,10 +123,10 @@ namespace Memento
                 AppStatistics = new Statistics();
             }
 
-            if (AppSettings is null)
+            if (SettingsPage is null || AppSettings is null)
             {
                 AppSettings = new Settings();
-                Content = StatisticsPage = new StatisticsUserControl(1.5, 3, 26, AppSettings)
+                Content = StatisticsPage = new StatisticsUserControl(AppStatistics, AppSettings)
                 {
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     VerticalAlignment = VerticalAlignment.Stretch
@@ -134,7 +134,7 @@ namespace Memento
             }
             else
             {
-                Content = StatisticsPage = new StatisticsUserControl(1.5, 3, 26, SettingsPage.AppSettings)
+                Content = StatisticsPage = new StatisticsUserControl(AppStatistics, SettingsPage.AppSettings)
                 {
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     VerticalAlignment = VerticalAlignment.Stretch

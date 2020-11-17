@@ -6,7 +6,7 @@
              xmlns:ed =" "
              xmlns:local="clr-namespace:Memento"
              xmlns:dal="clr-namespace:Memento.DAL;assembly=Memento.DAL"
-             mc:Ignorable="d" Background="White"
+             mc:Ignorable="d" d:Background="White"
              d:DesignHeight="1080" d:DesignWidth="1920">
 
     <UserControl.CommandBindings>
@@ -21,9 +21,8 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ProgressBar}">
                         <Grid>
-                            <Ellipse Stroke="Black" Fill="White"/>
-                            <Ellipse Stroke="Black" Margin="20" Fill="White"/>
-                            <local:Arc StrokeThickness="19" Stroke="Black" Margin="1">
+                            <Ellipse Stroke="Black" Margin="5" Fill="White"/>
+                            <local:Arc StrokeThickness="10" Stroke="Black" Margin="1">
                                 <local:Arc.StartAngle>
                                     <MultiBinding Converter="{StaticResource ProgressConverter}">
                                         <Binding Path="Minimum" RelativeSource="{RelativeSource TemplatedParent}"/>
@@ -71,7 +70,7 @@
                    Margin="15 0 0 0"/>
         </Viewbox>
 
-        <Slider Grid.Row="1" Name="TTSslider" Maximum="100" Value="25" Visibility="Collapsed" />
+        <Slider Grid.Row="1" Name="TTSslider" Maximum="100" Value="{Binding Path=AppStatistics.TimeSpentToday.TotalHours, Mode=OneWay}" Visibility="Collapsed" />
 
         <Viewbox Grid.Row="2" Grid.Column="1">
             <ProgressBar Style="{StaticResource ProgressBarStyle}" Width="150" Height="150" Name="TTSProgress"
@@ -87,9 +86,12 @@
         
 
         <Viewbox Grid.Row="3" Grid.Column="2">
+            <Viewbox.Resources>
+                <local:DoubleStringConverter x:Key="doubleStringConverter"/>
+            </Viewbox.Resources>
             <Border Margin="5" Padding="5" BorderThickness="1" BorderBrush="black" Background="White" CornerRadius="200" Grid.Row="3" Grid.Column="2" Height="150" Width="150">
-                <TextBlock Text="1.4 H" Grid.Column="1" Grid.Row="1" TextAlignment="Center" VerticalAlignment="Center"
-                      x:Name="AverageTimePerDay" FontFamily="Arial" FontSize="36"/>
+                <TextBlock Text="{Binding Path=AppStatistics.AvarageTimePerDay.TotalHours, Converter={StaticResource doubleStringConverter} }" Grid.Column="1" Grid.Row="1" TextAlignment="Center" VerticalAlignment="Center"
+                      x:Name="AverageTimePerDayTextBlock" FontFamily="Arial" FontSize="36"/>
             </Border>
         </Viewbox>
 
@@ -98,7 +100,7 @@
                    Margin="15 0 0 0"/>
         </Viewbox>
 
-        <Slider Grid.Row="1" Name="CardsSlider" Maximum="100" Value="25" Visibility="Collapsed" />
+        <Slider Grid.Row="1" Name="CardsSlider" Maximum="100" Value="{Binding Path=AppStatistics.CardsLearnedPerDay.Count}" Visibility="Collapsed" />
 
         <Viewbox Grid.Row="4" Grid.Column="3">
             <ProgressBar Style="{StaticResource ProgressBarStyle}" Width="150" Height="150" Name="CardsLearned"
@@ -106,7 +108,7 @@
         </Viewbox>
 
         <Viewbox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
-            <Button Grid.Row="5" Grid.Column="0" FontFamily="Segoe MDL2 Assets" 
+            <Button Grid.Row="5" Grid.Column="0" FontFamily="Segoe MDL2 Assets" FontSize="36"
                 Content="&#xE72B;" 
                 Background="White" 
                 BorderBrush="White"
@@ -115,9 +117,6 @@
                 Margin="10"
                 x:Name="GoBackButton"
                 Command="{x:Static local:Commands.GoBackCommand}">
-                <Button.LayoutTransform>
-                    <ScaleTransform ScaleX="3" ScaleY="3" />
-                </Button.LayoutTransform>
             </Button>
         </Viewbox>
 
