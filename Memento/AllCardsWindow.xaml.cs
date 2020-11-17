@@ -41,7 +41,7 @@ namespace Memento
 
             foreach (var item in Cards)
             {
-                if (item.Word.ToLower().Contains(SearchTextBox.Text.ToLower()))
+                if (item.Word.ToLower().Contains(SearchTextBox.Text.ToLower().Trim()))
                 {
                     var word = new TextBlock()
                     {

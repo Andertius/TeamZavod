@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using Memento.UserControls;
 
@@ -15,7 +12,6 @@ namespace Memento
         public static readonly RoutedCommand SaveCardCommand = new RoutedUICommand("Save Card", nameof(SaveCardCommand), typeof(DeckEditorUserControl));
 
         public static readonly RoutedCommand RemoveDeckCommand = new RoutedUICommand("Remove Deck", nameof(RemoveDeckCommand), typeof(DeckEditorUserControl));
-        public static readonly RoutedCommand SaveDeckCommand = new RoutedUICommand("Save Deck", nameof(SaveDeckCommand), typeof(DeckEditorUserControl));
 
         public static readonly RoutedCommand GoBackCommand = new RoutedUICommand("Back", nameof(GoBackCommand), typeof(StatisticsUserControl),
         new InputGestureCollection(new InputGesture[]

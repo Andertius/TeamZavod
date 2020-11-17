@@ -13,6 +13,8 @@ namespace Memento
 {
     public partial class ImagesWindow : Window
     {
+        private string path;
+
         public ImagesWindow(ImageSource imgSource)
         {
             InitializeComponent();
@@ -43,18 +45,21 @@ namespace Memento
             var button = sender as Button;
             var image = button.Content as Image;
 
+            path = (string)button.Tag;
             CurrentImage.Source = image.Source;
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
             ImageSource = CurrentImage.Source;
+            SelectedPath = path;
             Close();
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
             ImageSource = null;
+            SelectedPath = "";
             Close();
         }
 
@@ -90,7 +95,7 @@ namespace Memento
 
             foreach (var item in ImagesDictionary)
             {
-                if (item.Key.ToLower().Contains(SearchTextBox.Text.ToLower()))
+                if (item.Key.ToLower().Contains(SearchTextBox.Text.ToLower().Trim()))
                 {
                     var stackPanel = new StackPanel() { Margin = new Thickness(0, 0, 10, 10), MaxWidth = 100 };
                     string path = Path.Combine("images", item.Value);
@@ -100,6 +105,7 @@ namespace Memento
                         Width = 80,
                         Content = new Image { Source = new BitmapImage(new Uri(path)) },
                         Margin = new Thickness(0, 0, 0, 2),
+                        Tag = Path.Combine("images", item.Key),
                     };
 
                     finalImage.Click += ChooseFile;

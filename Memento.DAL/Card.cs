@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Runtime.CompilerServices;
-
-using Microsoft.EntityFrameworkCore.Sqlite;
 
 namespace Memento.DAL
 {
@@ -18,7 +14,6 @@ namespace Memento.DAL
         private string transcription;
         private Difficulty difficulty;
         private string imagePath;
-        private ObservableCollection<string> tags;
 
         public Card()
         {
@@ -50,7 +45,7 @@ namespace Memento.DAL
             Transcription = card.Transcription;
             Difficulty = card.Difficulty;
             ImagePath = card.ImagePath;
-            Tags = new ObservableCollection<string>(card.Tags);
+            Tags = new ObservableCollection<string>(card.Tags.OrderBy(x => x));
         }
 
         public int Id
@@ -113,19 +108,8 @@ namespace Memento.DAL
             }
         }
 
-        public ObservableCollection<string> Tags
-        {
-            get => tags;
-            set
-            {
-                tags = value;
-                OnPropertyChanged();
-            }
-        }
-
+        public ObservableCollection<string> Tags { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
-
-        //добавити масив тегів
 
         public override string ToString()
         {
@@ -144,7 +128,11 @@ namespace Memento.DAL
 
         public bool Equals(Card card)
         {
-            return Id == card.Id;
+            return Id == card.Id || (Word == card.Word &&
+                                     Description == card.Description &&
+                                     Transcription == card.Transcription &&
+                                     Difficulty == card.Difficulty &&
+                                     ImagePath == card.ImagePath);
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")
