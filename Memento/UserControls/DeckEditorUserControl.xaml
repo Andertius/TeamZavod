@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Memento"
+             xmlns:converters="clr-namespace:Memento.Converters"
              xmlns:dal="clr-namespace:Memento.DAL;assembly=Memento.DAL"
              mc:Ignorable="d" d:Background="White"
              d:DesignHeight="1000" d:DesignWidth="1920">
@@ -98,7 +99,7 @@
                              HorizontalAlignment="Stretch" Grid.Row="1">
                         <StackPanel HorizontalAlignment="Center">
                             <StackPanel.Resources>
-                                <local:EqualsConverter x:Key="equalsConverter"/>
+                                <converters:EqualsConverter x:Key="equalsConverter"/>
                             </StackPanel.Resources>
                             
                             <TextBlock Text="Difficulty" Grid.Row="0" Margin="0 0 0 5"
@@ -316,7 +317,7 @@
 
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <StackPanel.Resources>
-                    <local:IntStringConverter x:Key="intStringConverter"/>
+                    <converters:IntStringConverter x:Key="intStringConverter"/>
                 </StackPanel.Resources>
 
                 <TextBlock Text="Cards: "/>

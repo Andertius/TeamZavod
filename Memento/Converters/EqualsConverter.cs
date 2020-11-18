@@ -1,24 +1,23 @@
-﻿// <copyright file="Converters.cs" company="PlaceholderCompany">
+﻿// <copyright file="EqualsConverter.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Memento
+namespace Memento.Converters
 {
     using System;
     using System.Globalization;
     using System.Windows.Data;
 
-    public class DoubleStringConverter : IValueConverter
+    public class EqualsConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value is double number ? number.ToString() : String.Empty;
+            return value?.Equals(parameter);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException();
+            return value?.Equals(true) == true ? parameter : Binding.DoNothing;
         }
     }
-
 }

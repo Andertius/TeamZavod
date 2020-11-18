@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿// <copyright file="Deck.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Memento.DAL
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Runtime.CompilerServices;
+
     public class Deck : IEquatable<Deck>, IEnumerable<Card>, ICollection<Card>, INotifyPropertyChanged
     {
         private int id;
@@ -16,102 +20,103 @@ namespace Memento.DAL
 
         public Deck()
         {
-            Id = -1;
-            Cards = new ObservableCollection<Card>();
-            DeckName = "";
-            TagName = "";
-            Cards.CollectionChanged += (sender, e) => OnPropertyChanged(nameof(Count));
+            this.Id = -1;
+            this.Cards = new ObservableCollection<Card>();
+            this.DeckName = string.Empty;
+            this.TagName = string.Empty;
+            this.Cards.CollectionChanged += (sender, e) => this.OnPropertyChanged(nameof(this.Count));
         }
 
         public Deck(Deck deck)
         {
-            Id = deck.Id;
-            Cards = new ObservableCollection<Card>(deck.Cards.Select(card => new Card(card)));
-            DeckName = deck.DeckName;
-            TagName = deck.TagName;
-            Cards.CollectionChanged += (sender, e) => OnPropertyChanged(nameof(Count));
+            this.Id = deck.Id;
+            this.Cards = new ObservableCollection<Card>(deck.Cards.Select(card => new Card(card)));
+            this.DeckName = deck.DeckName;
+            this.TagName = deck.TagName;
+            this.Cards.CollectionChanged += (sender, e) => this.OnPropertyChanged(nameof(this.Count));
         }
 
         public int Id
         {
-            get => id;
+            get => this.id;
             set
             {
-                id = value;
-                OnPropertyChanged();
+                this.id = value;
+                this.OnPropertyChanged();
             }
         }
 
-        public ObservableCollection<Card> Cards { get; }
-        public int Count { get => Cards.Count; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public int Count { get => this.Cards.Count; }
 
         public string DeckName
         {
-            get => deckName;
+            get => this.deckName;
             set
             {
-                deckName = value;
-                OnPropertyChanged();
+                this.deckName = value;
+                this.OnPropertyChanged();
             }
         }
 
         public string TagName
         {
-            get => tagName;
+            get => this.tagName;
             set
             {
-                tagName = value;
-                OnPropertyChanged();
+                this.tagName = value;
+                this.OnPropertyChanged();
             }
         }
+
+        public ObservableCollection<Card> Cards { get; }
 
         public bool IsReadOnly => false;
 
         public Card this[int index]
         {
-            get => Cards[index];
-            set => Cards[index] = value;
+            get => this.Cards[index];
+            set => this.Cards[index] = value;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public void Add(Card card)
-            => Cards.Add(card);
+            => this.Cards.Add(card);
 
         public void AddRange(IEnumerable<Card> cards)
         {
             foreach (var card in cards)
             {
-                Add(card);
+                this.Add(card);
             }
         }
 
         public void InsertCard(int index, Card card)
-            => Cards.Insert(index, card);
+            => this.Cards.Insert(index, card);
 
         public bool Remove(Card card)
-            => Cards.Remove(card);
+            => this.Cards.Remove(card);
 
         public void RemoveAt(int index)
-            => Cards.RemoveAt(index);
+            => this.Cards.RemoveAt(index);
 
         public void MoveCard(int oldIndex, int newIndex)
         {
-            var card = Cards[oldIndex];
-            Cards.RemoveAt(oldIndex);
-            Cards.Insert(newIndex, card);
+            var card = this.Cards[oldIndex];
+            this.Cards.RemoveAt(oldIndex);
+            this.Cards.Insert(newIndex, card);
         }
 
         public int IndexOf(Card card)
         {
-            return Cards.IndexOf(card);
+            return this.Cards.IndexOf(card);
         }
 
         public void Clear()
-            => Cards.Clear();
+            => this.Cards.Clear();
 
         public bool Contains(Card card)
-            => Cards.Contains(card);
+            => this.Cards.Contains(card);
 
         public void CopyTo(Card[] array, int arrayIndex)
         {
@@ -123,38 +128,38 @@ namespace Memento.DAL
             {
                 throw new ArgumentOutOfRangeException(nameof(array), "The starting array index cannot be negative.");
             }
-            else if (Count > array.Length - arrayIndex + 1)
+            else if (this.Count > array.Length - arrayIndex + 1)
             {
                 throw new ArgumentException("The destination array has fewer elements than the collection.");
             }
 
-            for (int i = 0; i < Cards.Count; i++)
+            for (int i = 0; i < this.Cards.Count; i++)
             {
-                array[i + arrayIndex] = Cards[i];
+                array[i + arrayIndex] = this.Cards[i];
             }
         }
 
         public override string ToString()
-            => DeckName;
+            => this.DeckName;
 
         public override int GetHashCode()
-            => HashCode.Combine(Id, Cards, DeckName, TagName);
+            => HashCode.Combine(this.Id, this.Cards, this.DeckName, this.TagName);
 
         public override bool Equals(object obj)
-            => obj is Deck deck && Equals(deck);
+            => obj is Deck deck && this.Equals(deck);
 
         public bool Equals(Deck deck)
-            => DeckName == deck.DeckName;
+            => this.DeckName == deck.DeckName;
 
         public IEnumerator<Card> GetEnumerator()
-            => Cards.GetEnumerator();
+            => this.Cards.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
-            => GetEnumerator();
+            => this.GetEnumerator();
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿// <copyright file="Card.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Memento.DAL
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Runtime.CompilerServices;
+
     public class Card : IEquatable<Card>, INotifyPropertyChanged
     {
         private int id;
@@ -17,127 +21,128 @@ namespace Memento.DAL
 
         public Card()
         {
-            Id = -1;
-            Word = "";
-            Description = "";
-            Transcription = "";
-            Difficulty = Difficulty.None;
-            ImagePath = "";
-            Tags = new ObservableCollection<string>();
+            this.Id = -1;
+            this.Word = "";
+            this.Description = "";
+            this.Transcription = "";
+            this.Difficulty = Difficulty.None;
+            this.ImagePath = "";
+            this.Tags = new ObservableCollection<string>();
         }
 
         public Card(string word, string description, string transcription = "", string imagePath = "", Difficulty difficulty = Difficulty.None)
         {
-            Id = -1;
-            Word = word;
-            Description = description;
-            Transcription = transcription;
-            Difficulty = difficulty;
-            ImagePath = imagePath;
-            Tags = new ObservableCollection<string>();
+            this.Id = -1;
+            this.Word = word;
+            this.Description = description;
+            this.Transcription = transcription;
+            this.Difficulty = difficulty;
+            this.ImagePath = imagePath;
+            this.Tags = new ObservableCollection<string>();
         }
 
         public Card(Card card)
         {
-            Id = card.Id;
-            Word = card.Word;
-            Description = card.Description;
-            Transcription = card.Transcription;
-            Difficulty = card.Difficulty;
-            ImagePath = card.ImagePath;
-            Tags = new ObservableCollection<string>(card.Tags.OrderBy(x => x));
+            this.Id = card.Id;
+            this.Word = card.Word;
+            this.Description = card.Description;
+            this.Transcription = card.Transcription;
+            this.Difficulty = card.Difficulty;
+            this.ImagePath = card.ImagePath;
+            this.Tags = new ObservableCollection<string>(card.Tags.OrderBy(x => x));
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public int Id
         {
-            get => id;
+            get => this.id;
             set
             {
-                id = value;
-                OnPropertyChanged();
+                this.id = value;
+                this.OnPropertyChanged();
             }
         }
 
         public string Word
         {
-            get => word;
+            get => this.word;
             set
             {
-                word = value;
-                OnPropertyChanged();
+                this.word = value;
+                this.OnPropertyChanged();
             }
         }
 
         public string Description
         {
-            get => description;
+            get => this.description;
             set
             {
-                description = value;
-                OnPropertyChanged();
+                this.description = value;
+                this.OnPropertyChanged();
             }
         }
 
         public string Transcription
         {
-            get => transcription;
+            get => this.transcription;
             set
             {
-                transcription = value;
-                OnPropertyChanged();
+                this.transcription = value;
+                this.OnPropertyChanged();
             }
         }
 
         public Difficulty Difficulty
         {
-            get => difficulty;
+            get => this.difficulty;
             set
             {
-                difficulty = value;
-                OnPropertyChanged();
+                this.difficulty = value;
+                this.OnPropertyChanged();
             }
         }
 
         public string ImagePath
         {
-            get => imagePath;
+            get => this.imagePath;
             set
             {
-                imagePath = value;
-                OnPropertyChanged();
+                this.imagePath = value;
+                this.OnPropertyChanged();
             }
         }
 
         public ObservableCollection<string> Tags { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public override string ToString()
         {
-            return $"{Word} [{Transcription}] - {Description}";
+            return $"{this.Word} [{this.Transcription}] - {this.Description}";
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Word, Description);
+            return HashCode.Combine(this.Id, this.Word, this.Description);
         }
 
         public override bool Equals(object obj)
         {
-            return obj is Card card && Equals(card);
+            return obj is Card card && this.Equals(card);
         }
 
         public bool Equals(Card card)
         {
-            return Id == card.Id || (Word == card.Word &&
-                                     Description == card.Description &&
-                                     Transcription == card.Transcription &&
-                                     Difficulty == card.Difficulty &&
-                                     ImagePath == card.ImagePath);
+            return this.Id == card.Id || (this.Word == card.Word &&
+                                          this.Description == card.Description &&
+                                          this.Transcription == card.Transcription &&
+                                          this.Difficulty == card.Difficulty &&
+                                          this.ImagePath == card.ImagePath);
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
