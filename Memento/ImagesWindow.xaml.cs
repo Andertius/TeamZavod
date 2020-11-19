@@ -1,5 +1,5 @@
-﻿// <copyright file="ImagesWindow.xaml.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="ImagesWindow.xaml.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
 namespace Memento
@@ -15,10 +15,17 @@ namespace Memento
 
     using Microsoft.Win32;
 
+    /// <summary>
+    /// Interaction logic for ImagesWindow.xaml.
+    /// </summary>
     public partial class ImagesWindow : Window
     {
         private string path;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImagesWindow"/> class.
+        /// </summary>
+        /// <param name="imgSource">The currently selected image.</param>
         public ImagesWindow(ImageSource imgSource)
         {
             this.InitializeComponent();
@@ -40,12 +47,26 @@ namespace Memento
             dp.AddValueChanged(this.SearchTextBox, this.RenderImages);
         }
 
+        /// <summary>
+        /// Gets the image source.
+        /// </summary>
         public ImageSource ImageSource { get; private set; }
 
+        /// <summary>
+        /// Gets the path of the selected image.
+        /// </summary>
         public string SelectedPath { get; private set; }
 
+        /// <summary>
+        /// Gets all the images.
+        /// </summary>
         public SortedDictionary<string, string> ImagesDictionary { get; }
 
+        /// <summary>
+        /// Change the selected image.
+        /// </summary>
+        /// <param name="sender">The object that invoked the method.</param>
+        /// <param name="e">No parameters.</param>
         public void ChooseFile(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
