@@ -1,5 +1,5 @@
-﻿// <copyright file="DeckEditorCardEventArgs.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="DeckEditorCardEventArgs.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
 namespace Memento.BLL.DeckEditorEventArgs
@@ -9,7 +9,7 @@ namespace Memento.BLL.DeckEditorEventArgs
     using Memento.DAL;
 
     /// <summary>
-    /// EventArgs for anything related to a card.
+    /// Event arguments for anything related to a card.
     /// </summary>
     public class DeckEditorCardEventArgs : EventArgs
     {

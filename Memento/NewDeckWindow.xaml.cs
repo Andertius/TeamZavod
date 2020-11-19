@@ -1,5 +1,5 @@
-﻿// <copyright file="NewDeckWindow.xaml.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="NewDeckWindow.xaml.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
 namespace Memento
@@ -10,15 +10,27 @@ namespace Memento
     using System.Windows.Media;
     using System.Windows.Media.Animation;
 
+    /// <summary>
+    /// Interaction logic for NewDeckWindow.xaml.
+    /// </summary>
     public partial class NewDeckWindow : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NewDeckWindow"/> class.
+        /// </summary>
         public NewDeckWindow()
         {
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Gets or sets the name of the deck.
+        /// </summary>
         public string DeckName { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Gets or sets the tag name of the deck.
+        /// </summary>
         public string TagName { get; set; } = string.Empty;
 
         private async void OKButton_Click(object sender, RoutedEventArgs e)

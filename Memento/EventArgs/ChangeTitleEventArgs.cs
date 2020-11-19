@@ -1,5 +1,5 @@
-﻿// <copyright file="ChangeTitleEventArgs.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="ChangeTitleEventArgs.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
 namespace Memento

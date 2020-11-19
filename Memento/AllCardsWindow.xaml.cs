@@ -1,5 +1,5 @@
-﻿// <copyright file="AllCardsWindow.xaml.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="AllCardsWindow.xaml.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
 namespace Memento

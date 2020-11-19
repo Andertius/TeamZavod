@@ -1,5 +1,5 @@
-﻿// <copyright file="EqualsConverter.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="EqualsConverter.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
 namespace Memento.Converters
@@ -30,7 +30,7 @@ namespace Memento.Converters
         /// Convert to an appropriate enum depending on the parameter.
         /// </summary>
         /// <returns>An appropriate enum.</returns>
-        /// <param name="value">A bool, that should be true to return an enum</param>
+        /// <param name="value">A bool, that should be true to return an enum.</param>
         /// <param name="targetType">The type to be converted to.</param>
         /// <param name="parameter">An enum that will be returned if conditions are met.</param>
         /// <param name="culture">The culture, i guess.</param>
