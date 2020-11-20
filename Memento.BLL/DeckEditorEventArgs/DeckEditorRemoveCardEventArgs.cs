@@ -2,12 +2,12 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
+using System;
+
+using Memento.DAL;
+
 namespace Memento.BLL.DeckEditorEventArgs
 {
-    using System;
-
-    using Memento.DAL;
-
     /// <summary>
     /// Event arguments for deleting a card.
     /// </summary>
@@ -20,8 +20,8 @@ namespace Memento.BLL.DeckEditorEventArgs
         /// <param name="card">The card to be removed.</param>
         public DeckEditorRemoveCardEventArgs(Deck deck, Card card)
         {
-            this.Card = new Card(card);
-            this.Deck = new Deck(deck);
+            Card = new Card(card);
+            Deck = new Deck(deck);
         }
 
         /// <summary>

@@ -2,10 +2,10 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
+using System;
+
 namespace Memento
 {
-    using System;
-
     /// <summary>
     /// Event arguments for the deck editing page.
     /// </summary>
@@ -17,7 +17,7 @@ namespace Memento
         /// <param name="deckId">The id of the deck that should be open whrn the page opens.</param>
         public StartEditingEventArgs(int deckId = -1)
         {
-            this.DeckId = deckId;
+            DeckId = deckId;
         }
 
         /// <summary>

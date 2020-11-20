@@ -2,12 +2,12 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
+using System;
+using System.Globalization;
+using System.Windows.Data;
+
 namespace Memento.Converters
 {
-    using System;
-    using System.Globalization;
-    using System.Windows.Data;
-
     /// <summary>
     /// A binding converter.
     /// </summary>
@@ -23,7 +23,7 @@ namespace Memento.Converters
         /// <param name="culture">The culture of the string.</param>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value is int number ? number.ToString() : string.Empty;
+            return value is int number ? number.ToString() : String.Empty;
         }
 
         /// <summary>

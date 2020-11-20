@@ -2,17 +2,17 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+
+using Memento.BLL.DeckEditorEventArgs;
+using Memento.DAL;
+
 namespace Memento.BLL
 {
-    using System;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-
-    using Memento.BLL.DeckEditorEventArgs;
-    using Memento.DAL;
-
     /// <summary>
     /// The main logic for deck editing.
     /// </summary>
@@ -26,13 +26,13 @@ namespace Memento.BLL
         /// </summary>
         public DeckEditor()
         {
-            this.Deck = new Deck();
-            this.CurrentCard = new Card();
-            this.AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks());
-            this.Cards = new ObservableCollection<Card>(Repository.FetchAllCards());
-            this.Tags = new ObservableCollection<string>(Repository.FetchAllTags()
-                                                                   .Distinct()
-                                                                   .OrderBy(x => x));
+            Deck = new Deck();
+            CurrentCard = new Card();
+            AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks());
+            Cards = new ObservableCollection<Card>(Repository.FetchAllCards());
+            Tags = new ObservableCollection<string>(Repository.FetchAllTags()
+                                                              .Distinct()
+                                                              .OrderBy(x => x));
         }
 
         /// <summary>
@@ -41,13 +41,13 @@ namespace Memento.BLL
         /// <param name="deck">The deck that will get copied.</param>
         public DeckEditor(Deck deck)
         {
-            this.Deck = new Deck(deck);
-            this.CurrentCard = new Card();
-            this.AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks());
-            this.Cards = new ObservableCollection<Card>(Repository.FetchAllCards());
-            this.Tags = new ObservableCollection<string>(Repository.FetchAllTags()
-                                                                   .Distinct()
-                                                                   .OrderBy(x => x));
+            Deck = new Deck(deck);
+            CurrentCard = new Card();
+            AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks());
+            Cards = new ObservableCollection<Card>(Repository.FetchAllCards());
+            Tags = new ObservableCollection<string>(Repository.FetchAllTags()
+                                                              .Distinct()
+                                                              .OrderBy(x => x));
         }
 
         /// <summary>
@@ -56,13 +56,13 @@ namespace Memento.BLL
         /// <param name="deckName">The name to be given to the deck.</param>
         public DeckEditor(string deckName)
         {
-            this.Deck = Repository.FetchDeck(deckName);
-            this.CurrentCard = new Card();
-            this.AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks());
-            this.Cards = new ObservableCollection<Card>(Repository.FetchAllCards());
-            this.Tags = new ObservableCollection<string>(Repository.FetchAllTags()
-                                                                   .Distinct()
-                                                                   .OrderBy(x => x));
+            Deck = Repository.FetchDeck(deckName);
+            CurrentCard = new Card();
+            AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks());
+            Cards = new ObservableCollection<Card>(Repository.FetchAllCards());
+            Tags = new ObservableCollection<string>(Repository.FetchAllTags()
+                                                              .Distinct()
+                                                              .OrderBy(x => x));
         }
 
         /// <summary>
@@ -71,13 +71,13 @@ namespace Memento.BLL
         /// <param name="deckId">The id to be given to the deck.</param>
         public DeckEditor(int deckId)
         {
-            this.Deck = Repository.FetchDeck(deckId);
-            this.CurrentCard = new Card();
-            this.AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks());
-            this.Cards = new ObservableCollection<Card>(Repository.FetchAllCards());
-            this.Tags = new ObservableCollection<string>(Repository.FetchAllTags()
-                                                                   .Distinct()
-                                                                   .OrderBy(x => x));
+            Deck = Repository.FetchDeck(deckId);
+            CurrentCard = new Card();
+            AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks());
+            Cards = new ObservableCollection<Card>(Repository.FetchAllCards());
+            Tags = new ObservableCollection<string>(Repository.FetchAllTags()
+                                                              .Distinct()
+                                                              .OrderBy(x => x));
         }
 
         /// <summary>
@@ -90,11 +90,11 @@ namespace Memento.BLL
         /// </summary>
         public Deck Deck
         {
-            get => this.deck;
+            get => deck;
             private set
             {
-                this.deck = value;
-                this.OnPropertyChanged();
+                deck = value;
+                OnPropertyChanged();
             }
         }
 
@@ -103,11 +103,11 @@ namespace Memento.BLL
         /// </summary>
         public Card CurrentCard
         {
-            get => this.currentCard;
+            get => currentCard;
             private set
             {
-                this.currentCard = value;
-                this.OnPropertyChanged();
+                currentCard = value;
+                OnPropertyChanged();
             }
         }
 
@@ -133,7 +133,7 @@ namespace Memento.BLL
         /// <param name="e">The card to be added.</param>
         public void AddCard(object sender, DeckEditorCardEventArgs e)
         {
-            if (!this.Deck.Contains(e.Card))
+            if (!Deck.Contains(e.Card))
             {
                 if (e.Card.Id == -1)
                 {
@@ -151,13 +151,13 @@ namespace Memento.BLL
 
                 foreach (var tag in e.Card.Tags)
                 {
-                    if (!this.Tags.Contains(tag.Trim()))
+                    if (!Tags.Contains(tag.Trim()))
                     {
-                        this.Tags.Add(tag.Trim());
+                        Tags.Add(tag.Trim());
                     }
                 }
 
-                this.Deck.Add(e.Card);
+                Deck.Add(e.Card);
                 return;
             }
 
@@ -171,13 +171,13 @@ namespace Memento.BLL
         /// <param name="e">The card to be updated.</param>
         public void UpdateCard(object sender, DeckEditorCardEventArgs e)
         {
-            this.Deck[this.Deck.IndexOf(e.Card)] = new Card(e.Card);
+            Deck[Deck.IndexOf(e.Card)] = new Card(e.Card);
 
             foreach (var tag in e.Card.Tags)
             {
-                if (!this.Tags.Contains(tag.Trim()))
+                if (!Tags.Contains(tag.Trim()))
                 {
-                    this.Tags.Add(tag.Trim());
+                    Tags.Add(tag.Trim());
                 }
             }
 
@@ -191,14 +191,14 @@ namespace Memento.BLL
         /// <param name="e">The card to be removed.</param>
         public void RemoveCard(object sender, DeckEditorRemoveCardEventArgs e)
         {
-            e.CardRemoved = this.Deck.Remove(e.Card);
+            e.CardRemoved = Deck.Remove(e.Card);
 
             if (e.Card.Id != -1 && e.Deck.Id != -1)
             {
                 Repository.RemoveCardFromDeck(e.Deck.Id, e.Card.Id);
             }
 
-            this.CurrentCard = new Card();
+            CurrentCard = new Card();
         }
 
         /// <summary>
@@ -208,8 +208,8 @@ namespace Memento.BLL
         /// <param name="e">The deck to change to.</param>
         public void ChangeDeck(object sender, DeckEditorDeckEventArgs e)
         {
-            this.Deck = new Deck(e.Deck);
-            this.CurrentCard = new Card();
+            Deck = new Deck(e.Deck);
+            CurrentCard = new Card();
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace Memento.BLL
             {
                 Repository.RemoveDeck(e.Deck.Id);
                 e.Removed = true;
-                this.CurrentCard = new Card();
+                CurrentCard = new Card();
                 return;
             }
 
@@ -240,7 +240,7 @@ namespace Memento.BLL
             if (e.Deck.Id == -1)
             {
                 Repository.AddDeck(e.Deck);
-                this.AllDecks.Add(e.Deck);
+                AllDecks.Add(e.Deck);
             }
             else
             {
@@ -255,7 +255,7 @@ namespace Memento.BLL
         /// <param name="e">No parameters.</param>
         public void ClearCard(object sender, EventArgs e)
         {
-            this.CurrentCard = new Card();
+            CurrentCard = new Card();
         }
 
         /// <summary>
@@ -265,12 +265,12 @@ namespace Memento.BLL
         /// <param name="e">The card to change to.</param>
         public void ChangeCard(object sender, DeckEditorCardEventArgs e)
         {
-            this.CurrentCard = new Card(e.Card);
+            CurrentCard = new Card(e.Card);
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -2,14 +2,14 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
+using System;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+
 namespace Memento
 {
-    using System;
-    using System.Threading.Tasks;
-    using System.Windows;
-    using System.Windows.Media;
-    using System.Windows.Media.Animation;
-
     /// <summary>
     /// Interaction logic for NewDeckWindow.xaml.
     /// </summary>
@@ -20,45 +20,45 @@ namespace Memento
         /// </summary>
         public NewDeckWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>
         /// Gets or sets the name of the deck.
         /// </summary>
-        public string DeckName { get; set; } = string.Empty;
+        public string DeckName { get; set; } = String.Empty;
 
         /// <summary>
         /// Gets or sets the tag name of the deck.
         /// </summary>
-        public string TagName { get; set; } = string.Empty;
+        public string TagName { get; set; } = String.Empty;
 
         private async void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            if (this.DeckNameTextBox.Text.Trim() == string.Empty)
+            if (DeckNameTextBox.Text.Trim() == String.Empty)
             {
                 ColorAnimation ca = new ColorAnimation(Colors.Black, Colors.Red, new Duration(TimeSpan.FromMilliseconds(500)));
-                this.DeckNameTextBlock.Foreground = new SolidColorBrush(Colors.Black);
-                this.DeckNameTextBlock.Foreground.BeginAnimation(SolidColorBrush.ColorProperty, ca);
+                DeckNameTextBlock.Foreground = new SolidColorBrush(Colors.Black);
+                DeckNameTextBlock.Foreground.BeginAnimation(SolidColorBrush.ColorProperty, ca);
 
                 await Task.Delay(500);
 
                 ColorAnimation ca1 = new ColorAnimation(Colors.Red, Colors.Black, new Duration(TimeSpan.FromMilliseconds(500)));
-                this.DeckNameTextBlock.Foreground = new SolidColorBrush(Colors.Red);
-                this.DeckNameTextBlock.Foreground.BeginAnimation(SolidColorBrush.ColorProperty, ca1);
+                DeckNameTextBlock.Foreground = new SolidColorBrush(Colors.Red);
+                DeckNameTextBlock.Foreground.BeginAnimation(SolidColorBrush.ColorProperty, ca1);
 
                 return;
             }
 
-            this.DeckName = this.DeckNameTextBox.Text.Trim();
-            this.TagName = this.TagNameTextBox.Text.Trim();
+            DeckName = DeckNameTextBox.Text.Trim();
+            TagName = TagNameTextBox.Text.Trim();
 
-            this.Close();
+            Close();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

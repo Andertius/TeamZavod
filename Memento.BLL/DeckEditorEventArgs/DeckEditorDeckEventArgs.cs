@@ -2,12 +2,12 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
+using System;
+
+using Memento.DAL;
+
 namespace Memento.BLL.DeckEditorEventArgs
 {
-    using System;
-
-    using Memento.DAL;
-
     /// <summary>
     /// Event arguments for anything related to a deck.
     /// </summary>
@@ -19,7 +19,7 @@ namespace Memento.BLL.DeckEditorEventArgs
         /// <param name="deck">The deck, i guess.</param>
         public DeckEditorDeckEventArgs(Deck deck)
         {
-            this.Deck = new Deck(deck);
+            Deck = new Deck(deck);
         }
 
         /// <summary>
