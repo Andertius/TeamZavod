@@ -8,7 +8,12 @@
 
   <ItemGroup>
     <None Remove="exit.png" />
+    <None Remove="stylecop.json" />
     <None Remove="team.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
 
   <ItemGroup>
