@@ -1,18 +1,28 @@
-﻿// <copyright file="StartEditingEventArgs.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="StartEditingEventArgs.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
+
+using System;
 
 namespace Memento
 {
-    using System;
-
+    /// <summary>
+    /// Event arguments for the deck editing page.
+    /// </summary>
     public class StartEditingEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StartEditingEventArgs"/> class.
+        /// </summary>
+        /// <param name="deckId">The id of the deck that should be open whrn the page opens.</param>
         public StartEditingEventArgs(int deckId = -1)
         {
-            this.DeckId = deckId;
+            DeckId = deckId;
         }
 
+        /// <summary>
+        /// Gets the deck id.
+        /// </summary>
         public int DeckId { get; }
     }
 }

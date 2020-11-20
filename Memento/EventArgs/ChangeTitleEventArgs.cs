@@ -1,11 +1,11 @@
-﻿// <copyright file="ChangeTitleEventArgs.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="ChangeTitleEventArgs.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
+
+using System;
 
 namespace Memento
 {
-    using System;
-
     /// <summary>
     /// Event arguments for changing the window title.
     /// </summary>
@@ -17,7 +17,7 @@ namespace Memento
         /// <param name="title">The new window title.</param>
         public ChangeTitleEventArgs(string title)
         {
-            this.Title = title;
+            Title = title;
         }
 
         /// <summary>

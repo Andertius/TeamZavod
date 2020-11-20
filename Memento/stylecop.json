@@ -9,6 +9,14 @@
   "settings": {
     "documentationRules": {
       "companyName": "lnu.edu.ua"
+    },
+    "orderingRules": {
+      "blankLinesBetweenUsingGroups": "require",
+      "systemUsingDirectivesFirst": true,
+      "usingDirectivesPlacement": "outsideNamespace"
+    },
+    "layoutRules": {
+      "newlineAtEndOfFile": "require"
     }
   }
 }

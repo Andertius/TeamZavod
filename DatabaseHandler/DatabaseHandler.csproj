@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Card_Table_Data.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

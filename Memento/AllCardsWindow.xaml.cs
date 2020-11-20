@@ -1,17 +1,17 @@
-﻿// <copyright file="AllCardsWindow.xaml.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="AllCardsWindow.xaml.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
+
+using Memento.DAL;
 
 namespace Memento
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Windows;
-    using System.Windows.Controls;
-
-    using Memento.DAL;
-
     /// <summary>
     /// Interaction logic for AllCardsWindow.xaml.
     /// </summary>
@@ -25,15 +25,15 @@ namespace Memento
         /// <param name="cards">All the cards that exist.</param>
         public AllCardsWindow(IEnumerable<Card> cards)
         {
-            this.DataContext = this;
-            this.InitializeComponent();
-            this.SelectedCard = new Card();
+            DataContext = this;
+            InitializeComponent();
+            SelectedCard = new Card();
 
-            this.Cards = new List<Card>(cards);
-            this.RenderCards(this, EventArgs.Empty);
+            Cards = new List<Card>(cards);
+            RenderCards(this, EventArgs.Empty);
 
             var dp = DependencyPropertyDescriptor.FromProperty(TextBox.TextProperty, typeof(TextBox));
-            dp.AddValueChanged(this.SearchTextBox, this.RenderCards);
+            dp.AddValueChanged(SearchTextBox, RenderCards);
         }
 
         /// <summary>
@@ -48,11 +48,11 @@ namespace Memento
 
         private void RenderCards(object sender, EventArgs e)
         {
-            this.CardsPanel.Children.Clear();
+            CardsPanel.Children.Clear();
 
-            foreach (var item in this.Cards)
+            foreach (var item in Cards)
             {
-                if (item.Word.ToLower().Contains(this.SearchTextBox.Text.ToLower().Trim()))
+                if (item.Word.ToLower().Contains(SearchTextBox.Text.ToLower().Trim()))
                 {
                     var word = new TextBlock()
                     {
@@ -69,30 +69,30 @@ namespace Memento
                         Margin = new Thickness(0, 0, 7, 7),
                     };
 
-                    chooseButton.Click += this.Select;
+                    chooseButton.Click += Select;
 
-                    this.CardsPanel.Children.Add(chooseButton);
+                    CardsPanel.Children.Add(chooseButton);
                 }
             }
         }
 
         private void Select(object sender, RoutedEventArgs e)
         {
-            this.SelectedCard = (sender as Button).Tag as Card;
-            this.SelectedTextBlock.Text = $"{this.SelectedCard.Word}: {this.SelectedCard.Description}";
+            SelectedCard = (sender as Button).Tag as Card;
+            SelectedTextBlock.Text = $"{SelectedCard.Word}: {SelectedCard.Description}";
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            this.okPressed = true;
-            this.Close();
+            okPressed = true;
+            Close();
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (!this.okPressed)
+            if (!okPressed)
             {
-                this.SelectedCard = null;
+                SelectedCard = null;
             }
         }
     }
