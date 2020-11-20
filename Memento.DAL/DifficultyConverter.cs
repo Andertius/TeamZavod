@@ -2,12 +2,12 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Text;
+
 namespace Memento.DAL
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
     /// Converts Difficulty enum to difficulty string and vice versa.
     /// </summary>

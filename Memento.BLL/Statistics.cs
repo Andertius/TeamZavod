@@ -2,19 +2,20 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Xml.Linq;
+
+using Memento.DAL;
+
 namespace Memento.BLL
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-    using System.Text;
-    using System.Xml.Linq;
-    using Memento.DAL;
-
     // StatEventArgs (TimeSpan t);
 
     /// <summary>

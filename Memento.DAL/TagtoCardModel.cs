@@ -2,14 +2,15 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
+
+using Microsoft.EntityFrameworkCore;
+
 namespace Memento.DAL
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Text;
-    using Microsoft.EntityFrameworkCore;
-
     /// <summary>
     /// model representative of TagToCard table.
     /// </summary>

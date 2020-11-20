@@ -2,12 +2,12 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Memento.DAL
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
     /// <summary>
     /// Card Model for Database that is linked to Card tablefrom DB.
     /// </summary>

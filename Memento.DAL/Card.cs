@@ -1,15 +1,15 @@
-﻿// <copyright file="Card.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Card.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
+
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Memento.DAL
 {
-    using System;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-
     /// <summary>
     /// The main logic for the cards.
     /// </summary>

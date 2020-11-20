@@ -2,14 +2,15 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+
+using Microsoft.EntityFrameworkCore;
+
 namespace Memento.DAL
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
-    using Microsoft.EntityFrameworkCore;
-
     /// <summary>
     /// class with methods that use database.
     /// </summary>

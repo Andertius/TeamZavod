@@ -2,16 +2,16 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Shapes;
+
 namespace Memento
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Windows;
-    using System.Windows.Media;
-    using System.Windows.Shapes;
-
     /// <summary>
     /// Creates arc on a circle.
     /// </summary>
