@@ -1,12 +1,13 @@
-// <copyright file="Commands.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Commands.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
+
+using System.Windows.Input;
+
+using Memento.UserControls;
 
 namespace Memento
 {
-    using System.Windows.Input;
-    using Memento.UserControls;
-
     /// <summary>
     /// Command definitions.
     /// </summary>

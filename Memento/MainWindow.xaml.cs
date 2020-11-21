@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="MainWindow.xaml.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
+// </copyright>
+
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-using Memento.UserControls;
 using Memento.BLL;
-using Memento.DAL;
-using System.Diagnostics;
+using Memento.UserControls;
 
 namespace Memento
 {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml.
+    /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindow"/> class.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -41,16 +38,23 @@ namespace Memento
         }
 
         public bool IsInEditor { get; private set; }
+
         public bool IsInLearningProcess { get; private set; }
 
         public AppHandler LearningProcess { get; private set; }
+
         public DeckEditor DeckEditor { get; set; }
+
         public Settings AppSettings { get; set; }
+
         public Statistics AppStatistics { get; set; }
 
         public MainPageUserControl MainPage { get; set; }
+
         public DeckEditorUserControl DeckEditorPage { get; set; }
+
         public SettingsUserControl SettingsPage { get; set; }
+
         public StatisticsUserControl StatisticsPage { get; set; }
 
         private void StartLearning(object sender, RoutedEventArgs e)
@@ -99,10 +103,11 @@ namespace Memento
             {
                 AppSettings = new Settings();
             }
+
             Content = SettingsPage = new SettingsUserControl(AppSettings)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
+                VerticalAlignment = VerticalAlignment.Stretch,
             };
  
             SettingsPage.MakeMainPageVisible += GoToMainPageFromSettings;
@@ -117,7 +122,7 @@ namespace Memento
         }
 
         private void OpenStatistics(object sender, EventArgs e)
-        {   
+        {
             if (AppStatistics is null)
             {
                 AppStatistics = new Statistics();
@@ -129,7 +134,7 @@ namespace Memento
                 Content = StatisticsPage = new StatisticsUserControl(AppStatistics, AppSettings)
                 {
                     HorizontalAlignment = HorizontalAlignment.Stretch,
-                    VerticalAlignment = VerticalAlignment.Stretch
+                    VerticalAlignment = VerticalAlignment.Stretch,
                 };
             }
             else
@@ -137,11 +142,10 @@ namespace Memento
                 Content = StatisticsPage = new StatisticsUserControl(AppStatistics, SettingsPage.AppSettings)
                 {
                     HorizontalAlignment = HorizontalAlignment.Stretch,
-                    VerticalAlignment = VerticalAlignment.Stretch
+                    VerticalAlignment = VerticalAlignment.Stretch,
                 };
             }
 
-            
             StatisticsPage.MakeMainPageVisible += GoToMainPageFromStatistics;
             Title = "Memento - Statistics";
         }

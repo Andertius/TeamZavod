@@ -1,25 +1,33 @@
-﻿using Memento.BLL;
+﻿// <copyright file="SettingsUserControl.xaml.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
+// </copyright>
+
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
+using Memento.BLL;
 
 namespace Memento.UserControls
 {
     /// <summary>
-    /// Interaction logic for SettingsUserControl.xaml
+    /// Interaction logic for SettingsUserControl.xaml.
     /// </summary>
     public partial class SettingsUserControl : UserControl
     {
+
+        private static readonly DependencyProperty AppSettingsProperty = DependencyProperty.Register(
+            nameof(AppSettings),
+            typeof(Settings),
+            typeof(SettingsUserControl),
+            new PropertyMetadata(new Settings()));
+
+        private bool handle = false;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsUserControl"/> class.
+        /// </summary>
+        /// <param name="settings">Application settings that will be displayed when the page loads.</param>
         public SettingsUserControl(Settings settings)
         {
             DataContext = this;
@@ -28,20 +36,27 @@ namespace Memento.UserControls
             ThemeCombox.SelectedIndex = (int)AppSettings.Theme;
             CardOrderCombox.SelectedIndex = (int)AppSettings.CardOrder;
         }
-        static private readonly DependencyProperty AppSettingsProperty = DependencyProperty.Register(nameof(AppSettings), typeof(Settings),
-            typeof(SettingsUserControl), new PropertyMetadata(new Settings()));
 
+        /// <summary>
+        /// An event that handles the return to the main page.
+        /// </summary>
         public event EventHandler MakeMainPageVisible;
 
+        /// <summary>
+        /// Gets or sets the settings that the user works with.
+        /// </summary>
         public Settings AppSettings
         {
             get => (Settings)GetValue(AppSettingsProperty);
-            private set => SetValue(AppSettingsProperty, value);
+            set => SetValue(AppSettingsProperty, value);
         }
-        public Theme AppTheme { get; set; }
-        private bool handle = false;
 
-        public void GoBackButton_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Gets or sets current application theme.
+        /// </summary>
+        public Theme AppTheme { get; set; }
+
+        private void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
             bool isOkHrs = Double.TryParse(HrsTextBox.Text, out double hoursPerDay);
             if (hoursPerDay < 0 || hoursPerDay > 24)
@@ -82,13 +97,7 @@ namespace Memento.UserControls
             }
         }
 
-        private void Handle()
-        {
-            string val = ThemeCombox.Text;
-            AppTheme = (val == "Light") ? Theme.Light : Theme.Dark;
-        }
-
-        public void Theme_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Theme_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cmb = sender as ComboBox;
             handle = !cmb.IsDropDownOpen;
@@ -100,12 +109,18 @@ namespace Memento.UserControls
             handle = true;
         }
 
-        public void Theme_DropDownClosed(object sender, EventArgs e)
+        private void Theme_DropDownClosed(object sender, EventArgs e)
         {
             if (handle)
             {
                 Handle();
             }
+        }
+
+        private void Handle()
+        {
+            string val = ThemeCombox.Text;
+            AppTheme = (val == "Light") ? Theme.Light : Theme.Dark;
         }
     }
 }
