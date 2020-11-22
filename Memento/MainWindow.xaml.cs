@@ -37,24 +37,54 @@ namespace Memento
             IsInLearningProcess = false;
         }
 
+        /// <summary>
+        /// Gets a value indicating whether IsInEditor.
+        /// </summary>
         public bool IsInEditor { get; private set; }
 
+        /// <summary>
+        /// Gets a value indicating whether IsInLearningProcess.
+        /// </summary>
         public bool IsInLearningProcess { get; private set; }
 
+        /// <summary>
+        /// Gets LearningProcess.
+        /// </summary>
         public AppHandler LearningProcess { get; private set; }
 
+        /// <summary>
+        /// Gets or sets DeckEditor.
+        /// </summary>
         public DeckEditor DeckEditor { get; set; }
 
+        /// <summary>
+        /// Gets or sets AppSettings.
+        /// </summary>
         public Settings AppSettings { get; set; }
 
+        /// <summary>
+        /// Gets or sets AppStatistics.
+        /// </summary>
         public Statistics AppStatistics { get; set; }
 
+        /// <summary>
+        /// Gets or sets MainPage.
+        /// </summary>
         public MainPageUserControl MainPage { get; set; }
 
+        /// <summary>
+        /// Gets or sets DeckEditorPage.
+        /// </summary>
         public DeckEditorUserControl DeckEditorPage { get; set; }
 
+        /// <summary>
+        /// Gets or sets SettingsPage.
+        /// </summary>
         public SettingsUserControl SettingsPage { get; set; }
 
+        /// <summary>
+        /// Gets or sets StatisticsPage.
+        /// </summary>
         public StatisticsUserControl StatisticsPage { get; set; }
 
         private void StartLearning(object sender, RoutedEventArgs e)
@@ -150,7 +180,7 @@ namespace Memento
             Title = "Memento - Statistics";
         }
 
-        public void GoToMainPageFromStatistics(object sender, EventArgs e)
+        private void GoToMainPageFromStatistics(object sender, EventArgs e)
         {
             StatisticsPage.MakeMainPageVisible -= GoToMainPageFromStatistics;
             Content = MainPage;
