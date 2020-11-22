@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
-using System.IO;
-using System.Xml.Linq;
-using Memento.DAL;
-using System.Linq;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
-namespace Memento.BLL
+﻿namespace Memento.BLL
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Runtime.CompilerServices;
+    using System.Text;
+    using System.Xml.Linq;
+    using Memento.DAL;
+
     //StatEventArgs (TimeSpan t);
     public class Statistics : INotifyPropertyChanged
     {
@@ -20,9 +20,9 @@ namespace Memento.BLL
 
         public Statistics()
         {
-            TimeSpentToday = new TimeSpan();
-            AvarageTimePerDay = new TimeSpan();
-            CardsLearnedToday = new List<Card>();
+            this.TimeSpentToday = new TimeSpan();
+            this.AvarageTimePerDay = new TimeSpan();
+            this.CardsLearnedToday = new List<Card>();
         }
 
         public TimeSpan TimeSpentToday 
@@ -57,12 +57,12 @@ namespace Memento.BLL
 
         public void AddSpentTimeToday(object sender, StatAddSpentTimeEventArgs e)
         {
-            TimeSpentToday = TimeSpentToday.Add(e.TimePassed);
+            this.TimeSpentToday = TimeSpentToday.Add(e.TimePassed);
         }
 
         public void AddCardLearned(object sender, StatCardLearnedEventArgs e)
         {
-            CardsLearnedToday.Add(e.LearnedCard);
+            this.CardsLearnedToday.Add(e.LearnedCard);
         }
 
         public void ManageStatistics()

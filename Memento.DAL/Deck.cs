@@ -36,6 +36,8 @@ namespace Memento.DAL
             this.Cards.CollectionChanged += (sender, e) => this.OnPropertyChanged(nameof(this.Count));
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public int Id
         {
             get => this.id;
@@ -45,8 +47,6 @@ namespace Memento.DAL
                 this.OnPropertyChanged();
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public int Count { get => this.Cards.Count; }
 

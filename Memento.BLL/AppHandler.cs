@@ -1,24 +1,24 @@
-﻿using System;
-using System.Linq;
-using Memento.DAL;
-
-namespace Memento.BLL
+﻿namespace Memento.BLL
 {
+    using System;
+    using Memento.BLL.AppHandlerEventArgs;
+    using Memento.DAL;
+
     public class AppHandler
     {
         public AppHandler(Deck deck)
         {
-            Deck = new Deck(deck);
+            this.Deck = new Deck(deck);
         }
 
         public AppHandler(int deckId)
         {
-            Deck = new Deck(Repository.FetchDeck(deckId));
+            this.Deck = new Deck(Repository.FetchDeck(deckId));
         }
 
         public AppHandler(string deckName)
         {
-            Deck = new Deck(Repository.FetchDeck(deckName));
+            this.Deck = new Deck(Repository.FetchDeck(deckName));
         }
 
         public Deck Deck { get; }
@@ -27,15 +27,15 @@ namespace Memento.BLL
         {
             if (order == CardOrder.Random)
             {
-                RadndomizeDeck();
+                this.RadndomizeDeck();
             }
             else if (order == CardOrder.Ascending)
             {
-                SortDeckByAscendingDifficulty();
+                this.SortDeckByAscendingDifficulty();
             }
             else
             {
-                SortDeckByDescendingDifficulty();
+                this.SortDeckByDescendingDifficulty();
             }
         }
 
@@ -47,26 +47,26 @@ namespace Memento.BLL
         public void RadndomizeDeck()
         {
             Random rand = new Random();
-            for (int i = 0; i < Deck.Count - 1; i++)
+            for (int i = 0; i < this.Deck.Count - 1; i++)
             {
                 int j = rand.Next(i, Deck.Count - 1);
-                Card card = Deck[i];
-                Deck[i] = Deck[j];
-                Deck[j] = card;
+                Card card = this.Deck[i];
+                this.Deck[i] = this.Deck[j];
+                this.Deck[j] = card;
             }
         }
 
         public void SortDeckByAscendingDifficulty()
         {
-            for (int i = 0; i < Deck.Count - 1; i++)
+            for (int i = 0; i < this.Deck.Count - 1; i++)
             {
-                for (int j = 0; j < Deck.Count - i - 1; j++)
+                for (int j = 0; j < this.Deck.Count - i - 1; j++)
                 {
-                    if (Deck[j].Difficulty > Deck[j + 1].Difficulty)
+                    if (this.Deck[j].Difficulty > this.Deck[j + 1].Difficulty)
                     {
-                        Card card = Deck[j];
-                        Deck[j] = Deck[j + 1];
-                        Deck[j + 1] = card;
+                        Card card = this.Deck[j];
+                        this.Deck[j] = this.Deck[j + 1];
+                        this.Deck[j + 1] = card;
                     }
                 }
             }
@@ -74,15 +74,15 @@ namespace Memento.BLL
 
         public void SortDeckByDescendingDifficulty()
         {
-            for (int i = 0; i < Deck.Count - 1; i++)
+            for (int i = 0; i < this.Deck.Count - 1; i++)
             {
-                for (int j = 0; j < Deck.Count - i - 1; j++)
+                for (int j = 0; j < this.Deck.Count - i - 1; j++)
                 {
-                    if (Deck[j].Difficulty < Deck[j + 1].Difficulty)
+                    if (this.Deck[j].Difficulty < this.Deck[j + 1].Difficulty)
                     {
-                        Card card = Deck[j];
-                        Deck[j] = Deck[j + 1];
-                        Deck[j + 1] = card;
+                        Card card = this.Deck[j];
+                        this.Deck[j] = this.Deck[j + 1];
+                        this.Deck[j + 1] = card;
                     }
                 }
             }
@@ -93,38 +93,39 @@ namespace Memento.BLL
             e.IsFlipped = !e.IsFlipped;
         }
 
-
-        public void NextCard(object sender, AppHandlerNextCardEventArgs e)
-        {
-            if (e.Card.Id != -1 && Deck.Cards.IndexOf(e.Card) < Deck.Count)
-            {
-                Deck.Remove(e.Card);
-                e.Card = Deck[0];
-            }
-        }
-
+        //public void NextCard(object sender, AppHandlerMoveCardEventArgs e)
+        //{
+        //    if (e.Card.Id != -1 && Deck.Cards.IndexOf(e.Card) < Deck.Count)
+        //    {
+        //        this.Deck.Remove(e.Card);
+        //        e.Card = Deck[0];
+        //    }
+        //}
 
         public void MoveCardIntoDeck(object sender, AppHandlerMoveCardEventArgs e)
         {
-            if (e.Card.Id != -1 && Deck.Cards.IndexOf(e.Card) < Deck.Count - Deck.Count / 10)
+            if (e.Card.Id != -1 && 
+                this.Deck.Cards.IndexOf(e.Card) < this.Deck.Count - (this.Deck.Count / 10))
             {
-                if (e.RememberValue == (int)RememberingLevels.Trivial)
+                if (e.RememberValue == RememberingLevels.Trivial)
                 {
-                    Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - Deck.Count / 5);
+                    this.Deck.MoveCard(this.Deck.IndexOf(e.Card), this.Deck.Count - (this.Deck.Count / 5));
                 }
-                else if (e.RememberValue == (int)RememberingLevels.GotIt)
+                else if (e.RememberValue == RememberingLevels.GotIt)
                 {
-                    Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - Deck.Count / 3);
+                    this.Deck.MoveCard(this.Deck.IndexOf(e.Card), this.Deck.Count - (this.Deck.Count / 3));
                 }
-                else if (e.RememberValue == (int)RememberingLevels.Again)
+                else if (e.RememberValue == RememberingLevels.Again)
                 {
-                    Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - 2 * Deck.Count / 3);
+                    this.Deck.MoveCard(this.Deck.IndexOf(e.Card), this.Deck.Count - (2 * this.Deck.Count / 3));
                 }
             }
             else
             {
-                Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - 1);
+                this.Deck.MoveCard(this.Deck.IndexOf(e.Card), this.Deck.Count - 1);
             }
+
+            e.Card = this.Deck[0];
         }
 
 

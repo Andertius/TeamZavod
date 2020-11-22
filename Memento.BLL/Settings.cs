@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Memento.DAL;
-
-namespace Memento.BLL
+﻿namespace Memento.BLL
 {
     public class Settings
     {
-        public double HoursPerDay { get; set; }
-        public int CardsPerDay { get; set; }
-        public Theme Theme { get; set; }
-        public CardOrder CardOrder { get; set; }
-        public bool ShowImages { get; set; }
-
         public Settings()
         {
             HoursPerDay = 3.5;
@@ -31,5 +19,15 @@ namespace Memento.BLL
             CardOrder = order;
             ShowImages = showImages;
         }
+
+        public double HoursPerDay { get; set; }
+
+        public int CardsPerDay { get; set; }
+
+        public Theme Theme { get; set; }
+
+        public CardOrder CardOrder { get; set; }
+
+        public bool ShowImages { get; set; }
     }
 }

@@ -4,6 +4,6 @@
     {
         Random,
         Ascending,
-        Descending
+        Descending,
     }
 }

@@ -9,6 +9,6 @@ namespace Memento.DAL
         None,
         Beginner,
         Intermediate,
-        Advanced
+        Advanced,
     }
 }
