@@ -1,13 +1,26 @@
-﻿using System;
+﻿// <copyright file="Repository.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Collections.ObjectModel;
+using System.Linq;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace Memento.DAL
 {
+    /// <summary>
+    /// class with methods that use database.
+    /// </summary>
     public static class Repository
     {
+        /// <summary>
+        /// Gets deck by it's name.
+        /// </summary>
+        /// <param name="deckName">deck name.</param>
+        /// <returns>Deck.</returns>
         public static Deck FetchDeck(string deckName)
         {
             using var context = new CardsContext();
@@ -30,7 +43,7 @@ namespace Memento.DAL
                         ImagePath = item.ImagePath.Trim(),
                         Transcription = item.Transcription.Trim(),
 
-                        Difficulty = DifficultyConverter.ToDifficultyConverter(item.Difficulty)
+                        Difficulty = DifficultyConverter.ToDifficultyConverter(item.Difficulty),
                     };
 
                     cards.Add(crd);
@@ -43,7 +56,7 @@ namespace Memento.DAL
 
                     foreach (var item in tags)
                     {
-                        //перевірка чи пустий
+                        // перевірка чи пустий
                         answerTags.Add(item.TagName.Trim());
                     }
 
@@ -64,9 +77,15 @@ namespace Memento.DAL
 
                 return deck;
             }
+
             return new Deck();
         }
 
+        /// <summary>
+        /// Gets deck by it's id.
+        /// </summary>
+        /// <param name="id">Deck id.</param>
+        /// <returns>Deck.</returns>
         public static Deck FetchDeck(int id)
         {
             using var context = new CardsContext();
@@ -88,7 +107,7 @@ namespace Memento.DAL
                     ImagePath = item.ImagePath,
                     Transcription = item.Transcription,
 
-                    Difficulty = DifficultyConverter.ToDifficultyConverter(item.Difficulty)
+                    Difficulty = DifficultyConverter.ToDifficultyConverter(item.Difficulty),
                 };
 
                 cards.Add(crd);
@@ -101,12 +120,11 @@ namespace Memento.DAL
 
                 foreach (var item in tags)
                 {
-                    //перевірка чи пустий
+                    // перевірка чи пустий
                     answerTags.Add(item.TagName);
                 }
 
                 cards[i].Tags = new ObservableCollection<string>(answerTags);
-
             }
 
             var deckdetails = context.Decks.Where(x => x.Id == id).ToList();
@@ -124,6 +142,11 @@ namespace Memento.DAL
             return deck;
         }
 
+        /// <summary>
+        /// Gets card by it's id.
+        /// </summary>
+        /// <param name="id">Card id.</param>
+        /// <returns>Card.</returns>
         public static Card FetchCard(int id)
         {
             using var context = new CardsContext();
@@ -143,7 +166,7 @@ namespace Memento.DAL
                     ImagePath = item.ImagePath,
                     Transcription = item.Transcription,
 
-                    Difficulty = DifficultyConverter.ToDifficultyConverter(item.Difficulty)
+                    Difficulty = DifficultyConverter.ToDifficultyConverter(item.Difficulty),
                 };
             }
 
@@ -151,9 +174,9 @@ namespace Memento.DAL
 
             List<string> answerTags = new List<string>();
 
-            foreach(var item in tags)
+            foreach (var item in tags)
             {
-                //перевірка чи пустий
+                // перевірка чи пустий
                 answerTags.Add(item.TagName);
             }
 
@@ -162,6 +185,10 @@ namespace Memento.DAL
             return crd;
         }
 
+        /// <summary>
+        /// Gets all decks from DB.
+        /// </summary>
+        /// <returns>IEnumerable container of decks.</returns>
         public static IEnumerable<Deck> FetchAllDecks()
         {
             using var context = new CardsContext();
@@ -177,7 +204,7 @@ namespace Memento.DAL
                 {
                     Id = item.Id,
                     DeckName = item.DeckName,
-                    TagName = item.TagName
+                    TagName = item.TagName,
                 };
 
                 received_data.Add(deck);
@@ -186,11 +213,15 @@ namespace Memento.DAL
             return received_data;
         }
 
+        /// <summary>
+        /// Gets all cards from DB.
+        /// </summary>
+        /// <returns>IEnumerable container of cards.</returns>
         public static IEnumerable<Card> FetchAllCards()
         {
             using var context = new CardsContext();
-            //context.Database.Migrate();
 
+            // context.Database.Migrate();
             var cards = new List<Card>();
 
             Card crd = new Card();
@@ -207,7 +238,7 @@ namespace Memento.DAL
                     ImagePath = item.ImagePath,
                     Transcription = item.Transcription,
 
-                    Difficulty = DifficultyConverter.ToDifficultyConverter(item.Difficulty)
+                    Difficulty = DifficultyConverter.ToDifficultyConverter(item.Difficulty),
                 };
 
                 cards.Add(crd);
@@ -218,10 +249,9 @@ namespace Memento.DAL
                 var tags = context.Tags.FromSqlInterpolated($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {cards[i].Id}").ToList();
                 List<string> answerTags = new List<string>();
 
-
                 foreach (var item in tags)
                 {
-                    //перевірка чи пустий
+                    // перевірка чи пустий
                     answerTags.Add(item.TagName);
                 }
 
@@ -231,12 +261,16 @@ namespace Memento.DAL
             return cards;
         }
 
+        /// <summary>
+        /// Adds card to DB.
+        /// </summary>
+        /// <param name="card">Card object.</param>
         public static void AddCard(Card card)
         {
             using var context = new CardsContext();
             var com = context.Cards.FromSqlRaw("SELECT * FROM \"Card_Table\" ORDER BY card_id DESC LIMIT 1").ToList();
 
-            string diff = "";
+            string diff = string.Empty;
 
             foreach (var item in com)
             {
@@ -257,6 +291,10 @@ namespace Memento.DAL
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Removes card from DB.
+        /// </summary>
+        /// <param name="id">Card id.</param>
         public static void RemoveCard(int id)
         {
             using var context = new CardsContext();
@@ -271,6 +309,12 @@ namespace Memento.DAL
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Updates info of a card in DB.
+        /// </summary>
+        /// <param name="id">Card id.</param>
+        /// <param name="card">New data.</param>
+        /// <param name="options">Update options.</param>
         public static void UpdateCard(int id, Card card, UpdateCardOptions options = UpdateCardOptions.UpdateAll)
         {
             using var context = new CardsContext();
@@ -282,7 +326,6 @@ namespace Memento.DAL
             switch (options)
             {
                 case UpdateCardOptions.UpdateContent:
-                    
                     if (cardForUpdate != null)
                     {
                         cardForUpdate.Description = card.Description;
@@ -298,17 +341,17 @@ namespace Memento.DAL
                     break;
 
                 case UpdateCardOptions.UpdateTags:
-                    if(cardForUpdate != null)
+                    if (cardForUpdate != null)
                     {
                         for (int i = 0; i < tags.Count; i++)
                         {
                             RemoveTagFromCard(cardForUpdate.Id, tags[i].TagName);
                         }
+
                         for (int i = 0; i < card.Tags.Count; i++)
                         {
                             AddTagToCard(cardForUpdate.Id, card.Tags[i].Trim());
                         }
-
 
                         context.SaveChanges();
                     }
@@ -329,6 +372,7 @@ namespace Memento.DAL
                         {
                             RemoveTagFromCard(cardForUpdate.Id, tags[i].TagName);
                         }
+
                         for (int i = 0; i < card.Tags.Count; i++)
                         {
                             AddTagToCard(cardForUpdate.Id, card.Tags[i].Trim());
@@ -341,33 +385,47 @@ namespace Memento.DAL
             }
         }
 
+        /// <summary>
+        /// Adds tag to a card in TagToCard table in DB.
+        /// </summary>
+        /// <param name="cardId">Card id.</param>
+        /// <param name="tagName">Tag name.</param>
         public static void AddTagToCard(int cardId, string tagName)
         {
             using var context = new CardsContext();
             context.Database.Migrate();
 
-            //context.Database.ExecuteSqlInterpolated($"INSERT INTO Tag_To_Card_Table (tag_name, card_id) VALUES ('{tagName}', {cardId})");
+            // context.Database.ExecuteSqlInterpolated($"INSERT INTO Tag_To_Card_Table (tag_name, card_id) VALUES ('{tagName}', {cardId})");
             context.Tags.Add(new TagToCardModel(cardId, tagName));
 
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Removes tag from a card in TagToCard table in DB.
+        /// </summary>
+        /// <param name="cardId">Card id.</param>
+        /// <param name="tagName">Tag name.</param>
         public static void RemoveTagFromCard(int cardId, string tagName)
         {
             using var context = new CardsContext();
             context.Database.Migrate();
 
-            //var tag = context.Tags.Where(x => x.CardID == cardId && x.TagName == tagName).FirstOrDefault();
+            // var tag = context.Tags.Where(x => x.CardID == cardId && x.TagName == tagName).FirstOrDefault();
 
-            //context.Tags.Remove(tag);
-            //var test = context.Tags.Find(tagName, cardId);
+            // context.Tags.Remove(tag);
+            // var test = context.Tags.Find(tagName, cardId);
 
-            //Console.WriteLine($"{test.CardID}");
+            // Console.WriteLine($"{test.CardID}");
             context.Database.ExecuteSqlInterpolated($"DELETE FROM Tag_To_Card_Table WHERE card_id = {cardId} AND tag_name = {tagName}");
 
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Adds deck to a DB.
+        /// </summary>
+        /// <param name="deck">Object to add.</param>
         public static void AddDeck(Deck deck)
         {
             using var context = new CardsContext();
@@ -384,11 +442,15 @@ namespace Memento.DAL
                 AddCardToDeck(deck.Id, deck.Cards[i].Id);
             }
 
-            //TODO: write loop that adds relationship between cards and decks
+            // TODO: write loop that adds relationship between cards and decks
 
-            //Console.WriteLine($"{deck.Id}");
+            // Console.WriteLine($"{deck.Id}");
         }
 
+        /// <summary>
+        /// Removes deck from a DB.
+        /// </summary>
+        /// <param name="id">Deck id.</param>
         public static void RemoveDeck(int id)
         {
             using var context = new CardsContext();
@@ -402,6 +464,12 @@ namespace Memento.DAL
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Updates deck.
+        /// </summary>
+        /// <param name="id">Deck id.</param>
+        /// <param name="deck">New data.</param>
+        /// <param name="options">Update options.</param>
         public static void UpdateDeck(int id, Deck deck, UpdateDeckOptions options = UpdateDeckOptions.UpdateAll)
         {
             using var context = new CardsContext();
@@ -429,6 +497,7 @@ namespace Memento.DAL
                         {
                             RemoveCardFromDeck(deckForUpdate.Id, cards[i].Id);
                         }
+
                         for (int i = 0; i < deck.Cards.Count; i++)
                         {
                             AddCardToDeck(deckForUpdate.Id, deck.Cards[i].Id);
@@ -450,6 +519,7 @@ namespace Memento.DAL
                         {
                             RemoveCardFromDeck(deckForUpdate.Id, cards[i].Id);
                         }
+
                         for (int i = 0; i < deck.Cards.Count; i++)
                         {
                             AddCardToDeck(deckForUpdate.Id, deck.Cards[i].Id);
@@ -460,9 +530,13 @@ namespace Memento.DAL
 
                     break;
             }
-
         }
 
+        /// <summary>
+        /// Adds card to deck relations in a CardToDeck table in a DB.
+        /// </summary>
+        /// <param name="deckId">Deck id.</param>
+        /// <param name="cardId">Card id.</param>
         public static void AddCardToDeck(int deckId, int cardId)
         {
             using var context = new CardsContext();
@@ -470,15 +544,18 @@ namespace Memento.DAL
 
             Console.WriteLine(context.Database.CanConnect());
 
-            //context.Database.ExecuteSqlInterpolated($"INSERT INTO Deck_To_Card_Table (card_id, deck_id), VALUES('{cardId}', '{deckId}'");
+            // context.Database.ExecuteSqlInterpolated($"INSERT INTO Deck_To_Card_Table (card_id, deck_id), VALUES('{cardId}', '{deckId}'");
             context.DeckToCards.Add(new DeckToCardModel(deckId, cardId));
 
-            //вернути нову деку
-
-
+            // вернути нову деку
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Removes card from deck relations in a CardToDeck table in a DB.
+        /// </summary>
+        /// <param name="deckId">Deck id.</param>
+        /// <param name="cardId">Card id.</param>
         public static void RemoveCardFromDeck(int deckId, int cardId)
         {
             using var context = new CardsContext();
@@ -489,6 +566,10 @@ namespace Memento.DAL
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Gets all tags from DB.
+        /// </summary>
+        /// <returns>IEnumerable container of tags.</returns>
         public static IEnumerable<string> FetchAllTags()
         {
             using var context = new CardsContext();
