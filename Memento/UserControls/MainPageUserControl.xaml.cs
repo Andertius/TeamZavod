@@ -50,6 +50,10 @@ namespace Memento.UserControls
         /// </summary>
         public event EventHandler OpenStatisticsEvent;
 
+
+        public event EventHandler<StartLearningEventArgs> OpenLearningEvent;
+
+
         /// <summary>
         /// Gets or sets decks that the user works with.
         /// </summary>
@@ -95,6 +99,14 @@ namespace Memento.UserControls
 
         private void StartLearning(object sender, RoutedEventArgs e)
         {
+            if (PickDeckCombox.SelectedItem is Deck deck)
+            {
+                OpenLearningEvent?.Invoke(this, new StartLearningEventArgs(deck.Id));
+            }
+            else
+            {
+                MessageBox.Show("Pick up deck first!", "Warning", MessageBoxButton.OK,MessageBoxImage.Exclamation);
+            }
         }
 
         private void StartEditing(object sender, RoutedEventArgs e)

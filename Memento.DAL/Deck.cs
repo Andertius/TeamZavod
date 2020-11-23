@@ -47,8 +47,6 @@ namespace Memento.DAL
         }
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         /// <summary>
         /// Event that notifies the appropriate objects when a certain propery is changed.
         /// </summary>

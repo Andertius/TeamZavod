@@ -18,7 +18,7 @@ namespace Memento.BLL
         /// Ascending card order.
         /// </summary>
         Ascending,
-]
+
         /// <summary>
         /// Descending card order.
         /// </summary>

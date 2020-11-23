@@ -5,6 +5,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using Memento.BLL.AppHandlerEventArgs;
 
 using Memento.BLL;
 using Memento.UserControls;
@@ -32,6 +33,7 @@ namespace Memento
             MainPage.StartEditingEvent += StartEditing;
             MainPage.OpenSettingsEvent += OpenSettings;
             MainPage.OpenStatisticsEvent += OpenStatistics;
+            MainPage.OpenLearningEvent += StartLearning;
 
             IsInEditor = false;
             IsInLearningProcess = false;
@@ -87,10 +89,24 @@ namespace Memento
         /// </summary>
         public StatisticsUserControl StatisticsPage { get; set; }
 
-        private void StartLearning(object sender, RoutedEventArgs e)
+        public LearningUserControl LearningPage { get; set; }
+
+        private void StartLearning(object sender, StartLearningEventArgs e)
         {
-            LearningProcess = new AppHandler((int)((Button)sender).Tag);
-            LearningProcess.Start(SettingsPage.AppSettings.CardOrder, SettingsPage.AppSettings.ShowImages);
+            if (LearningProcess is null)
+            {
+                LearningProcess = new AppHandler(e.DeckId);
+            }
+
+            Content = LearningPage = new LearningUserControl(e.DeckId)
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+            };
+
+            //Title = $"Memento - {LearningPage.L}";
+
+            IsInLearningProcess = true;
         }
 
         private void StartEditing(object sender, StartEditingEventArgs e)
