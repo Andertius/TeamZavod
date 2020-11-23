@@ -24,5 +24,6 @@ namespace Memento
         /// Gets the deck id.
         /// </summary>
         public int DeckId { get; }
+
     }
 }

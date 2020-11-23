@@ -4,8 +4,6 @@
 
 using System;
 using System.Windows;
-using System.Windows.Controls;
-using Memento.BLL.AppHandlerEventArgs;
 
 using Memento.BLL;
 using Memento.UserControls;
@@ -89,6 +87,9 @@ namespace Memento
         /// </summary>
         public StatisticsUserControl StatisticsPage { get; set; }
 
+        /// <summary>
+        /// Gets or sets LearningPage.
+        /// </summary>
         public LearningUserControl LearningPage { get; set; }
 
         private void StartLearning(object sender, StartLearningEventArgs e)
@@ -103,10 +104,17 @@ namespace Memento
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
             };
-
-            //Title = $"Memento - {LearningPage.L}";
-
+            
+            Title = $"Memento - {LearningProcess.Deck.DeckName}";
+            LearningPage.MakeMainPageVisible += GoToMainPageFromLearning;
             IsInLearningProcess = true;
+        }
+
+        private void GoToMainPageFromLearning(object sender, EventArgs e)
+        {
+            LearningPage.MakeMainPageVisible -= GoToMainPageFromLearning;
+            Content = MainPage;
+            Title = "Memento";
         }
 
         private void StartEditing(object sender, StartEditingEventArgs e)
