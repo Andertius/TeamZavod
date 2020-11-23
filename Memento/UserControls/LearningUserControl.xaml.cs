@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Memento.BLL.AppHandlerEventArgs;
 using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace Memento.UserControls
 {
@@ -17,15 +18,18 @@ namespace Memento.UserControls
            nameof(AppHandler),
            typeof(AppHandler),
            typeof(LearningUserControl),
-           new PropertyMetadata(new AppHandler(0)));
+           new PropertyMetadata(new AppHandler()));
 
         private List<FrameworkElement> hiddenElements = new List<FrameworkElement>();
 
-        public LearningUserControl(int deckId)
+        public event EventHandler<AppHandlerMoveCardEventArgs> NextCardEvents;
+
+        public LearningUserControl(int deckId, CardOrder order, bool showImages)
         {
             DataContext = this;
             AppHandler = new AppHandler(deckId);
-            AppHandler.Start(CardOrder.Random, true);
+            //AppHandler.Start(CardOrder.Random, true);
+            AppHandler.Start(order, showImages);
             InitializeComponent();
 
             hiddenElements.Add(Trivial_Btn);
@@ -33,6 +37,12 @@ namespace Memento.UserControls
             hiddenElements.Add(GotIt_Btn);
             hiddenElements.Add(Description);
 
+            NextCardEvents += AppHandler.MoveCardIntoDeck;
+            NextCardEvents += NextCard;
+
+            CardImage.Source = String.IsNullOrWhiteSpace(AppHandler.CurrentCard.ImagePath)
+                     ? null
+                     : new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{AppHandler.CurrentCard.ImagePath}")));
             //bool showimg = true;
             //if (!showimg)
             //{
@@ -66,7 +76,7 @@ namespace Memento.UserControls
             //CardImage.Visibility = Visibility.Visible;
         }
 
-        private void NextCard()
+        private void NextCard(object sender, AppHandlerMoveCardEventArgs e)
         {
             foreach (var element in hiddenElements)
             {
@@ -74,29 +84,25 @@ namespace Memento.UserControls
             }
             Show_Btn.Visibility = Visibility.Visible;
 
-            Word.Text = AppHandler.Deck[0].Word;
-            Transcription.Text = AppHandler.Deck[0].Transcription;
-            Description.Text = AppHandler.Deck[0].Description;
-            //CardImage.Source = new BitmapImage(new Uri(@$"..\\{AppHandler.Deck[0].ImagePath}"));
-            //CardImage.Visibility = Visibility.Visible;
+            CardImage.Source = String.IsNullOrWhiteSpace(AppHandler.CurrentCard.ImagePath)
+                     ? null
+                     : new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{AppHandler.CurrentCard.ImagePath}")));
+
         }
 
         private void Trivial_Btn_Click(object sender, RoutedEventArgs e)
         {
-            AppHandler.MoveCardIntoDeck(this, new AppHandlerMoveCardEventArgs(AppHandler.Deck[0], RememberingLevels.Trivial));
-            NextCard();
+            NextCardEvents?.Invoke(this, new AppHandlerMoveCardEventArgs(AppHandler.CurrentCard, RememberingLevels.Trivial));
         }
 
         private void Again_Btn_Click(object sender, RoutedEventArgs e)
         {
-            AppHandler.MoveCardIntoDeck(this, new AppHandlerMoveCardEventArgs(AppHandler.Deck[0], RememberingLevels.Again));
-            NextCard();
+            NextCardEvents?.Invoke(this, new AppHandlerMoveCardEventArgs(AppHandler.CurrentCard, RememberingLevels.Again));
         }
 
         private void GotIt_Btn_Click(object sender, RoutedEventArgs e)
         {
-            AppHandler.MoveCardIntoDeck(this, new AppHandlerMoveCardEventArgs(AppHandler.Deck[0], RememberingLevels.GotIt));
-            NextCard();
+            NextCardEvents?.Invoke(this, new AppHandlerMoveCardEventArgs(AppHandler.CurrentCard, RememberingLevels.GotIt));
         }
     }
 }

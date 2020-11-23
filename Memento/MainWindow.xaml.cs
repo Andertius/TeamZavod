@@ -94,12 +94,16 @@ namespace Memento
 
         private void StartLearning(object sender, StartLearningEventArgs e)
         {
+            if(AppSettings is null)
+            {
+                AppSettings = new Settings();
+            }
             if (LearningProcess is null)
             {
                 LearningProcess = new AppHandler(e.DeckId);
             }
 
-            Content = LearningPage = new LearningUserControl(e.DeckId)
+            Content = LearningPage = new LearningUserControl(e.DeckId,AppSettings.CardOrder,AppSettings.ShowImages)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,

@@ -15,11 +15,11 @@
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style TargetType="Button">
-            <Setter Property="FontSize" Value="25" />
+            <Setter Property="FontSize" Value="40" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Bottom" />
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="Height" Value="70"/>
         </Style>
         <Style TargetType="Line">
             <Setter Property="Stroke" Value="Black" />
@@ -31,35 +31,35 @@
     </UserControl.Resources>
 
     <Grid x:Name="LearningGrid">
-    <Grid.RowDefinitions>
-        <RowDefinition Height="120"/>
-        <RowDefinition/>
-        <RowDefinition Height="120"/>
-        <RowDefinition Height="50"/>
-        <RowDefinition Height="30"/>
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="50"/>
-        <ColumnDefinition />
-        <ColumnDefinition Width="30"/>
-        <ColumnDefinition />
-        <ColumnDefinition Width="50"/>
-    </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition/>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="50"/>
+        </Grid.ColumnDefinitions>
 
-        <Image Source="../images/plum.jpg" x:Name="CardImage" Grid.Row="1" Grid.Column="1"/>
-        
+        <Image Source="{Binding AppHandler.CurrentCard.ImagePath}" x:Name="CardImage" Grid.Row="1" Grid.Column="1"/>
+
         <Line Grid.Row="1" Grid.Column="2" 
               X1="0" Y1="1" X2="0" Y2="0"
               StrokeThickness="8" 
               Margin="0,50"/>
-        
-    <StackPanel  Grid.Row="1" Grid.Column="3" VerticalAlignment="Center">
-            <TextBlock Text="{Binding AppHandler.Deck[0].Word, Mode=TwoWay}" x:Name="Word"/>
+
+        <StackPanel  Grid.Row="1" Grid.Column="3" VerticalAlignment="Center">
+            <TextBlock Text="{Binding AppHandler.CurrentCard.Word}" x:Name="Word"/>
             <Line  X1="1" Y1="0" X2="0" Y2="0"/>
-            <TextBlock Text="{Binding AppHandler.Deck[0].Transcription}" x:Name="Transcription"
+            <TextBlock Text="{Binding AppHandler.CurrentCard.Transcription}" x:Name="Transcription"
                        FontWeight="Light"/>
             <Line  X1="1" Y1="0" X2="0" Y2="0"/>
-            <TextBlock Text="{Binding AppHandler.Deck[0].Description}" x:Name="Description" 
+            <TextBlock Text="{Binding AppHandler.CurrentCard.Description}" x:Name="Description" 
                        FontWeight="Light"
                        Visibility="Hidden"/>
         </StackPanel>
@@ -68,10 +68,17 @@
                 x:Name="Show_Btn"
                 Click="Show_Btn_Click"/>
 
-        <Button Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" 
-                Content="End learning" 
-                x:Name="Stop_Btn"
-                Click="Stop_Btn_Click"/>
+        <Button Grid.Row="0" Grid.Column="1" 
+                FontFamily="Segoe MDL2 Assets" FontSize="50"
+                Content="&#xE72B;" 
+                Background="White" 
+                BorderBrush="White"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Stretch"
+                Click="Stop_Btn_Click" 
+                Width="80"
+                x:Name="Stop_Btn"/>
+
 
         <Button Grid.Row="2" Grid.Column="1" 
                 Content="Trivial" 
@@ -80,18 +87,18 @@
                 Click="Trivial_Btn_Click"/>
 
         <Button Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" 
-                Content="GotIt" 
+                Content="Got it" 
                 x:Name="GotIt_Btn"  
                 Visibility="Hidden"
                 Click="GotIt_Btn_Click"/>
-        
+
         <Button Grid.Row="2" Grid.Column="3" 
                 Content="Again" 
                 x:Name="Again_Btn"  
                 Visibility="Hidden"
                 Click="Again_Btn_Click"/>
-        
-        
+
+
         <!--<TextBlock Text="You have seen it {0} times" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3"/>-->
     </Grid>
 </UserControl>
