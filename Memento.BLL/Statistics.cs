@@ -6,22 +6,18 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Xml.Linq;
 
 using Memento.DAL;
 
 namespace Memento.BLL
 {
-    // StatEventArgs (TimeSpan t);
     /// <summary>
     /// All statistics.
     /// </summary>
-
     public class Statistics : INotifyPropertyChanged
     {
         private TimeSpan timeSpentToday;
@@ -33,9 +29,9 @@ namespace Memento.BLL
         /// </summary>
         public Statistics()
         {
-            this.TimeSpentToday = default;
-            this.AvarageTimePerDay = default;
-            this.CardsLearnedToday = new List<Card>();
+            TimeSpentToday = default;
+            AvarageTimePerDay = default;
+            CardsLearnedToday = new List<Card>();
         }
 
         /// <summary>
@@ -48,11 +44,11 @@ namespace Memento.BLL
         /// </summary>
         public TimeSpan TimeSpentToday
         {
-            get => this.timeSpentToday;
+            get => timeSpentToday;
             set
             {
-                this.timeSpentToday = value;
-                this.OnPropertyChanged();
+                timeSpentToday = value;
+                OnPropertyChanged();
             }
         }
 
@@ -61,11 +57,11 @@ namespace Memento.BLL
         /// </summary>
         public TimeSpan AvarageTimePerDay
         {
-            get => this.averageTimePerDay;
+            get => averageTimePerDay;
             set
             {
-                this.averageTimePerDay = value;
-                this.OnPropertyChanged();
+                averageTimePerDay = value;
+                OnPropertyChanged();
             }
         }
 
@@ -74,11 +70,11 @@ namespace Memento.BLL
         /// </summary>
         public List<Card> CardsLearnedToday
         {
-            get => this.cardsLearnedToday;
+            get => cardsLearnedToday;
             set
             {
-                this.cardsLearnedToday = value;
-                this.OnPropertyChanged();
+                cardsLearnedToday = value;
+                OnPropertyChanged();
             }
         }
 
@@ -89,7 +85,7 @@ namespace Memento.BLL
         /// <param name="e">event args for event.</param>
         public void AddSpentTimeToday(object sender, StatAddSpentTimeEventArgs e)
         {
-            this.TimeSpentToday = this.TimeSpentToday.Add(e.TimePassed);
+            TimeSpentToday = TimeSpentToday.Add(e.TimePassed);
         }
 
         /// <summary>
@@ -99,7 +95,7 @@ namespace Memento.BLL
         /// <param name="e">event args for event.</param>
         public void AddCardLearned(object sender, StatCardLearnedEventArgs e)
         {
-            this.CardsLearnedToday.Add(e.LearnedCard);
+            CardsLearnedToday.Add(e.LearnedCard);
         }
 
         /// <summary>
@@ -122,7 +118,7 @@ namespace Memento.BLL
         /// <param name="propertyName">property name whish is under check.</param>
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
