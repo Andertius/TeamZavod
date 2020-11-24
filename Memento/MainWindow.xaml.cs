@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿// <copyright file="MainWindow.xaml.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
+// </copyright>
 
-using Memento.UserControls;
+using System;
+using System.Windows;
+
 using Memento.BLL;
-using Memento.DAL;
-using System.Diagnostics;
+using Memento.UserControls;
 
 namespace Memento
 {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml.
+    /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindow"/> class.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -35,28 +31,94 @@ namespace Memento
             MainPage.StartEditingEvent += StartEditing;
             MainPage.OpenSettingsEvent += OpenSettings;
             MainPage.OpenStatisticsEvent += OpenStatistics;
+            MainPage.OpenLearningEvent += StartLearning;
 
             IsInEditor = false;
             IsInLearningProcess = false;
         }
 
+        /// <summary>
+        /// Gets a value indicating whether IsInEditor.
+        /// </summary>
         public bool IsInEditor { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether IsInLearningProcess.
+        /// </summary>
         public bool IsInLearningProcess { get; private set; }
 
+        /// <summary>
+        /// Gets LearningProcess.
+        /// </summary>
         public AppHandler LearningProcess { get; private set; }
+
+        /// <summary>
+        /// Gets or sets DeckEditor.
+        /// </summary>
         public DeckEditor DeckEditor { get; set; }
+
+        /// <summary>
+        /// Gets or sets AppSettings.
+        /// </summary>
         public Settings AppSettings { get; set; }
+
+        /// <summary>
+        /// Gets or sets AppStatistics.
+        /// </summary>
         public Statistics AppStatistics { get; set; }
 
+        /// <summary>
+        /// Gets or sets MainPage.
+        /// </summary>
         public MainPageUserControl MainPage { get; set; }
+
+        /// <summary>
+        /// Gets or sets DeckEditorPage.
+        /// </summary>
         public DeckEditorUserControl DeckEditorPage { get; set; }
+
+        /// <summary>
+        /// Gets or sets SettingsPage.
+        /// </summary>
         public SettingsUserControl SettingsPage { get; set; }
+
+        /// <summary>
+        /// Gets or sets StatisticsPage.
+        /// </summary>
         public StatisticsUserControl StatisticsPage { get; set; }
 
-        private void StartLearning(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Gets or sets LearningPage.
+        /// </summary>
+        public LearningUserControl LearningPage { get; set; }
+
+        private void StartLearning(object sender, StartLearningEventArgs e)
         {
-            LearningProcess = new AppHandler((int)((Button)sender).Tag);
-            LearningProcess.Start(SettingsPage.AppSettings.CardOrder, SettingsPage.AppSettings.ShowImages);
+            if(AppSettings is null)
+            {
+                AppSettings = new Settings();
+            }
+            if (LearningProcess is null)
+            {
+                LearningProcess = new AppHandler(e.DeckId);
+            }
+
+            Content = LearningPage = new LearningUserControl(e.DeckId,AppSettings.CardOrder,AppSettings.ShowImages)
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+            };
+            
+            Title = $"Memento - {LearningProcess.Deck.DeckName}";
+            LearningPage.MakeMainPageVisible += GoToMainPageFromLearning;
+            IsInLearningProcess = true;
+        }
+
+        private void GoToMainPageFromLearning(object sender, EventArgs e)
+        {
+            LearningPage.MakeMainPageVisible -= GoToMainPageFromLearning;
+            Content = MainPage;
+            Title = "Memento";
         }
 
         private void StartEditing(object sender, StartEditingEventArgs e)
@@ -99,10 +161,11 @@ namespace Memento
             {
                 AppSettings = new Settings();
             }
+
             Content = SettingsPage = new SettingsUserControl(AppSettings)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
+                VerticalAlignment = VerticalAlignment.Stretch,
             };
  
             SettingsPage.MakeMainPageVisible += GoToMainPageFromSettings;
@@ -117,7 +180,7 @@ namespace Memento
         }
 
         private void OpenStatistics(object sender, EventArgs e)
-        {   
+        {
             if (AppStatistics is null)
             {
                 AppStatistics = new Statistics();
@@ -129,7 +192,7 @@ namespace Memento
                 Content = StatisticsPage = new StatisticsUserControl(AppStatistics, AppSettings)
                 {
                     HorizontalAlignment = HorizontalAlignment.Stretch,
-                    VerticalAlignment = VerticalAlignment.Stretch
+                    VerticalAlignment = VerticalAlignment.Stretch,
                 };
             }
             else
@@ -137,16 +200,15 @@ namespace Memento
                 Content = StatisticsPage = new StatisticsUserControl(AppStatistics, SettingsPage.AppSettings)
                 {
                     HorizontalAlignment = HorizontalAlignment.Stretch,
-                    VerticalAlignment = VerticalAlignment.Stretch
+                    VerticalAlignment = VerticalAlignment.Stretch,
                 };
             }
 
-            
             StatisticsPage.MakeMainPageVisible += GoToMainPageFromStatistics;
             Title = "Memento - Statistics";
         }
 
-        public void GoToMainPageFromStatistics(object sender, EventArgs e)
+        private void GoToMainPageFromStatistics(object sender, EventArgs e)
         {
             StatisticsPage.MakeMainPageVisible -= GoToMainPageFromStatistics;
             Content = MainPage;

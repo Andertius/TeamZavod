@@ -1,3 +1,4 @@
+//StatEventArgs (TimeSpan t);
 ﻿// <copyright file="Statistics.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
@@ -17,10 +18,10 @@ using Memento.DAL;
 namespace Memento.BLL
 {
     // StatEventArgs (TimeSpan t);
-
     /// <summary>
     /// All statistics.
     /// </summary>
+
     public class Statistics : INotifyPropertyChanged
     {
         private TimeSpan timeSpentToday;

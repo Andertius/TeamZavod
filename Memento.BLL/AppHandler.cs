@@ -1,28 +1,81 @@
-﻿using System;
-using System.Linq;
-using Memento.DAL;
-
+﻿//StatEventArgs (TimeSpan t);
+// <copyright file="Statistics.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 namespace Memento.BLL
 {
-    public class AppHandler
+    using System;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+    using Memento.BLL.AppHandlerEventArgs;
+    using Memento.DAL;
+
+    /// <summary>
+    /// Class to handle learning process
+    /// </summary>
+    public class AppHandler : INotifyPropertyChanged
     {
+        public AppHandler()
+        {
+            Deck = new Deck();
+            CurrentCard = new Card();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppHandler"/> class.
+        /// </summary>
+        /// <param name="deck">Deck instance.</param>
         public AppHandler(Deck deck)
         {
             Deck = new Deck(deck);
+            CurrentCard = Deck[0];
         }
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppHandler"/> class.
+        /// </summary>
+        /// <param name="deckId">Some deck id.</param>
         public AppHandler(int deckId)
         {
             Deck = new Deck(Repository.FetchDeck(deckId));
+            CurrentCard = Deck[0];
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppHandler"/> class.
+        /// </summary>
+        /// <param name="deckName">Some deck title.</param>
         public AppHandler(string deckName)
         {
             Deck = new Deck(Repository.FetchDeck(deckName));
+            CurrentCard = Deck[0];
         }
 
+        /// <summary>
+        /// Property for getting Deck instance.
+        /// </summary>
+        /// 
+        private Card currentCard;
         public Deck Deck { get; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public Card CurrentCard
+        {
+            get => currentCard;
+            private set
+            {
+                currentCard = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Funtion to run handler.
+        /// </summary>
+        /// <param name="order">Sort order for cards.</param>
+        /// <param name="showImages">Enable or Disable images.</param>
         public void Start(CardOrder order, bool showImages)
         {
             if (order == CardOrder.Random)
@@ -37,13 +90,12 @@ namespace Memento.BLL
             {
                 SortDeckByDescendingDifficulty();
             }
+            CurrentCard = Deck[0];
         }
 
-        public void Stop()
-        {
-           
-        }
-
+        /// <summary>
+        /// Randomize card order.
+        /// </summary>
         public void RadndomizeDeck()
         {
             Random rand = new Random();
@@ -56,6 +108,9 @@ namespace Memento.BLL
             }
         }
 
+        /// <summary>
+        /// Order cards by ascending.
+        /// </summary>
         public void SortDeckByAscendingDifficulty()
         {
             for (int i = 0; i < Deck.Count - 1; i++)
@@ -72,6 +127,9 @@ namespace Memento.BLL
             }
         }
 
+        /// <summary>
+        /// Order cards by descending.
+        /// </summary>
         public void SortDeckByDescendingDifficulty()
         {
             for (int i = 0; i < Deck.Count - 1; i++)
@@ -88,46 +146,39 @@ namespace Memento.BLL
             }
         }
 
-        public void FlipCard(object sender, AppHandlerFlipEventArgs e)
-        {
-            e.IsFlipped = !e.IsFlipped;
-        }
-
-
-        public void NextCard(object sender, AppHandlerNextCardEventArgs e)
-        {
-            if (e.Card.Id != -1 && Deck.Cards.IndexOf(e.Card) < Deck.Count)
-            {
-                Deck.Remove(e.Card);
-                e.Card = Deck[0];
-            }
-        }
-
-
+        /// <summary>
+        /// Move card to special position.
+        /// </summary>
         public void MoveCardIntoDeck(object sender, AppHandlerMoveCardEventArgs e)
         {
-            if (e.Card.Id != -1 && Deck.Cards.IndexOf(e.Card) < Deck.Count - Deck.Count / 10)
+            if (e.Card.Id != -1 && 
+                Deck.Cards.IndexOf(e.Card) < Deck.Count - (Deck.Count / 10))
             {
-                if (e.RememberValue == (int)RememberingLevels.Trivial)
+                if (e.RememberValue == RememberingLevels.Trivial)
                 {
-                    Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - Deck.Count / 5);
+                    Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - (Deck.Count / 5));
                 }
-                else if (e.RememberValue == (int)RememberingLevels.GotIt)
+                else if (e.RememberValue == RememberingLevels.GotIt)
                 {
-                    Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - Deck.Count / 3);
+                    Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - (Deck.Count / 3));
                 }
-                else if (e.RememberValue == (int)RememberingLevels.Again)
+                else if (e.RememberValue == RememberingLevels.Again)
                 {
-                    Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - 2 * Deck.Count / 3);
+                    Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - (2 * Deck.Count / 3));
                 }
             }
             else
             {
                 Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - 1);
             }
+
+            CurrentCard = Deck[0];
         }
 
-
+        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
     }
 }

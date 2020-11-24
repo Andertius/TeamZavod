@@ -1,24 +1,32 @@
-﻿using System;
+﻿// <copyright file="MainPageUserControl.xaml.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-using Memento.BLL;
 using Memento.DAL;
 
 namespace Memento.UserControls
 {
+    /// <summary>
+    /// Interaction logic for MainPageUserControl.xaml.
+    /// </summary>
     public partial class MainPageUserControl : UserControl
     {
+        private static readonly DependencyProperty DecksProperty = DependencyProperty.Register(
+            nameof(Decks),
+            typeof(List<Deck>),
+            typeof(MainPageUserControl),
+            new PropertyMetadata(new List<Deck>()));
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainPageUserControl"/> class.
+        /// </summary>
         public MainPageUserControl()
         {
             InitializeComponent();
@@ -27,18 +35,33 @@ namespace Memento.UserControls
             Decks = Repository.FetchAllDecks().ToList();
         }
 
-        static private readonly DependencyProperty DecksProperty = DependencyProperty.Register(nameof(Decks), typeof(List<Deck>),
-            typeof(MainPageUserControl), new PropertyMetadata(new List<Deck>()));
+        /// <summary>
+        /// An event that handles the start of editing (opening deck editor page).
+        /// </summary>
+        public event EventHandler<StartEditingEventArgs> StartEditingEvent;
 
+        /// <summary>
+        /// An event that handles the opening of settings page page.
+        /// </summary>
+        public event EventHandler OpenSettingsEvent;
+
+        /// <summary>
+        /// An event that handles the opening of statistics page.
+        /// </summary>
+        public event EventHandler OpenStatisticsEvent;
+
+
+        public event EventHandler<StartLearningEventArgs> OpenLearningEvent;
+
+
+        /// <summary>
+        /// Gets or sets decks that the user works with.
+        /// </summary>
         public List<Deck> Decks
         {
             get => (List<Deck>)GetValue(DecksProperty);
-            private set => SetValue(DecksProperty, value);
+            set => SetValue(DecksProperty, value);
         }
-
-        public event EventHandler<StartEditingEventArgs> StartEditingEvent;
-        public event EventHandler OpenSettingsEvent;
-        public event EventHandler OpenStatisticsEvent;
 
         private void Guide_Click(object sender, RoutedEventArgs e)
         {
@@ -76,7 +99,14 @@ namespace Memento.UserControls
 
         private void StartLearning(object sender, RoutedEventArgs e)
         {
-
+            if (PickDeckCombox.SelectedItem is Deck deck)
+            {
+                OpenLearningEvent?.Invoke(this, new StartLearningEventArgs(deck.Id));
+            }
+            else
+            {
+                MessageBox.Show("Pick up deck first!", "Warning", MessageBoxButton.OK,MessageBoxImage.Exclamation);
+            }
         }
 
         private void StartEditing(object sender, RoutedEventArgs e)

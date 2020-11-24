@@ -4,6 +4,6 @@
     {
         Again,
         GotIt,
-        Trivial
+        Trivial,
     }
 }

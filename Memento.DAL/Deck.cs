@@ -46,6 +46,7 @@ namespace Memento.DAL
             this.Cards.CollectionChanged += (sender, e) => this.OnPropertyChanged(nameof(this.Count));
         }
 
+
         /// <summary>
         /// Event that notifies the appropriate objects when a certain propery is changed.
         /// </summary>
@@ -63,6 +64,7 @@ namespace Memento.DAL
                 this.OnPropertyChanged();
             }
         }
+
 
         /// <summary>
         /// Gets the count of cards in the deck.

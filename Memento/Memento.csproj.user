@@ -22,6 +22,9 @@
     <Compile Update="UserControls\DeckEditorUserControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UserControls\LearningUserControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UserControls\MainPageUserControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -49,6 +52,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UserControls\DeckEditorUserControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControls\LearningUserControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UserControls\MainPageUserControl.xaml">
