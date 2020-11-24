@@ -1,5 +1,5 @@
 //StatEventArgs (TimeSpan t);
-﻿// <copyright file="Statistics.cs" company="PlaceholderCompany">
+// <copyright file="Statistics.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
