@@ -270,7 +270,7 @@ namespace Memento.DAL
             using var context = new CardsContext();
             var com = context.Cards.FromSqlRaw("SELECT * FROM \"Card_Table\" ORDER BY card_id DESC LIMIT 1").ToList();
 
-            string diff = string.Empty;
+            string diff = String.Empty;
 
             foreach (var item in com)
             {

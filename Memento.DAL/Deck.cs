@@ -26,11 +26,20 @@ namespace Memento.DAL
         /// </summary>
         public Deck()
         {
-            this.Id = -1;
-            this.Cards = new ObservableCollection<Card>();
-            this.DeckName = string.Empty;
-            this.TagName = string.Empty;
-            this.Cards.CollectionChanged += (sender, e) => this.OnPropertyChanged(nameof(this.Count));
+            Id = -1;
+            Cards = new ObservableCollection<Card>();
+            DeckName = String.Empty;
+            TagName = String.Empty;
+            Cards.CollectionChanged += (sender, e) => OnPropertyChanged(nameof(Count));
+        }
+
+        public Deck(string deckName)
+        {
+            Id = -1;
+            Cards = new ObservableCollection<Card>();
+            DeckName = deckName;
+            TagName = String.Empty;
+            Cards.CollectionChanged += (sender, e) => OnPropertyChanged(nameof(Count));
         }
 
         /// <summary>
@@ -39,13 +48,12 @@ namespace Memento.DAL
         /// <param name="deck">The deck that shold be copied.</param>
         public Deck(Deck deck)
         {
-            this.Id = deck.Id;
-            this.Cards = new ObservableCollection<Card>(deck.Cards.Select(card => new Card(card)));
-            this.DeckName = deck.DeckName;
-            this.TagName = deck.TagName;
-            this.Cards.CollectionChanged += (sender, e) => this.OnPropertyChanged(nameof(this.Count));
+            Id = deck.Id;
+            Cards = new ObservableCollection<Card>(deck.Cards.Select(card => new Card(card)));
+            DeckName = deck.DeckName;
+            TagName = deck.TagName;
+            Cards.CollectionChanged += (sender, e) => OnPropertyChanged(nameof(Count));
         }
-
 
         /// <summary>
         /// Event that notifies the appropriate objects when a certain propery is changed.
@@ -57,30 +65,29 @@ namespace Memento.DAL
         /// </summary>
         public int Id
         {
-            get => this.id;
+            get => id;
             set
             {
-                this.id = value;
-                this.OnPropertyChanged();
+                id = value;
+                OnPropertyChanged();
             }
         }
-
 
         /// <summary>
         /// Gets the count of cards in the deck.
         /// </summary>
-        public int Count { get => this.Cards.Count; }
+        public int Count { get => Cards.Count; }
 
         /// <summary>
         /// Gets or sets the name of the deck.
         /// </summary>
         public string DeckName
         {
-            get => this.deckName;
+            get => deckName;
             set
             {
-                this.deckName = value;
-                this.OnPropertyChanged();
+                deckName = value;
+                OnPropertyChanged();
             }
         }
 
@@ -89,11 +96,11 @@ namespace Memento.DAL
         /// </summary>
         public string TagName
         {
-            get => this.tagName;
+            get => tagName;
             set
             {
-                this.tagName = value;
-                this.OnPropertyChanged();
+                tagName = value;
+                OnPropertyChanged();
             }
         }
 
@@ -114,8 +121,8 @@ namespace Memento.DAL
         /// <returns>A card with the given index.</returns>
         public Card this[int index]
         {
-            get => this.Cards[index];
-            set => this.Cards[index] = value;
+            get => Cards[index];
+            set => Cards[index] = value;
         }
 
         /// <summary>
@@ -123,7 +130,7 @@ namespace Memento.DAL
         /// </summary>
         /// <param name="card">The card to be added.</param>
         public void Add(Card card)
-            => this.Cards.Add(card);
+            => Cards.Add(card);
 
         /// <summary>
         /// Adds a range of cards to the end of the deck.
@@ -133,7 +140,7 @@ namespace Memento.DAL
         {
             foreach (var card in cards)
             {
-                this.Add(card);
+                Add(card);
             }
         }
 
@@ -143,7 +150,7 @@ namespace Memento.DAL
         /// <param name="index">The index where the card should be inserted.</param>
         /// <param name="card">The card to be inserted.</param>
         public void InsertCard(int index, Card card)
-            => this.Cards.Insert(index, card);
+            => Cards.Insert(index, card);
 
         /// <summary>
         /// Removes the first occurance of the card.
@@ -151,14 +158,14 @@ namespace Memento.DAL
         /// <param name="card">The card to be removed.</param>
         /// <returns><see cref="true"/> if the card is successfully removed, otherwise <see cref="false"/>. Also returns <see cref="false"/> if the card was not found in the deck.</returns>
         public bool Remove(Card card)
-            => this.Cards.Remove(card);
+            => Cards.Remove(card);
 
         /// <summary>
         /// Removes a card located at the given index.
         /// </summary>
         /// <param name="index">The index at which the card should be removed.</param>
         public void RemoveAt(int index)
-            => this.Cards.RemoveAt(index);
+            => Cards.RemoveAt(index);
 
         /// <summary>
         /// Moves a card from one index to another.
@@ -167,9 +174,9 @@ namespace Memento.DAL
         /// <param name="newIndex">The new location of a card.</param>
         public void MoveCard(int oldIndex, int newIndex)
         {
-            var card = this.Cards[oldIndex];
-            this.Cards.RemoveAt(oldIndex);
-            this.Cards.Insert(newIndex, card);
+            var card = Cards[oldIndex];
+            Cards.RemoveAt(oldIndex);
+            Cards.Insert(newIndex, card);
         }
 
         /// <summary>
@@ -179,14 +186,14 @@ namespace Memento.DAL
         /// <returns>The index of the given card.</returns>
         public int IndexOf(Card card)
         {
-            return this.Cards.IndexOf(card);
+            return Cards.IndexOf(card);
         }
 
         /// <summary>
         /// Clears the deck.
         /// </summary>
         public void Clear()
-            => this.Cards.Clear();
+            => Cards.Clear();
 
         /// <summary>
         /// Determines whether the deck contains the given card.
@@ -194,7 +201,7 @@ namespace Memento.DAL
         /// <returns>A value indicating whether the deck contains the given card.</returns>
         /// <param name="card">The card to check.</param>
         public bool Contains(Card card)
-            => this.Cards.Contains(card);
+            => Cards.Contains(card);
 
         /// <summary>
         /// Copies the deck into an array at the given index.
@@ -211,14 +218,14 @@ namespace Memento.DAL
             {
                 throw new ArgumentOutOfRangeException(nameof(array), "The starting array index cannot be negative.");
             }
-            else if (this.Count > array.Length - arrayIndex + 1)
+            else if (Count > array.Length - arrayIndex + 1)
             {
                 throw new ArgumentException("The destination array has fewer elements than the collection.");
             }
 
-            for (int i = 0; i < this.Cards.Count; i++)
+            for (int i = 0; i < Cards.Count; i++)
             {
-                array[i + arrayIndex] = this.Cards[i];
+                array[i + arrayIndex] = Cards[i];
             }
         }
 
@@ -227,14 +234,14 @@ namespace Memento.DAL
         /// </summary>
         /// <returns>The string that represents the object.</returns>
         public override string ToString()
-            => this.DeckName;
+            => DeckName;
 
         /// <summary>
         /// Overrides the default ToString method.
         /// </summary>
         /// <returns>The hash code.</returns>
         public override int GetHashCode()
-            => HashCode.Combine(this.Id, this.Cards, this.DeckName, this.TagName);
+            => HashCode.Combine(Id, Cards, DeckName, TagName);
 
         /// <summary>
         /// Deternines whether the card equals to the object passed.
@@ -242,7 +249,7 @@ namespace Memento.DAL
         /// <param name="obj">The object to compare the card with.</param>
         /// <returns>A value indicating whether the two objects are equal.</returns>
         public override bool Equals(object obj)
-            => obj is Deck deck && this.Equals(deck);
+            => obj is Deck deck && Equals(deck);
 
         /// <summary>
         /// Deternines whether the card equals to the object passed.
@@ -250,25 +257,25 @@ namespace Memento.DAL
         /// <param name="deck">The deck to compare the card with.</param>
         /// <returns>A value indicating whether the two objects are equal.</returns>
         public bool Equals(Deck deck)
-            => this.DeckName == deck.DeckName;
+            => DeckName == deck.DeckName;
 
         /// <summary>
         /// Returns an enumerator that iterates through cards.
         /// </summary>
         /// <returns>An <see cref="IEnumerator$lt;out Card$gt;"/> for the <see cref="Deck"/>.</returns>
         public IEnumerator<Card> GetEnumerator()
-            => this.Cards.GetEnumerator();
+            => Cards.GetEnumerator();
 
         /// <summary>
         /// Returns an enumerator that iterates through cards.
         /// </summary>
         /// <returns>An <see cref="IEnumerator"/> object that enumerates through a <see cref="Deck"/>.</returns>
         IEnumerator IEnumerable.GetEnumerator()
-            => this.GetEnumerator();
+            => GetEnumerator();
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -2,10 +2,10 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
+using System;
+
 namespace Memento.BLL
 {
-    using System;
-
     /// <summary>
     /// This exception is thrown when the deck could not be found.
     /// </summary>
@@ -17,7 +17,7 @@ namespace Memento.BLL
         /// <param name="message">The exception message.</param>
         public DeckNotFoundException(string message = "No such deck could be found in the database")
         {
-            this.Message = message;
+            Message = message;
         }
 
         /// <summary>

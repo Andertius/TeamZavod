@@ -27,13 +27,13 @@ namespace Memento.DAL
         /// </summary>
         public Card()
         {
-            this.Id = -1;
-            this.Word = string.Empty;
-            this.Description = string.Empty;
-            this.Transcription = string.Empty;
-            this.Difficulty = Difficulty.None;
-            this.ImagePath = string.Empty;
-            this.Tags = new ObservableCollection<string>();
+            Id = -1;
+            Word = String.Empty;
+            Description = String.Empty;
+            Transcription = String.Empty;
+            Difficulty = Difficulty.None;
+            ImagePath = String.Empty;
+            Tags = new ObservableCollection<string>();
         }
 
         /// <summary>
@@ -46,13 +46,13 @@ namespace Memento.DAL
         /// <param name="difficulty">The difficulty.</param>
         public Card(string word, string description, string transcription = "", string imagePath = "", Difficulty difficulty = Difficulty.None)
         {
-            this.Id = -1;
-            this.Word = word;
-            this.Description = description;
-            this.Transcription = transcription;
-            this.Difficulty = difficulty;
-            this.ImagePath = imagePath;
-            this.Tags = new ObservableCollection<string>();
+            Id = -1;
+            Word = word;
+            Description = description;
+            Transcription = transcription;
+            Difficulty = difficulty;
+            ImagePath = imagePath;
+            Tags = new ObservableCollection<string>();
         }
 
         /// <summary>
@@ -61,13 +61,13 @@ namespace Memento.DAL
         /// <param name="card">The card that should be copied.</param>
         public Card(Card card)
         {
-            this.Id = card.Id;
-            this.Word = card.Word;
-            this.Description = card.Description;
-            this.Transcription = card.Transcription;
-            this.Difficulty = card.Difficulty;
-            this.ImagePath = card.ImagePath;
-            this.Tags = new ObservableCollection<string>(card.Tags.OrderBy(x => x));
+            Id = card.Id;
+            Word = card.Word;
+            Description = card.Description;
+            Transcription = card.Transcription;
+            Difficulty = card.Difficulty;
+            ImagePath = card.ImagePath;
+            Tags = new ObservableCollection<string>(card.Tags.OrderBy(x => x));
         }
 
         /// <summary>
@@ -80,11 +80,11 @@ namespace Memento.DAL
         /// </summary>
         public int Id
         {
-            get => this.id;
+            get => id;
             set
             {
-                this.id = value;
-                this.OnPropertyChanged();
+                id = value;
+                OnPropertyChanged();
             }
         }
 
@@ -93,11 +93,11 @@ namespace Memento.DAL
         /// </summary>
         public string Word
         {
-            get => this.word;
+            get => word;
             set
             {
-                this.word = value;
-                this.OnPropertyChanged();
+                word = value;
+                OnPropertyChanged();
             }
         }
 
@@ -106,11 +106,11 @@ namespace Memento.DAL
         /// </summary>
         public string Description
         {
-            get => this.description;
+            get => description;
             set
             {
-                this.description = value;
-                this.OnPropertyChanged();
+                description = value;
+                OnPropertyChanged();
             }
         }
 
@@ -119,11 +119,11 @@ namespace Memento.DAL
         /// </summary>
         public string Transcription
         {
-            get => this.transcription;
+            get => transcription;
             set
             {
-                this.transcription = value;
-                this.OnPropertyChanged();
+                transcription = value;
+                OnPropertyChanged();
             }
         }
 
@@ -132,11 +132,11 @@ namespace Memento.DAL
         /// </summary>
         public Difficulty Difficulty
         {
-            get => this.difficulty;
+            get => difficulty;
             set
             {
-                this.difficulty = value;
-                this.OnPropertyChanged();
+                difficulty = value;
+                OnPropertyChanged();
             }
         }
 
@@ -145,11 +145,11 @@ namespace Memento.DAL
         /// </summary>
         public string ImagePath
         {
-            get => this.imagePath;
+            get => imagePath;
             set
             {
-                this.imagePath = value;
-                this.OnPropertyChanged();
+                imagePath = value;
+                OnPropertyChanged();
             }
         }
 
@@ -164,7 +164,7 @@ namespace Memento.DAL
         /// <returns>The string that represents the object.</returns>
         public override string ToString()
         {
-            return $"{this.Word} [{this.Transcription}] - {this.Description}";
+            return $"{Word} [{Transcription}] - {Description}";
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace Memento.DAL
         /// <returns>The hash code.</returns>
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Id, this.Word, this.Description);
+            return HashCode.Combine(Id, Word, Description);
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace Memento.DAL
         /// <returns>A value indicating whether the two objects are equal.</returns>
         public override bool Equals(object obj)
         {
-            return obj is Card card && this.Equals(card);
+            return obj is Card card && Equals(card);
         }
 
         /// <summary>
@@ -193,16 +193,16 @@ namespace Memento.DAL
         /// <returns>A value indicating whether the two objects are equal.</returns>
         public bool Equals(Card card)
         {
-            return this.Id == card.Id || (this.Word == card.Word &&
-                                          this.Description == card.Description &&
-                                          this.Transcription == card.Transcription &&
-                                          this.Difficulty == card.Difficulty &&
-                                          this.ImagePath == card.ImagePath);
+            return Id == card.Id || (Word == card.Word &&
+                                          Description == card.Description &&
+                                          Transcription == card.Transcription &&
+                                          Difficulty == card.Difficulty &&
+                                          ImagePath == card.ImagePath);
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

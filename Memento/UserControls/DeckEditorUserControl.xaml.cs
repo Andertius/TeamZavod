@@ -34,6 +34,7 @@ namespace Memento.UserControls
 
         private bool handle = true;
         private bool isCardEdited = false;
+        private bool isDeckChosen = false;
 
         private string lastSavedWord = String.Empty;
         private string lastSavedDescription = String.Empty;
@@ -58,6 +59,7 @@ namespace Memento.UserControls
             else
             {
                 DeckEditor = new DeckEditor(deckId);
+                isDeckChosen = true;
             }
 
             CardAdded += DeckEditor.AddCard;
@@ -69,6 +71,8 @@ namespace Memento.UserControls
             DeckChanged += DeckEditor.ChangeDeck;
             DeckChanged += ChangeTitleOnChangedDeck;
             DeckChanged += ClearImageAndTags;
+            DeckEdited += DeckEditor.EditDeck;
+            DeckEdited += ChangeTitleOnEditedDeck;
             DeckRemoved += DeckEditor.RemoveDeck;
             ChangesSaved += DeckEditor.SaveChanges;
 
@@ -210,6 +214,11 @@ namespace Memento.UserControls
         public event EventHandler<RemoveDeckEditorDeckEventArgs> DeckRemoved;
 
         /// <summary>
+        /// An event that handles the editing of a deck.
+        /// </summary>
+        public event EventHandler<EditDeckDeckEditorEventArgs> DeckEdited;
+
+        /// <summary>
         /// An event that handles the change in the title of the window.
         /// </summary>
         public event EventHandler<ChangeTitleEventArgs> TitleChanged;
@@ -321,12 +330,13 @@ namespace Memento.UserControls
             }
 
             RenderCurrentCardTags(sender, e);
+            CardsDataGrid.Items.Refresh();
             ChangeLastSaved();
         }
 
         private void SaveCardCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DeckEditor.CurrentCard.Word != String.Empty && DeckEditor.CurrentCard.Description != String.Empty && IsCardEdited;
+            e.CanExecute = DeckEditor.CurrentCard.Word != String.Empty && DeckEditor.CurrentCard.Description != String.Empty && IsCardEdited && isDeckChosen;
         }
 
         private void ComboBox_DropDownClosed(object sender, EventArgs e)
@@ -348,7 +358,7 @@ namespace Memento.UserControls
 
         private void ChangeDeck()
         {
-            if (IsCardEdited && ShowSaveWarning())
+            if (IsCardEdited && isDeckChosen && ShowSaveWarning())
             {
                 return;
             }
@@ -357,6 +367,7 @@ namespace Memento.UserControls
             {
                 DeckChanged?.Invoke(this, new DeckEditorDeckEventArgs(Repository.FetchDeck(deck.DeckName)));
                 IsCardEdited = false;
+                isDeckChosen = true;
             }
         }
 
@@ -495,6 +506,25 @@ namespace Memento.UserControls
             e.CanExecute = DeckEditor.Deck.DeckName != String.Empty;
         }
 
+        private void EditDeck(object sender, RoutedEventArgs e)
+        {
+            var editDeckWindow = new EditDeckWindow(DeckEditor.Deck.DeckName, DeckEditor.Deck.TagName);
+            editDeckWindow.ShowDialog();
+
+            if (editDeckWindow.DeckName != DeckEditor.Deck.DeckName || editDeckWindow.TagName != DeckEditor.Deck.TagName)
+            {
+                DeckEdited?.Invoke(this, new EditDeckDeckEditorEventArgs(editDeckWindow.DeckName, editDeckWindow.TagName));
+
+                DecksCombox.Items.Refresh();
+                DecksCombox.SelectedIndex = DeckEditor.AllDecks.IndexOf(DeckEditor.Deck);
+            }
+        }
+
+        private void EditDeckCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = isDeckChosen;
+        }
+
         private void ClearImageAndTags(object sender, EventArgs e)
         {
             CardImage.Source = null;
@@ -521,6 +551,11 @@ namespace Memento.UserControls
         }
 
         private void ChangeTitleOnChangedDeck(object sender, DeckEditorDeckEventArgs e)
+        {
+            TitleChanged?.Invoke(this, new ChangeTitleEventArgs($"Memento - Deck Editor - {DeckEditor.Deck.DeckName}"));
+        }
+
+        private void ChangeTitleOnEditedDeck(object sender, EditDeckDeckEditorEventArgs e)
         {
             TitleChanged?.Invoke(this, new ChangeTitleEventArgs($"Memento - Deck Editor - {DeckEditor.Deck.DeckName}"));
         }
@@ -584,6 +619,7 @@ namespace Memento.UserControls
                 DeckEditor.CurrentCard.Tags.Add(tag);
                 DeckEditor.CurrentCard.Tags = new ObservableCollection<string>(DeckEditor.CurrentCard.Tags.OrderBy(x => x));
                 RenderCurrentCardTags(this, EventArgs.Empty);
+                NewTagTextBox.Text = String.Empty;
 
                 if (!DeckEditor.CurrentCard.Tags.SequenceEqual(lastSavedTags))
                 {

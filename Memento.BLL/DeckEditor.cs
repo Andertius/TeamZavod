@@ -213,6 +213,21 @@ namespace Memento.BLL
         }
 
         /// <summary>
+        /// Edits the current deck.
+        /// </summary>
+        /// <param name="sender">The object that invoked the method.</param>
+        /// <param name="e">The name and the tag name to change to.</param>
+        public void EditDeck(object sender, EditDeckDeckEditorEventArgs e)
+        {
+            int index = AllDecks.IndexOf(new Deck(Deck.DeckName));
+            Deck.DeckName = e.DeckName;
+            Deck.TagName = e.TagName;
+            Repository.UpdateDeck(Deck.Id, Deck, UpdateDeckOptions.UpdateContent);
+            AllDecks[index].DeckName = Deck.DeckName;
+            AllDecks[index].TagName = Deck.TagName;
+        }
+
+        /// <summary>
         /// Removes the deck from the database.
         /// </summary>
         /// <param name="sender">The object that invoked the method.</param>
@@ -222,6 +237,7 @@ namespace Memento.BLL
             if (e.Deck.Id != -1)
             {
                 Repository.RemoveDeck(e.Deck.Id);
+                AllDecks.Remove(e.Deck);
                 e.Removed = true;
                 CurrentCard = new Card();
                 return;

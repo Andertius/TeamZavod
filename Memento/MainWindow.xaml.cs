@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Linq;
 using System.Windows;
 
 using Memento.BLL;
@@ -94,21 +95,22 @@ namespace Memento
 
         private void StartLearning(object sender, StartLearningEventArgs e)
         {
-            if(AppSettings is null)
+            if (AppSettings is null)
             {
                 AppSettings = new Settings();
             }
+
             if (LearningProcess is null)
             {
                 LearningProcess = new AppHandler(e.DeckId);
             }
 
-            Content = LearningPage = new LearningUserControl(e.DeckId,AppSettings.CardOrder,AppSettings.ShowImages)
+            Content = LearningPage = new LearningUserControl(e.DeckId, AppSettings.CardOrder, AppSettings.ShowImages)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
             };
-            
+
             Title = $"Memento - {LearningProcess.Deck.DeckName}";
             LearningPage.MakeMainPageVisible += GoToMainPageFromLearning;
             IsInLearningProcess = true;
@@ -131,6 +133,7 @@ namespace Memento
 
             DeckEditorPage.MakeMainPageVisible += GoToMainPageFromDeckEditor;
             DeckEditorPage.TitleChanged += ChangeMainTitle;
+            MainPage.Decks = DeckEditorPage.DeckEditor.AllDecks.ToList();
 
             if (e.DeckId == -1)
             {
@@ -167,7 +170,7 @@ namespace Memento
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
             };
- 
+
             SettingsPage.MakeMainPageVisible += GoToMainPageFromSettings;
             Title = "Memento - Settings";
         }
