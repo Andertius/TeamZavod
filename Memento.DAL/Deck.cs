@@ -33,12 +33,17 @@ namespace Memento.DAL
             Cards.CollectionChanged += (sender, e) => OnPropertyChanged(nameof(Count));
         }
 
-        public Deck(string deckName)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Deck"/> class.
+        /// </summary>
+        /// <param name="deckName">The name of the deck to be initialized.</param>
+        /// <param name="tagName">Optional tag name.</param>
+        public Deck(string deckName, string tagName = "")
         {
             Id = -1;
             Cards = new ObservableCollection<Card>();
             DeckName = deckName;
-            TagName = String.Empty;
+            TagName = tagName;
             Cards.CollectionChanged += (sender, e) => OnPropertyChanged(nameof(Count));
         }
 
