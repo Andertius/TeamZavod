@@ -2,11 +2,16 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
+using System;
+using System.IO;
+using System.Xml.Serialization;
+
 namespace Memento.BLL
 {
     /// <summary>
     /// The main logic for settings.
     /// </summary>
+    [Serializable]
     public class Settings
     {
         /// <summary>
@@ -41,27 +46,31 @@ namespace Memento.BLL
         /// <summary>
         /// Gets or sets hoursPerDay.
         /// </summary>
+        [XmlElement("HoursePerDay")]
         public double HoursPerDay { get; set; }
 
         /// <summary>
         /// Gets or sets cardsPerDay.
         /// </summary>
+        [XmlElement("CardsPerDay")]
         public int CardsPerDay { get; set; }
 
         /// <summary>
         /// Gets or sets the theme.
         /// </summary>
+        [XmlElement("Theme")]
         public Theme Theme { get; set; }
 
         /// <summary>
         /// Gets or sets cardOrder.
         /// </summary>
+        [XmlElement("CardOrder")]
         public CardOrder CardOrder { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether showImages.
         /// </summary>
-
+        [XmlElement("ShowImages")]
         public bool ShowImages { get; set; }
     }
 }

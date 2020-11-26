@@ -3,8 +3,10 @@
 // </copyright>
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Xml.Serialization;
 
 using Memento.BLL;
 using Memento.UserControls;
@@ -22,6 +24,11 @@ namespace Memento
         public MainWindow()
         {
             InitializeComponent();
+
+            XmlSerializer deserializer = new XmlSerializer(typeof(Settings));
+            StreamReader reader = new StreamReader("Settings.xml");
+            AppSettings = (Settings)deserializer.Deserialize(reader);
+            reader.Close();
 
             Content = MainPage = new MainPageUserControl()
             {
@@ -95,11 +102,6 @@ namespace Memento
 
         private void StartLearning(object sender, StartLearningEventArgs e)
         {
-            if (AppSettings is null)
-            {
-                AppSettings = new Settings();
-            }
-
             if (LearningProcess is null)
             {
                 LearningProcess = new AppHandler(e.DeckId);
@@ -160,11 +162,6 @@ namespace Memento
 
         private void OpenSettings(object sender, EventArgs e)
         {
-            if (AppSettings is null)
-            {
-                AppSettings = new Settings();
-            }
-
             Content = SettingsPage = new SettingsUserControl(AppSettings)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -189,9 +186,8 @@ namespace Memento
                 AppStatistics = new Statistics();
             }
 
-            if (SettingsPage is null || AppSettings is null)
+            if (SettingsPage is null)
             {
-                AppSettings = new Settings();
                 Content = StatisticsPage = new StatisticsUserControl(AppStatistics, AppSettings)
                 {
                     HorizontalAlignment = HorizontalAlignment.Stretch,

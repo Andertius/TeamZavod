@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Settings.xml" />
     <None Remove="stylecop.json" />
   </ItemGroup>
 
@@ -22,6 +23,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Memento.DAL\Memento.DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Settings.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

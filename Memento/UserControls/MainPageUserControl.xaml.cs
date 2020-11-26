@@ -50,9 +50,10 @@ namespace Memento.UserControls
         /// </summary>
         public event EventHandler OpenStatisticsEvent;
 
-
+        /// <summary>
+        /// An event that handles the opening of learning process.
+        /// </summary>
         public event EventHandler<StartLearningEventArgs> OpenLearningEvent;
-
 
         /// <summary>
         /// Gets or sets decks that the user works with.
@@ -105,7 +106,7 @@ namespace Memento.UserControls
             }
             else
             {
-                MessageBox.Show("Pick up deck first!", "Warning", MessageBoxButton.OK,MessageBoxImage.Exclamation);
+                MessageBox.Show("Pick up deck first!", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
 
