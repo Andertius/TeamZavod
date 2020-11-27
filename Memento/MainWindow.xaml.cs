@@ -3,7 +3,11 @@
 // </copyright>
 
 using System;
+using System.IO;
+using System.Linq;
 using System.Windows;
+using System.Windows.Threading;
+using System.Xml.Linq;
 
 using Memento.BLL;
 using Memento.UserControls;
@@ -15,6 +19,8 @@ namespace Memento
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static readonly DependencyProperty AppStatisticsProperty = DependencyProperty.Register(nameof(AppStatistics), typeof(Statistics), typeof(StatisticsUserControl), new PropertyMetadata(new Statistics()));
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
         /// </summary>
@@ -33,9 +39,32 @@ namespace Memento
             MainPage.OpenStatisticsEvent += OpenStatistics;
             MainPage.OpenLearningEvent += StartLearning;
 
+            AppStatistics = new Statistics();
+            AppStatistics.GetFromXML();
+
+            this.Timer = new DispatcherTimer();
+            this.Timer.Tick += this.UpdatePage;
+            this.TimeAdd += this.AppStatistics.AddSpentTimeToday;
+
             IsInEditor = false;
             IsInLearningProcess = false;
+
+            this.Timer.Interval = new TimeSpan(0, 0, 5);
+            this.Timer.Start();
         }
+
+        public event EventHandler<StatAddSpentTimeEventArgs> TimeAdd;
+
+        /// <summary>
+        /// Gets sets AppStatistic value.
+        /// </summary>
+        public Statistics AppStatistics
+        {
+            get => (Statistics)this.GetValue(AppStatisticsProperty);
+            private set => this.SetValue(AppStatisticsProperty, value);
+        }
+
+        public DispatcherTimer Timer { get; }
 
         /// <summary>
         /// Gets a value indicating whether IsInEditor.
@@ -61,11 +90,6 @@ namespace Memento
         /// Gets or sets AppSettings.
         /// </summary>
         public Settings AppSettings { get; set; }
-
-        /// <summary>
-        /// Gets or sets AppStatistics.
-        /// </summary>
-        public Statistics AppStatistics { get; set; }
 
         /// <summary>
         /// Gets or sets MainPage.
@@ -153,6 +177,14 @@ namespace Memento
         private void ChangeMainTitle(object sender, ChangeTitleEventArgs e)
         {
             Title = e.Title;
+        }
+
+        private void UpdatePage(object source, EventArgs e)
+        {
+            // TTSslider.Value = AppStatistics.TimeSpentToday.TotalHours;
+            this.TimeAdd?.Invoke(this, new StatAddSpentTimeEventArgs(new TimeSpan(0, 0, 5)));
+            AppStatistics.WriteInXML();
+            // TodayTimeSpent.Text = Convert.ToString(Math.Round(todaytimespent, 2));
         }
 
         private void OpenSettings(object sender, EventArgs e)

@@ -70,7 +70,7 @@
                    Margin="15 0 0 0"/>
         </Viewbox>
 
-        <Slider Grid.Row="1" Name="TTSslider" Maximum="100" Value="{Binding Path=AppStatistics.TimeSpentToday.TotalHours, Mode=OneWay}" Visibility="Collapsed" />
+        <Slider Grid.Row="1" Name="TTSslider" Maximum="100" Value="{Binding Path=AppStats.TimeSpentToday.TotalHours, Mode=OneWay}" Visibility="Collapsed" />
 
         <Viewbox Grid.Row="2" Grid.Column="1">
             <ProgressBar Style="{StaticResource ProgressBarStyle}" Width="150" Height="150" Name="TTSProgress"
@@ -90,7 +90,7 @@
                 <local:DoubleStringConverter x:Key="doubleStringConverter"/>
             </Viewbox.Resources>
             <Border Margin="5" Padding="5" BorderThickness="1" BorderBrush="black" Background="White" CornerRadius="200" Grid.Row="3" Grid.Column="2" Height="150" Width="150">
-                <TextBlock Text="{Binding Path=AppStatistics.AvarageTimePerDay.TotalHours, Converter={StaticResource doubleStringConverter} }" Grid.Column="1" Grid.Row="1" TextAlignment="Center" VerticalAlignment="Center"
+                <TextBlock Text="{ Binding Path=AppStats.AverageTime.TotalHours, Converter={StaticResource doubleStringConverter}, StringFormat={}{0:N2} }" Grid.Column="1" Grid.Row="1" TextAlignment="Center" VerticalAlignment="Center"
                       x:Name="AverageTimePerDayTextBlock" FontFamily="Arial" FontSize="36"/>
             </Border>
         </Viewbox>
@@ -100,7 +100,7 @@
                    Margin="15 0 0 0"/>
         </Viewbox>
 
-        <Slider Grid.Row="1" Name="CardsSlider" Maximum="100" Value="{Binding Path=AppStatistics.CardsLearnedPerDay.Count}" Visibility="Collapsed" />
+        <Slider Grid.Row="1" Name="CardsSlider" Maximum="100" Value="{Binding Path=AppStats.CardsLearnedPerDay.Count}" Visibility="Collapsed" />
 
         <Viewbox Grid.Row="4" Grid.Column="3">
             <ProgressBar Style="{StaticResource ProgressBarStyle}" Width="150" Height="150" Name="CardsLearned"
@@ -108,13 +108,13 @@
         </Viewbox>
 
         <Viewbox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
-            <Button Grid.Row="5" Grid.Column="0" FontFamily="Segoe MDL2 Assets" FontSize="36"
+            <Button Grid.Row="0" Grid.Column="0" FontFamily="Segoe MDL2 Assets"
                 Content="&#xE72B;" 
                 Background="White" 
                 BorderBrush="White"
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Bottom" 
-                Margin="10"
+                Margin="10" FontSize="36"
                 x:Name="GoBackButton"
                 Command="{x:Static local:Commands.GoBackCommand}">
             </Button>

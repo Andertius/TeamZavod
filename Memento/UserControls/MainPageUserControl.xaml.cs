@@ -50,9 +50,7 @@ namespace Memento.UserControls
         /// </summary>
         public event EventHandler OpenStatisticsEvent;
 
-
         public event EventHandler<StartLearningEventArgs> OpenLearningEvent;
-
 
         /// <summary>
         /// Gets or sets decks that the user works with.
