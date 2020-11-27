@@ -14,8 +14,6 @@ using Memento.DAL;
 
 namespace Memento.BLL
 {
-    // StatEventArgs (TimeSpan t);
-
     /// <summary>
     /// All statistics.
     /// </summary>
@@ -45,11 +43,11 @@ namespace Memento.BLL
         /// </summary>
         public TimeSpan TimeSpentToday
         {
-            get => this.timeSpentToday;
+            get => timeSpentToday;
             set
             {
-                this.timeSpentToday = value;
-                this.OnPropertyChanged();
+                timeSpentToday = value;
+                OnPropertyChanged();
             }
         }
 
@@ -58,11 +56,11 @@ namespace Memento.BLL
         /// </summary>
         public TimeSpan AverageTime
         {
-            get => this.averageTimePerDay;
+            get => averageTimePerDay;
             set
             {
-                this.averageTimePerDay = value;
-                this.OnPropertyChanged();
+                averageTimePerDay = value;
+                OnPropertyChanged();
             }
         }
 
@@ -71,11 +69,11 @@ namespace Memento.BLL
         /// </summary>
         public int CardsLearnedToday
         {
-            get => this.cardsLearnedToday;
+            get => cardsLearnedToday;
             set
             {
-                this.cardsLearnedToday = value;
-                this.OnPropertyChanged();
+                cardsLearnedToday = value;
+                OnPropertyChanged();
             }
         }
 
@@ -86,7 +84,7 @@ namespace Memento.BLL
         /// <param name="e">event args for event.</param>
         public void AddSpentTimeToday(object sender, StatAddSpentTimeEventArgs e)
         {
-            this.TimeSpentToday = this.TimeSpentToday.Add(e.TimePassed);
+            TimeSpentToday = TimeSpentToday.Add(e.TimePassed);
         }
 
         /// <summary>
@@ -259,7 +257,7 @@ namespace Memento.BLL
         /// <param name="propertyName">property name whish is under check.</param>
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

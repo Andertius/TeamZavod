@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 using Memento.BLL;
 using Memento.UserControls;
@@ -27,6 +28,11 @@ namespace Memento
         public MainWindow()
         {
             InitializeComponent();
+
+            XmlSerializer deserializer = new XmlSerializer(typeof(Settings));
+            StreamReader reader = new StreamReader("Settings.xml");
+            AppSettings = (Settings)deserializer.Deserialize(reader);
+            reader.Close();
 
             Content = MainPage = new MainPageUserControl()
             {
@@ -118,21 +124,17 @@ namespace Memento
 
         private void StartLearning(object sender, StartLearningEventArgs e)
         {
-            if(AppSettings is null)
-            {
-                AppSettings = new Settings();
-            }
             if (LearningProcess is null)
             {
                 LearningProcess = new AppHandler(e.DeckId);
             }
 
-            Content = LearningPage = new LearningUserControl(e.DeckId,AppSettings.CardOrder,AppSettings.ShowImages)
+            Content = LearningPage = new LearningUserControl(e.DeckId, AppSettings.CardOrder, AppSettings.ShowImages)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
             };
-            
+
             Title = $"Memento - {LearningProcess.Deck.DeckName}";
             LearningPage.MakeMainPageVisible += GoToMainPageFromLearning;
             IsInLearningProcess = true;
@@ -155,6 +157,7 @@ namespace Memento
 
             DeckEditorPage.MakeMainPageVisible += GoToMainPageFromDeckEditor;
             DeckEditorPage.TitleChanged += ChangeMainTitle;
+            MainPage.Decks = DeckEditorPage.DeckEditor.AllDecks.ToList();
 
             if (e.DeckId == -1)
             {
@@ -189,17 +192,12 @@ namespace Memento
 
         private void OpenSettings(object sender, EventArgs e)
         {
-            if (AppSettings is null)
-            {
-                AppSettings = new Settings();
-            }
-
             Content = SettingsPage = new SettingsUserControl(AppSettings)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
             };
- 
+
             SettingsPage.MakeMainPageVisible += GoToMainPageFromSettings;
             Title = "Memento - Settings";
         }
@@ -218,9 +216,8 @@ namespace Memento
                 AppStatistics = new Statistics();
             }
 
-            if (SettingsPage is null || AppSettings is null)
+            if (SettingsPage is null)
             {
-                AppSettings = new Settings();
                 Content = StatisticsPage = new StatisticsUserControl(AppStatistics, AppSettings)
                 {
                     HorizontalAlignment = HorizontalAlignment.Stretch,

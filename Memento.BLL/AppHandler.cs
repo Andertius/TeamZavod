@@ -2,14 +2,13 @@
 // <copyright file="Statistics.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Memento.BLL.AppHandlerEventArgs;
+using Memento.DAL;
 namespace Memento.BLL
 {
-    using System;
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
-    using Memento.BLL.AppHandlerEventArgs;
-    using Memento.DAL;
-
     /// <summary>
     /// Class to handle learning process
     /// </summary>
@@ -59,6 +58,8 @@ namespace Memento.BLL
         private Card currentCard;
         public Deck Deck { get; }
 
+        public bool ShowImages { get; set; } = true;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Card CurrentCard
@@ -76,7 +77,7 @@ namespace Memento.BLL
         /// </summary>
         /// <param name="order">Sort order for cards.</param>
         /// <param name="showImages">Enable or Disable images.</param>
-        public void Start(CardOrder order, bool showImages)
+        public void Start(CardOrder order)
         {
             if (order == CardOrder.Random)
             {

@@ -104,8 +104,8 @@
                     Grid.ColumnSpan="2">
                 <TextBlock Text="Pick Deck " 
                            FontSize="30" />
-                <ComboBox x:Name="PickDeckCombox" 
-                          ItemsSource="{Binding Decks}" 
+                <ComboBox x:Name="PickDeckCombox"
+                          ItemsSource="{Binding Path=Decks, UpdateSourceTrigger=PropertyChanged}" 
                           FontSize="24" />
             </StackPanel>
 

@@ -3,9 +3,10 @@
 // </copyright>
 
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-
+using System.Xml.Serialization;
 using Memento.BLL;
 
 namespace Memento.UserControls
@@ -15,7 +16,6 @@ namespace Memento.UserControls
     /// </summary>
     public partial class SettingsUserControl : UserControl
     {
-
         private static readonly DependencyProperty AppSettingsProperty = DependencyProperty.Register(
             nameof(AppSettings),
             typeof(Settings),
@@ -82,6 +82,13 @@ namespace Memento.UserControls
                 AppSettings.CardOrder = cardsOrder;
                 AppSettings.ShowImages = showImages;
                 AppSettings.Theme = AppTheme;
+
+                XmlSerializer serializer = new XmlSerializer(typeof(Settings));
+                string path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "Settings.xml");
+                StreamWriter writer = new StreamWriter(path);
+                serializer.Serialize(writer, AppSettings);
+                writer.Close();
+
                 MakeMainPageVisible?.Invoke(this, EventArgs.Empty);
             }
             else

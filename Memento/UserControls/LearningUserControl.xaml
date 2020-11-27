@@ -53,7 +53,7 @@
               StrokeThickness="8" 
               Margin="0,50"/>
 
-        <StackPanel  Grid.Row="1" Grid.Column="3" VerticalAlignment="Center">
+        <StackPanel Grid.Row="1" Grid.Column="3" VerticalAlignment="Center">
             <TextBlock Text="{Binding AppHandler.CurrentCard.Word}" x:Name="Word"/>
             <Line  X1="1" Y1="0" X2="0" Y2="0"/>
             <TextBlock Text="{Binding AppHandler.CurrentCard.Transcription}" x:Name="Transcription"
@@ -68,17 +68,16 @@
                 x:Name="Show_Btn"
                 Click="Show_Btn_Click"/>
 
-        <Button Grid.Row="0" Grid.Column="1" 
-                FontFamily="Segoe MDL2 Assets" FontSize="50"
+        <Button Grid.Row="0" Grid.Column="1"
+                FontFamily="Segoe MDL2 Assets" FontSize="36"
                 Content="&#xE72B;" 
                 Background="White" 
                 BorderBrush="White"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Stretch"
+                VerticalAlignment="Center"
                 Click="Stop_Btn_Click" 
-                Width="80"
+                Width="40" Height="40"
                 x:Name="Stop_Btn"/>
-
 
         <Button Grid.Row="2" Grid.Column="1" 
                 Content="Trivial" 

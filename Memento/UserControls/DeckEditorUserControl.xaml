@@ -24,6 +24,9 @@
 
         <CommandBinding Command="{x:Static local:Commands.RemoveDeckCommand}"
                         Executed="RemoveDeck" CanExecute="RemoveDeckCommand_CanExecute"/>
+
+        <CommandBinding Command="{x:Static local:Commands.EditDeckCommand}"
+                        Executed="EditDeck" CanExecute="EditDeckCommand_CanExecute"/>
     </UserControl.CommandBindings>
 
     <UserControl.Resources>
@@ -283,35 +286,39 @@
 
             <StackPanel Grid.Row="0">
                 <ComboBox Width="100" Margin="0 0 25 20" x:Name="DecksCombox"
-                      SelectionChanged="ComboBox_SelectionChanged"
-                      DropDownClosed="ComboBox_DropDownClosed"
-                      ItemsSource="{Binding DeckEditor.AllDecks}" HorizontalAlignment="Left"/>
+                          SelectionChanged="ComboBox_SelectionChanged"
+                          DropDownClosed="ComboBox_DropDownClosed"
+                          ItemsSource="{Binding Path=DeckEditor.AllDecks, UpdateSourceTrigger=PropertyChanged}"
+                          HorizontalAlignment="Left"/>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
                             Margin="0 0 0 20">
                     <Button x:Name="NewDeckButton" Width="100" Margin="0 0 15 0"
-                        Content="New Deck" Click="NewDeckButton_Click"/>
+                            Content="New Deck" Click="NewDeckButton_Click"/>
+                    
+                    <Button x:Name="EditDeckButton" Width="100" Margin="0 0 15 0"
+                            Content="Edit Deck" Command="{x:Static local:Commands.EditDeckCommand}"/>
 
                     <Button x:Name="RemoveDeckButton" Width="100"
-                        Content="Remove Deck" Command="{x:Static local:Commands.RemoveDeckCommand}"/>
+                            Content="Remove Deck" Command="{x:Static local:Commands.RemoveDeckCommand}"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
                             Margin="0 0 0 20">
                     <Button Content="New Card" Width="100" Margin="0 0 15 0"
-                        Command="{x:Static local:Commands.NewCardCommand}"/>
+                            Command="{x:Static local:Commands.NewCardCommand}"/>
 
                     <Button Content="New Existing Card" Width="120"
-                        Command="{x:Static local:Commands.NewExistingCardCommand}"/>
+                            Command="{x:Static local:Commands.NewExistingCardCommand}"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
                             Margin="0 0 0 20">
                     <Button Content="Save Card" Width="100" Margin="0 0 15 0"
-                        Command="{x:Static local:Commands.SaveCardCommand}"/>
+                            Command="{x:Static local:Commands.SaveCardCommand}"/>
 
                     <Button Content="Remove Card" Width="100"
-                        Command="{x:Static local:Commands.RemoveCardCommand}"/>
+                            Command="{x:Static local:Commands.RemoveCardCommand}"/>
                 </StackPanel>
             </StackPanel>
 
@@ -325,7 +332,7 @@
             </StackPanel>
 
             <DataGrid ItemsSource="{Binding DeckEditor.Deck.Cards}" IsReadOnly="True"
-                          x:Name="CardsDataGrid" AutoGenerateColumns="False" Grid.Row="3">
+                      x:Name="CardsDataGrid" AutoGenerateColumns="False" Grid.Row="3">
                 <DataGrid.ItemContainerStyle>
                     <Style TargetType="DataGridRow">
                         <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
@@ -349,8 +356,8 @@
                     <TextBox Width="400" x:Name="SearchTextBox"/>
 
                     <TextBlock IsHitTestVisible="False" Text="Search" Margin="4 0 0 0"
-                           HorizontalAlignment="Left" Foreground="DarkGray"
-                           VerticalAlignment="Center">
+                               HorizontalAlignment="Left" Foreground="DarkGray"
+                               VerticalAlignment="Center">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -378,8 +385,8 @@
                     <TextBox Width="150" x:Name="NewTagTextBox"/>
 
                     <TextBlock IsHitTestVisible="False" Text="New Tag" Margin="4 0 0 0"
-                           HorizontalAlignment="Left" Foreground="DarkGray"
-                           VerticalAlignment="Center" x:Name="NewTagPlaceholder">
+                               HorizontalAlignment="Left" Foreground="DarkGray"
+                               VerticalAlignment="Center" x:Name="NewTagPlaceholder">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
