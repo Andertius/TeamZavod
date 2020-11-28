@@ -13,6 +13,9 @@
     <Compile Update="AllCardsWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="EditDeckWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ImagesWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -40,6 +43,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="AllCardsWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="EditDeckWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ImagesWindow.xaml">

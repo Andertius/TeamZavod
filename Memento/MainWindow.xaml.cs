@@ -3,7 +3,12 @@
 // </copyright>
 
 using System;
+using System.IO;
+using System.Linq;
 using System.Windows;
+using System.Windows.Threading;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 
 using Memento.BLL;
 using Memento.UserControls;
@@ -15,12 +20,19 @@ namespace Memento
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static readonly DependencyProperty AppStatisticsProperty = DependencyProperty.Register(nameof(AppStatistics), typeof(Statistics), typeof(StatisticsUserControl), new PropertyMetadata(new Statistics()));
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
         /// </summary>
         public MainWindow()
         {
             InitializeComponent();
+
+            XmlSerializer deserializer = new XmlSerializer(typeof(Settings));
+            StreamReader reader = new StreamReader("Settings.xml");
+            AppSettings = (Settings)deserializer.Deserialize(reader);
+            reader.Close();
 
             Content = MainPage = new MainPageUserControl()
             {
@@ -33,9 +45,32 @@ namespace Memento
             MainPage.OpenStatisticsEvent += OpenStatistics;
             MainPage.OpenLearningEvent += StartLearning;
 
+            AppStatistics = new Statistics();
+            AppStatistics.GetFromXML();
+
+            this.Timer = new DispatcherTimer();
+            this.Timer.Tick += this.UpdatePage;
+            this.TimeAdd += this.AppStatistics.AddSpentTimeToday;
+
             IsInEditor = false;
             IsInLearningProcess = false;
+
+            this.Timer.Interval = new TimeSpan(0, 0, 5);
+            this.Timer.Start();
         }
+
+        public event EventHandler<StatAddSpentTimeEventArgs> TimeAdd;
+
+        /// <summary>
+        /// Gets sets AppStatistic value.
+        /// </summary>
+        public Statistics AppStatistics
+        {
+            get => (Statistics)this.GetValue(AppStatisticsProperty);
+            private set => this.SetValue(AppStatisticsProperty, value);
+        }
+
+        public DispatcherTimer Timer { get; }
 
         /// <summary>
         /// Gets a value indicating whether IsInEditor.
@@ -61,11 +96,6 @@ namespace Memento
         /// Gets or sets AppSettings.
         /// </summary>
         public static Settings AppSettings { get; set; }
-
-        /// <summary>
-        /// Gets or sets AppStatistics.
-        /// </summary>
-        public Statistics AppStatistics { get; set; }
 
         /// <summary>
         /// Gets or sets MainPage.
@@ -94,21 +124,18 @@ namespace Memento
 
         private void StartLearning(object sender, StartLearningEventArgs e)
         {
-            if(AppSettings is null)
-            {
-                AppSettings = new Settings();
-            }
             if (LearningProcess is null)
             {
                 LearningProcess = new AppHandler(e.DeckId);
             }
+
 
             Content = LearningPage = new LearningUserControl(e.DeckId)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
             };
-            
+
             Title = $"Memento - {LearningProcess.Deck.DeckName}";
             LearningPage.MakeMainPageVisible += GoToMainPageFromLearning;
             IsInLearningProcess = true;
@@ -131,6 +158,7 @@ namespace Memento
 
             DeckEditorPage.MakeMainPageVisible += GoToMainPageFromDeckEditor;
             DeckEditorPage.TitleChanged += ChangeMainTitle;
+            MainPage.Decks = DeckEditorPage.DeckEditor.AllDecks.ToList();
 
             if (e.DeckId == -1)
             {
@@ -155,19 +183,22 @@ namespace Memento
             Title = e.Title;
         }
 
+        private void UpdatePage(object source, EventArgs e)
+        {
+            // TTSslider.Value = AppStatistics.TimeSpentToday.TotalHours;
+            this.TimeAdd?.Invoke(this, new StatAddSpentTimeEventArgs(new TimeSpan(0, 0, 5)));
+            AppStatistics.WriteInXML();
+            // TodayTimeSpent.Text = Convert.ToString(Math.Round(todaytimespent, 2));
+        }
+
         private void OpenSettings(object sender, EventArgs e)
         {
-            if (AppSettings is null)
-            {
-                AppSettings = new Settings();
-            }
-
             Content = SettingsPage = new SettingsUserControl(AppSettings)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
             };
- 
+
             SettingsPage.MakeMainPageVisible += GoToMainPageFromSettings;
             Title = "Memento - Settings";
         }
@@ -186,9 +217,8 @@ namespace Memento
                 AppStatistics = new Statistics();
             }
 
-            if (SettingsPage is null || AppSettings is null)
+            if (SettingsPage is null)
             {
-                AppSettings = new Settings();
                 Content = StatisticsPage = new StatisticsUserControl(AppStatistics, AppSettings)
                 {
                     HorizontalAlignment = HorizontalAlignment.Stretch,

@@ -61,13 +61,8 @@
                 BorderBrush="White"
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
-                Margin="10" 
-                Click="GoBackButton_Click">
-            <Button.LayoutTransform>
-                <ScaleTransform ScaleX="3" ScaleY="3" />
-            </Button.LayoutTransform>
-        </Button>
-
+                Margin="10" FontSize="36"
+                Click="GoBackButton_Click"/>
 
         <TextBlock Grid.Row="3" Grid.Column="2" 
                    Text="Customize your Memento" 

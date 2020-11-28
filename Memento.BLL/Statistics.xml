@@ -7,7 +7,11 @@
         <TotalHours>0</TotalHours>
     </GeneralInfo>
 
-    <HoursToday>0</HoursToday>
-    <AverageHoursToday>0</AverageHoursToday>
+    <SecondsToday>0</SecondsToday>
+    <AverageSecondsToday>0</AverageSecondsToday>
     <CardsToday>0</CardsToday>
+
+    <Day>24</Day>
+
+    <CheckFirst>1</CheckFirst>
 </Statistics>
