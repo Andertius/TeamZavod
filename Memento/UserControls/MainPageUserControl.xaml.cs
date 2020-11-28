@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -67,6 +68,8 @@ namespace Memento.UserControls
         private void Guide_Click(object sender, RoutedEventArgs e)
         {
             HelpMenu.Visibility = Visibility.Hidden;
+            string target = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+            Process.Start("cmd", $"/c start {target}");
         }
 
         private void About_Click(object sender, RoutedEventArgs e)
@@ -79,6 +82,8 @@ namespace Memento.UserControls
         private void SupportUs_Click(object sender, RoutedEventArgs e)
         {
             HelpMenu.Visibility = Visibility.Hidden;
+            string target = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+            Process.Start("cmd", $"/c start {target}");
         }
 
         private void ExitProgram(object sender, ExecutedRoutedEventArgs e)
