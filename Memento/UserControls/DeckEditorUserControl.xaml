@@ -11,10 +11,10 @@
 
     <UserControl.CommandBindings>
         <CommandBinding Command="{x:Static local:Commands.NewCardCommand}"
-                        Executed="NewCard"/>
+                        Executed="NewCard" CanExecute="NewCardCommand_CanExecute"/>
         
         <CommandBinding Command="{x:Static local:Commands.NewExistingCardCommand}"
-                        Executed="NewExistingCard"/>
+                        Executed="NewExistingCard" CanExecute="NewExistingCardCommand_CanExecute"/>
         
         <CommandBinding Command="{x:Static local:Commands.SaveCardCommand}"
                         Executed="SaveCard" CanExecute="SaveCardCommand_CanExecute"/>
@@ -78,8 +78,6 @@
                 <RowDefinition Height="30*"/>
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="12*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 

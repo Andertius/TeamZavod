@@ -26,7 +26,7 @@ namespace Memento.DAL
         /// </summary>
         public Deck()
         {
-            Id = -1;
+            Id = DefaultId;
             Cards = new ObservableCollection<Card>();
             DeckName = String.Empty;
             TagName = String.Empty;
@@ -40,7 +40,7 @@ namespace Memento.DAL
         /// <param name="tagName">Optional tag name.</param>
         public Deck(string deckName, string tagName = "")
         {
-            Id = -1;
+            Id = DefaultId;
             Cards = new ObservableCollection<Card>();
             DeckName = deckName;
             TagName = tagName;
@@ -64,6 +64,11 @@ namespace Memento.DAL
         /// Event that notifies the appropriate objects when a certain propery is changed.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Gets the default id of the deck that is not in the database.
+        /// </summary>
+        public static int DefaultId => -1;
 
         /// <summary>
         /// Gets or sets the id of the deck.

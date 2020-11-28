@@ -1,12 +1,12 @@
 using System;
+using System.Linq;
 
+using Microsoft.Data.Sqlite;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Memento.BLL;
 using Memento.BLL.DeckEditorEventArgs;
 using Memento.DAL;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace Memento.UnitTests
 {
@@ -15,7 +15,6 @@ namespace Memento.UnitTests
     {
         private DeckEditor deckEditor;
         private Deck deck;
-        private Card utilityCard;
 
         private Card RandomizeCard()
         {
@@ -74,7 +73,6 @@ namespace Memento.UnitTests
         public void Initialize()
         {
             deck = RandomizeDeck();
-            utilityCard = RandomizeCard();
             deckEditor = new DeckEditor(deck);
         }
 
@@ -82,6 +80,9 @@ namespace Memento.UnitTests
         public void AddCardTest_CardAddedToDatabase()
         {
             Repository.AddDeck(deck);
+            deckEditor = new DeckEditor(deck);
+            var utilityCard = RandomizeCard();
+
             deckEditor.AddCard(this, new DeckEditorCardEventArgs(deck, utilityCard));
             Assert.IsNotNull(Repository.FetchCard(deckEditor.Deck.Cards[^1].Id));
         }
@@ -90,6 +91,8 @@ namespace Memento.UnitTests
         public void AddCardTest_CardAddedToDeck()
         {
             Repository.AddDeck(deck);
+            deckEditor = new DeckEditor(deck);
+            var utilityCard = RandomizeCard();
             deckEditor.AddCard(this, new DeckEditorCardEventArgs(deck, utilityCard));
 
             Assert.AreEqual(deckEditor.Deck.Count, 3);
@@ -109,19 +112,19 @@ namespace Memento.UnitTests
         }
 
         [TestMethod]
-        [Ignore]
         public void UpdateCardTest_UpdatesCard()
         {
-            //TODO
-            deckEditor.AddCard(this, new DeckEditorCardEventArgs(new Deck(), utilityCard));
-            var newCard = RandomizeCard();
-            deckEditor.UpdateCard(this, new UpdateCardDeckEditorEventArgs(utilityCard.Id, newCard));
+            Repository.AddDeck(deck);
+            deckEditor = new DeckEditor(deck);
 
-            Assert.AreEqual(deckEditor.Deck[2].Word, newCard.Word);
-            Assert.AreEqual(deckEditor.Deck[2].Description, newCard.Description);
-            Assert.AreEqual(deckEditor.Deck[2].Transcription, newCard.Transcription);
-            Assert.AreEqual(deckEditor.Deck[2].ImagePath, newCard.ImagePath);
-            Assert.AreEqual(deckEditor.Deck[2].Difficulty, newCard.Difficulty);
+            var newCard = RandomizeCard();
+            deckEditor.UpdateCard(this, new UpdateCardDeckEditorEventArgs(deckEditor.Deck[0], newCard));
+
+            Assert.AreEqual(deckEditor.Deck[0].Word, newCard.Word);
+            Assert.AreEqual(deckEditor.Deck[0].Description, newCard.Description);
+            Assert.AreEqual(deckEditor.Deck[0].Transcription, newCard.Transcription);
+            Assert.AreEqual(deckEditor.Deck[0].ImagePath, newCard.ImagePath);
+            Assert.AreEqual(deckEditor.Deck[0].Difficulty, newCard.Difficulty);
         }
 
         [TestMethod]
@@ -134,12 +137,6 @@ namespace Memento.UnitTests
 
             Assert.IsNotNull(dbDeck[0]);
             Assert.IsNotNull(dbDeck[1]);
-
-            Repository.RemoveCardFromDeck(deckEditor.Deck.Id, deckEditor.Deck[0].Id);
-            Repository.RemoveCardFromDeck(deckEditor.Deck.Id, deckEditor.Deck[1].Id);
-            Repository.RemoveDeck(deckEditor.Deck.Id);
-            Repository.RemoveCard(deckEditor.Deck[0].Id);
-            Repository.RemoveCard(deckEditor.Deck[1].Id);
         }
 
         [TestMethod]
@@ -161,12 +158,6 @@ namespace Memento.UnitTests
 
             Assert.IsNotNull(dbDeck[0]);
             Assert.IsNotNull(dbDeck[1]);
-
-            Repository.RemoveCardFromDeck(deckEditor.Deck.Id, deckEditor.Deck[0].Id);
-            Repository.RemoveCardFromDeck(deckEditor.Deck.Id, deckEditor.Deck[1].Id);
-            Repository.RemoveDeck(deckEditor.Deck.Id);
-            Repository.RemoveCard(deckEditor.Deck[0].Id);
-            Repository.RemoveCard(deckEditor.Deck[1].Id);
         }
 
         [TestMethod]
@@ -194,12 +185,6 @@ namespace Memento.UnitTests
             var result = Repository.FetchDeck(deckEditor.Deck.DeckName);
             Assert.IsNotNull(result);
             Assert.AreEqual(result.TagName, deck.TagName);
-
-            Repository.RemoveCardFromDeck(deckEditor.Deck.Id, deckEditor.Deck[0].Id);
-            Repository.RemoveCardFromDeck(deckEditor.Deck.Id, deckEditor.Deck[1].Id);
-            Repository.RemoveDeck(deckEditor.Deck.Id);
-            Repository.RemoveCard(deckEditor.Deck[0].Id);
-            Repository.RemoveCard(deckEditor.Deck[1].Id);
         }
 
         [TestMethod]
@@ -212,30 +197,25 @@ namespace Memento.UnitTests
 
             Assert.AreEqual(deckEditor.Deck.DeckName, deck.DeckName);
             Assert.AreEqual(deckEditor.Deck.TagName, deck.TagName);
-
-            Repository.RemoveCardFromDeck(deckEditor.Deck.Id, deckEditor.Deck[0].Id);
-            Repository.RemoveCardFromDeck(deckEditor.Deck.Id, deckEditor.Deck[1].Id);
-            Repository.RemoveDeck(deckEditor.Deck.Id);
-            Repository.RemoveCard(deckEditor.Deck[0].Id);
-            Repository.RemoveCard(deckEditor.Deck[1].Id);
         }
 
         [TestMethod]
-        public void RemoveDeckTest_RemovesTheDeck()
+        public void RemoveDeckTest_DeckIsPresentInDatabse_RemovesTheDeck()
         {
             deckEditor.SaveChanges(this, new DeckEditorDeckEventArgs(deck));
             deckEditor.RemoveDeck(this, new RemoveDeckEditorDeckEventArgs(deckEditor.Deck));
+            Assert.AreEqual(Repository.FetchDeck(deck.DeckName), new Deck());
         }
 
         [TestMethod]
         [ExpectedException(typeof(DeckNotFoundException))]
-        public void RemoveDeckTest_ThrowsDeckNotFoundException()
+        public void RemoveDeckTest_DeckIsNotInDatabse_ThrowsDeckNotFoundException()
         {
             deckEditor.RemoveDeck(this, new RemoveDeckEditorDeckEventArgs(deck));
         }
 
         [TestMethod]
-        public void ChangeCardTest()
+        public void ChangeCardTest_ChangesDeck()
         {
             deckEditor.ChangeDeck(this, new DeckEditorDeckEventArgs(deck));
             deckEditor.ChangeCard(this, new DeckEditorCardEventArgs(new Deck(), deck[1]));

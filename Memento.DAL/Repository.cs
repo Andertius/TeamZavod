@@ -440,7 +440,7 @@ namespace Memento.DAL
 
             for (int i = 0; i < deck.Cards.Count; i++)
             {
-                if (deck.Cards[i].Id == -1)
+                if (deck.Cards[i].Id == Card.DefaultId)
                 {
                     AddCard(deck.Cards[i]);
                 }
@@ -503,7 +503,7 @@ namespace Memento.DAL
 
                         for (int i = 0; i < deck.Cards.Count; i++)
                         {
-                            if (deck.Cards[i].Id == -1)
+                            if (deck.Cards[i].Id == Card.DefaultId)
                             {
                                 AddCard(deck.Cards[i]);
                             }
@@ -526,7 +526,7 @@ namespace Memento.DAL
 
                         for (int i = 0; i < deck.Cards.Count; i++)
                         {
-                            if (deck.Cards[i].Id == -1)
+                            if (deck.Cards[i].Id == Card.DefaultId)
                             {
                                 AddCard(deck.Cards[i]);
                             }

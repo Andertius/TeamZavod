@@ -16,22 +16,22 @@ namespace Memento.BLL.DeckEditorEventArgs
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateCardDeckEditorEventArgs"/> class.
         /// </summary>
-        /// <param name="cardId">The id of the card that should be updated.</param>
-        /// <param name="card">Card information that should be transferred to the card.</param>
-        public UpdateCardDeckEditorEventArgs(int cardId, Card card)
+        /// <param name="card">The card that should be updated.</param>
+        /// <param name="newCard">Card information that should be transferred to the card.</param>
+        public UpdateCardDeckEditorEventArgs(Card card, Card newCard)
         {
-            CardId = cardId;
             Card = new Card(card);
+            NewCard = new Card(newCard);
         }
 
         /// <summary>
-        /// Gets the id of the card that should be updated.
+        /// Gets the the card that should be updated.
         /// </summary>
-        public int CardId { get; }
+        public Card Card { get; }
 
         /// <summary>
         /// Gets the card information that should be transferred to the card.
         /// </summary>
-        public Card Card { get; }
+        public Card NewCard { get; }
     }
 }
