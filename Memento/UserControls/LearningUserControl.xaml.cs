@@ -24,12 +24,11 @@ namespace Memento.UserControls
 
         public event EventHandler<AppHandlerMoveCardEventArgs> NextCardEvents;
 
-        public LearningUserControl(int deckId, CardOrder order, bool showImages)
+        public LearningUserControl(int deckId)
         {
             DataContext = this;
             AppHandler = new AppHandler(deckId);
-            AppHandler.ShowImages = showImages;
-            AppHandler.Start(order);
+            AppHandler.Start(MainWindow.AppSettings.CardOrder);
             InitializeComponent();
 
             hiddenElements.Add(Trivial_Btn);
@@ -40,7 +39,7 @@ namespace Memento.UserControls
             NextCardEvents += AppHandler.MoveCardIntoDeck;
             NextCardEvents += NextCard;
 
-            if(!AppHandler.ShowImages)
+            if (!MainWindow.AppSettings.ShowImages)
             {
                 CardImage.Visibility = Visibility.Hidden;
             }
@@ -48,11 +47,6 @@ namespace Memento.UserControls
             CardImage.Source = String.IsNullOrWhiteSpace(AppHandler.CurrentCard.ImagePath)
                      ? null
                      : new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{AppHandler.CurrentCard.ImagePath}")));
-            //bool showimg = true;
-            //if (!showimg)
-            //{
-            //    CardImage.Visibility = Visibility.Hidden;
-            //}
         }
 
         /// <summary>
@@ -89,7 +83,7 @@ namespace Memento.UserControls
             }
             Show_Btn.Visibility = Visibility.Visible;
 
-            if (!AppHandler.ShowImages)
+            if (!MainWindow.AppSettings.ShowImages)
             {
                 CardImage.Visibility = Visibility.Hidden;
             }
