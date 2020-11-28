@@ -20,7 +20,7 @@ namespace Memento
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly DependencyProperty AppStatisticsProperty = DependencyProperty.Register(nameof(AppStatistics), typeof(Statistics), typeof(StatisticsUserControl), new PropertyMetadata(new Statistics()));
+        //private static readonly DependencyProperty AppStatisticsProperty = DependencyProperty.Register(nameof(AppStatistics), typeof(Statistics), typeof(StatisticsUserControl), new PropertyMetadata(new Statistics()));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -50,7 +50,7 @@ namespace Memento
 
             this.Timer = new DispatcherTimer();
             this.Timer.Tick += this.UpdatePage;
-            this.TimeAdd += this.AppStatistics.AddSpentTimeToday;
+            this.TimeAdd += AppStatistics.AddSpentTimeToday;
 
             IsInEditor = false;
             IsInLearningProcess = false;
@@ -64,10 +64,11 @@ namespace Memento
         /// <summary>
         /// Gets sets AppStatistic value.
         /// </summary>
-        public Statistics AppStatistics
+        public static Statistics AppStatistics
         {
-            get => (Statistics)this.GetValue(AppStatisticsProperty);
-            private set => this.SetValue(AppStatisticsProperty, value);
+            get; set;
+            //get => (Statistics)this.GetValue(AppStatisticsProperty);
+            //private set => this.SetValue(AppStatisticsProperty, value);
         }
 
         public DispatcherTimer Timer { get; }

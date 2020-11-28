@@ -41,7 +41,7 @@ namespace Memento.UserControls
             //this.TimeAdd += this.AppStats.AddSpentTimeToday;
             this.TTSProgress.Maximum = settings.HoursPerDay;
             this.CardsLearned.Maximum = settings.CardsPerDay;
-            this.CardsSlider.Value = AppStats.CardsLearnedToday;
+            //this.CardsSlider.Value = AppStats.CardsLearnedToday;
 
             // TTSslider.Value = todayTimeSpent;
             // CardLearned.Text = Convert.ToString(cardsperday);

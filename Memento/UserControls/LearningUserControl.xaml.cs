@@ -92,6 +92,7 @@ namespace Memento.UserControls
                      ? null
                      : new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{AppHandler.CurrentCard.ImagePath}")));
 
+            MainWindow.AppStatistics.AddCardLearned(this, EventArgs.Empty);
         }
 
         private void Trivial_Btn_Click(object sender, RoutedEventArgs e)
