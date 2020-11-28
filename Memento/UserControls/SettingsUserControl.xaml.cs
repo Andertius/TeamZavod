@@ -7,6 +7,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Serialization;
+
 using Memento.BLL;
 
 namespace Memento.UserControls
@@ -84,7 +85,8 @@ namespace Memento.UserControls
                 AppSettings.Theme = AppTheme;
 
                 XmlSerializer serializer = new XmlSerializer(typeof(Settings));
-                string path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "Settings.xml");
+                string dir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
+                string path = Path.Combine(dir, @"Memento.BLL\Settings.xml");
                 StreamWriter writer = new StreamWriter(path);
                 serializer.Serialize(writer, AppSettings);
                 writer.Close();
