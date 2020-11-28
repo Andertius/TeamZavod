@@ -181,7 +181,7 @@ namespace Memento.UserControls
         /// <summary>
         /// An event that handles the updating of a card.
         /// </summary>
-        public event EventHandler<DeckEditorCardEventArgs> CardUpdated;
+        public event EventHandler<UpdateCardDeckEditorEventArgs> CardUpdated;
 
         /// <summary>
         /// An event that handles the removal of a card from a deck.
@@ -312,7 +312,7 @@ namespace Memento.UserControls
         {
             if (DeckEditor.Deck.Contains(DeckEditor.CurrentCard))
             {
-                CardUpdated?.Invoke(this, new DeckEditorCardEventArgs(DeckEditor.Deck, DeckEditor.CurrentCard));
+                CardUpdated?.Invoke(this, new UpdateCardDeckEditorEventArgs(DeckEditor.CurrentCard.Id, DeckEditor.CurrentCard));
                 DeckEditor.Cards[DeckEditor.Cards.IndexOf(DeckEditor.CurrentCard)] = new Card(DeckEditor.CurrentCard);
             }
             else

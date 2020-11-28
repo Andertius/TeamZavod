@@ -193,11 +193,11 @@ namespace Memento.DAL
         /// <returns>A value indicating whether the two objects are equal.</returns>
         public bool Equals(Card card)
         {
-            return Id == card.Id || (Word == card.Word &&
-                                          Description == card.Description &&
-                                          Transcription == card.Transcription &&
-                                          Difficulty == card.Difficulty &&
-                                          ImagePath == card.ImagePath);
+            return Word == card.Word &&
+                Description == card.Description &&
+                Transcription == card.Transcription &&
+                Difficulty == card.Difficulty &&
+                ImagePath == card.ImagePath;
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")

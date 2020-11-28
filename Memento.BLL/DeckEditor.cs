@@ -144,10 +144,8 @@ namespace Memento.BLL
                         Repository.AddTagToCard(e.Card.Id, item.Trim());
                     }
                 }
-                else
-                {
-                    Repository.AddCardToDeck(e.Deck.Id, e.Card.Id);
-                }
+
+                Repository.AddCardToDeck(e.Deck.Id, e.Card.Id);
 
                 foreach (var tag in e.Card.Tags)
                 {
@@ -169,7 +167,7 @@ namespace Memento.BLL
         /// </summary>
         /// <param name="sender">The object that invoked the method.</param>
         /// <param name="e">The card to be updated.</param>
-        public void UpdateCard(object sender, DeckEditorCardEventArgs e)
+        public void UpdateCard(object sender, UpdateCardDeckEditorEventArgs e)
         {
             Deck[Deck.IndexOf(e.Card)] = new Card(e.Card);
 
@@ -257,6 +255,7 @@ namespace Memento.BLL
             {
                 Repository.AddDeck(e.Deck);
                 AllDecks.Add(e.Deck);
+                ChangeDeck(this, new DeckEditorDeckEventArgs(e.Deck));
             }
             else
             {

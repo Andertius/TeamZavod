@@ -226,7 +226,8 @@ namespace Memento.DAL
 
             Card crd = new Card();
 
-            var help = context.Cards.FromSqlInterpolated($"SELECT * FROM Card_Table").ToList();
+            // var help = context.Cards.FromSqlInterpolated($"SELECT * FROM Card_Table").ToList();
+            var help = context.Cards.ToList();
 
             foreach (var item in help)
             {
@@ -439,6 +440,11 @@ namespace Memento.DAL
 
             for (int i = 0; i < deck.Cards.Count; i++)
             {
+                if (deck.Cards[i].Id == -1)
+                {
+                    AddCard(deck.Cards[i]);
+                }
+
                 AddCardToDeck(deck.Id, deck.Cards[i].Id);
             }
 
@@ -478,21 +484,18 @@ namespace Memento.DAL
 
             var cards = context.Cards.FromSqlInterpolated($"SELECT Card_Table.card_id, description, difficulty_level, image_path, transcription, word FROM Card_Table, Deck_To_Card_Table WHERE Deck_To_Card_Table.card_id = Card_Table.card_id AND Deck_To_Card_Table.deck_id = (SELECT deck_id FROM Deck_Table  WHERE deck_id = {id})").ToList();
 
-            switch (options)
+            if (deckForUpdate != null)
             {
-                case UpdateDeckOptions.UpdateContent:
-                    if (deckForUpdate != null)
-                    {
+                switch (options)
+                {
+                    case UpdateDeckOptions.UpdateContent:
                         deckForUpdate.DeckName = deck.DeckName;
                         deckForUpdate.TagName = deck.TagName;
                         context.SaveChanges();
-                    }
 
-                    break;
+                        break;
 
-                case UpdateDeckOptions.UpdateCards:
-                    if (deckForUpdate != null)
-                    {
+                    case UpdateDeckOptions.UpdateCards:
                         for (int i = 0; i < cards.Count; i++)
                         {
                             RemoveCardFromDeck(deckForUpdate.Id, cards[i].Id);
@@ -500,18 +503,19 @@ namespace Memento.DAL
 
                         for (int i = 0; i < deck.Cards.Count; i++)
                         {
+                            if (deck.Cards[i].Id == -1)
+                            {
+                                AddCard(deck.Cards[i]);
+                            }
+
                             AddCardToDeck(deckForUpdate.Id, deck.Cards[i].Id);
                         }
 
                         context.SaveChanges();
-                    }
 
-                    break;
+                        break;
 
-                case UpdateDeckOptions.UpdateAll:
-
-                    if (deckForUpdate != null)
-                    {
+                    case UpdateDeckOptions.UpdateAll:
                         deckForUpdate.DeckName = deck.DeckName;
                         deckForUpdate.TagName = deck.TagName;
 
@@ -522,13 +526,18 @@ namespace Memento.DAL
 
                         for (int i = 0; i < deck.Cards.Count; i++)
                         {
+                            if (deck.Cards[i].Id == -1)
+                            {
+                                AddCard(deck.Cards[i]);
+                            }
+
                             AddCardToDeck(deckForUpdate.Id, deck.Cards[i].Id);
                         }
 
                         context.SaveChanges();
-                    }
 
-                    break;
+                        break;
+                }
             }
         }
 
