@@ -68,7 +68,7 @@ namespace Memento.UserControls
         private void Guide_Click(object sender, RoutedEventArgs e)
         {
             HelpMenu.Visibility = Visibility.Hidden;
-            string target = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+            string target = "https://www.youtube.com/watch?v=-51AfyMqnpI";
             Process.Start("cmd", $"/c start {target}");
         }
 
@@ -82,7 +82,7 @@ namespace Memento.UserControls
         private void SupportUs_Click(object sender, RoutedEventArgs e)
         {
             HelpMenu.Visibility = Visibility.Hidden;
-            string target = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+            string target = "https://www.youtube.com/watch?v=-51AfyMqnpI";
             Process.Start("cmd", $"/c start {target}");
         }
 

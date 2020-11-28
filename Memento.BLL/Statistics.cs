@@ -158,7 +158,7 @@ namespace Memento.BLL
 
                 File.WriteAllLines(pathtext, timeSpentPerDay);
 
-                var forAverageCount = timeSpentPerDay.Select(int.Parse).ToList();
+                var forAverageCount = timeSpentPerDay.Select(Int32.Parse).ToList();
 
                 member.Element("SecondsToday").Value = "0";
                 member.Element("CardsToday").Value = "0";

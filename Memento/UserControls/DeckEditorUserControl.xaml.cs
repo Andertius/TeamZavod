@@ -82,11 +82,11 @@ namespace Memento.UserControls
             {
                 DescriptionLimit.Text = DescriptionTextBox.Text.Length + "/500";
 
-                if (DescriptionTextBox.Text != lastSavedDescription)
+                if (DescriptionTextBox.Text != lastSavedDescription && isDeckChosen)
                 {
                     IsCardEdited = true;
                 }
-                else if (!CheckForEdition())
+                else if (!CheckForEdition() && isDeckChosen)
                 {
                     IsCardEdited = false;
                 }
@@ -94,11 +94,11 @@ namespace Memento.UserControls
 
             dp.AddValueChanged(WordTextBox, (sender, args) =>
             {
-                if (WordTextBox.Text != lastSavedWord)
+                if (WordTextBox.Text != lastSavedWord && isDeckChosen)
                 {
                     IsCardEdited = true;
                 }
-                else if (!CheckForEdition())
+                else if (!CheckForEdition() && isDeckChosen)
                 {
                     IsCardEdited = false;
                 }
@@ -106,11 +106,11 @@ namespace Memento.UserControls
 
             dp.AddValueChanged(TranscriptionTextBox, (sender, args) =>
             {
-                if (TranscriptionTextBox.Text != lastSavedTranscription)
+                if (TranscriptionTextBox.Text != lastSavedTranscription && isDeckChosen)
                 {
                     IsCardEdited = true;
                 }
-                else if (!CheckForEdition())
+                else if (!CheckForEdition() && isDeckChosen)
                 {
                     IsCardEdited = false;
                 }
@@ -120,11 +120,11 @@ namespace Memento.UserControls
 
             dpRadioButton.AddValueChanged(BeginnerButton, (sender, args) =>
             {
-                if ((bool)BeginnerButton.IsChecked && DeckEditor.CurrentCard.Difficulty != lastSavedDifficulty)
+                if ((bool)BeginnerButton.IsChecked && DeckEditor.CurrentCard.Difficulty != lastSavedDifficulty && isDeckChosen)
                 {
                     IsCardEdited = true;
                 }
-                else if (!CheckForEdition())
+                else if (!CheckForEdition() && isDeckChosen)
                 {
                     IsCardEdited = false;
                 }
@@ -132,11 +132,11 @@ namespace Memento.UserControls
 
             dpRadioButton.AddValueChanged(IntermediateButton, (sender, args) =>
             {
-                if ((bool)IntermediateButton.IsChecked && DeckEditor.CurrentCard.Difficulty != lastSavedDifficulty)
+                if ((bool)IntermediateButton.IsChecked && DeckEditor.CurrentCard.Difficulty != lastSavedDifficulty && isDeckChosen)
                 {
                     IsCardEdited = true;
                 }
-                else if (!CheckForEdition())
+                else if (!CheckForEdition() && isDeckChosen)
                 {
                     IsCardEdited = false;
                 }
@@ -144,11 +144,11 @@ namespace Memento.UserControls
 
             dpRadioButton.AddValueChanged(AdvancedButton, (sender, args) =>
             {
-                if ((bool)AdvancedButton.IsChecked && DeckEditor.CurrentCard.Difficulty != lastSavedDifficulty)
+                if ((bool)AdvancedButton.IsChecked && DeckEditor.CurrentCard.Difficulty != lastSavedDifficulty && isDeckChosen)
                 {
                     IsCardEdited = true;
                 }
-                else if (!CheckForEdition())
+                else if (!CheckForEdition() && isDeckChosen)
                 {
                     IsCardEdited = false;
                 }
@@ -156,11 +156,11 @@ namespace Memento.UserControls
 
             dpRadioButton.AddValueChanged(NoneButton, (sender, args) =>
             {
-                if ((bool)NoneButton.IsChecked && DeckEditor.CurrentCard.Difficulty != lastSavedDifficulty)
+                if ((bool)NoneButton.IsChecked && DeckEditor.CurrentCard.Difficulty != lastSavedDifficulty && isDeckChosen)
                 {
                     IsCardEdited = true;
                 }
-                else if (!CheckForEdition())
+                else if (!CheckForEdition() && isDeckChosen)
                 {
                     IsCardEdited = false;
                 }
@@ -181,7 +181,7 @@ namespace Memento.UserControls
         /// <summary>
         /// An event that handles the updating of a card.
         /// </summary>
-        public event EventHandler<DeckEditorCardEventArgs> CardUpdated;
+        public event EventHandler<UpdateCardDeckEditorEventArgs> CardUpdated;
 
         /// <summary>
         /// An event that handles the removal of a card from a deck.
@@ -301,7 +301,7 @@ namespace Memento.UserControls
             var cardsWindow = new AllCardsWindow(DeckEditor.Cards);
             cardsWindow.ShowDialog();
 
-            if (!(cardsWindow.SelectedCard is null))
+            if (cardsWindow.SelectedCard.Id != Card.DefaultId)
             {
                 ChangeCard(cardsWindow.SelectedCard);
                 IsCardEdited = true;
@@ -312,7 +312,7 @@ namespace Memento.UserControls
         {
             if (DeckEditor.Deck.Contains(DeckEditor.CurrentCard))
             {
-                CardUpdated?.Invoke(this, new DeckEditorCardEventArgs(DeckEditor.Deck, DeckEditor.CurrentCard));
+                CardUpdated?.Invoke(this, new UpdateCardDeckEditorEventArgs(DeckEditor.CurrentCard, DeckEditor.CurrentCard));
                 DeckEditor.Cards[DeckEditor.Cards.IndexOf(DeckEditor.CurrentCard)] = new Card(DeckEditor.CurrentCard);
             }
             else
@@ -497,13 +497,14 @@ namespace Memento.UserControls
                     DeckChanged?.Invoke(this, new DeckEditorDeckEventArgs(new Deck()));
                     CardCleared?.Invoke(this, EventArgs.Empty);
                     ChangeLastSaved();
+                    isDeckChosen = false;
                 }
             }
         }
 
         private void RemoveDeckCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = DeckEditor.Deck.DeckName != String.Empty;
+            e.CanExecute = isDeckChosen;
         }
 
         private void EditDeck(object sender, RoutedEventArgs e)
@@ -603,7 +604,7 @@ namespace Memento.UserControls
                     IsCardEdited = false;
                 }
 
-                if (DeckEditor.CurrentCard.Id != -1)
+                if (DeckEditor.CurrentCard.Id != Card.DefaultId)
                 {
                     DeckEditor.Tags.Add(tag);
                 }
@@ -630,7 +631,7 @@ namespace Memento.UserControls
                     IsCardEdited = false;
                 }
 
-                if (DeckEditor.CurrentCard.Id != -1)
+                if (DeckEditor.CurrentCard.Id != Card.DefaultId)
                 {
                     DeckEditor.Tags.Add(tag);
                 }
@@ -725,11 +726,21 @@ namespace Memento.UserControls
 
                 RenderCurrentCardTags(this, EventArgs.Empty);
 
-                if (DeckEditor.CurrentCard.Id != -1)
+                if (DeckEditor.CurrentCard.Id != Card.DefaultId)
                 {
                     DeckEditor.Tags.Remove(tag);
                 }
             }
+        }
+
+        private void NewCardCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = isDeckChosen;
+        }
+
+        private void NewExistingCardCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = isDeckChosen;
         }
     }
 }

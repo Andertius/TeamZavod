@@ -27,7 +27,7 @@ namespace Memento.DAL
         /// </summary>
         public Card()
         {
-            Id = -1;
+            Id = DefaultId;
             Word = String.Empty;
             Description = String.Empty;
             Transcription = String.Empty;
@@ -46,7 +46,7 @@ namespace Memento.DAL
         /// <param name="difficulty">The difficulty.</param>
         public Card(string word, string description, string transcription = "", string imagePath = "", Difficulty difficulty = Difficulty.None)
         {
-            Id = -1;
+            Id = DefaultId;
             Word = word;
             Description = description;
             Transcription = transcription;
@@ -74,6 +74,11 @@ namespace Memento.DAL
         /// Event that notifies the appropriate objects when a certain propery is changed.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Gets the default id of the card that is not in the database.
+        /// </summary>
+        public static int DefaultId => -1;
 
         /// <summary>
         /// Gets or sets the card id.
@@ -193,11 +198,12 @@ namespace Memento.DAL
         /// <returns>A value indicating whether the two objects are equal.</returns>
         public bool Equals(Card card)
         {
-            return Id == card.Id || (Word == card.Word &&
-                                          Description == card.Description &&
-                                          Transcription == card.Transcription &&
-                                          Difficulty == card.Difficulty &&
-                                          ImagePath == card.ImagePath);
+            return Id == card.Id ||
+                (Word == card.Word &&
+                Description == card.Description &&
+                Transcription == card.Transcription &&
+                Difficulty == card.Difficulty &&
+                ImagePath == card.ImagePath);
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")

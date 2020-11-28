@@ -43,7 +43,8 @@ namespace Memento
         public static readonly RoutedCommand SaveCardCommand = new RoutedUICommand(
             "Save Card",
             nameof(SaveCardCommand),
-            typeof(DeckEditorUserControl));
+            typeof(DeckEditorUserControl),
+            new InputGestureCollection(new InputGesture[] { new KeyGesture(Key.S, ModifierKeys.Control) }));
 
         /// <summary>
         /// Command to remove the current deck from the database.

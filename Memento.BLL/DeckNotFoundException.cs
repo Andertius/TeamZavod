@@ -9,7 +9,7 @@ namespace Memento.BLL
     /// <summary>
     /// This exception is thrown when the deck could not be found.
     /// </summary>
-    internal class DeckNotFoundException : Exception
+    public class DeckNotFoundException : Exception
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DeckNotFoundException"/> class.
