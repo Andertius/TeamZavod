@@ -58,8 +58,6 @@ namespace Memento.BLL
         private Card currentCard;
         public Deck Deck { get; }
 
-        public bool ShowImages { get; set; } = true;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Card CurrentCard

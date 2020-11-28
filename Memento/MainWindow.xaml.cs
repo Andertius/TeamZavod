@@ -95,7 +95,7 @@ namespace Memento
         /// <summary>
         /// Gets or sets AppSettings.
         /// </summary>
-        public Settings AppSettings { get; set; }
+        public static Settings AppSettings { get; set; }
 
         /// <summary>
         /// Gets or sets MainPage.
@@ -129,7 +129,8 @@ namespace Memento
                 LearningProcess = new AppHandler(e.DeckId);
             }
 
-            Content = LearningPage = new LearningUserControl(e.DeckId, AppSettings.CardOrder, AppSettings.ShowImages)
+
+            Content = LearningPage = new LearningUserControl(e.DeckId)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
