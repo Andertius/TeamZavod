@@ -29,11 +29,11 @@ namespace Memento.BLL
             Deck = new Deck();
             CurrentCard = new Card();
             AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks()
-                                                                .OrderBy(x => x.DeckName));
+                .OrderBy(x => x.DeckName));
             Cards = new ObservableCollection<Card>(Repository.FetchAllCards());
             Tags = new ObservableCollection<string>(Repository.FetchAllTags()
-                                                              .Distinct()
-                                                              .OrderBy(x => x));
+                .Distinct()
+                .OrderBy(x => x));
         }
 
         /// <summary>
@@ -45,11 +45,11 @@ namespace Memento.BLL
             Deck = new Deck(deck);
             CurrentCard = new Card();
             AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks()
-                                                                .OrderBy(x => x.DeckName));
+                .OrderBy(x => x.DeckName));
             Cards = new ObservableCollection<Card>(Repository.FetchAllCards());
             Tags = new ObservableCollection<string>(Repository.FetchAllTags()
-                                                              .Distinct()
-                                                              .OrderBy(x => x));
+                .Distinct()
+                .OrderBy(x => x));
         }
 
         /// <summary>
@@ -61,11 +61,11 @@ namespace Memento.BLL
             Deck = Repository.FetchDeck(deckName);
             CurrentCard = new Card();
             AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks()
-                                                                .OrderBy(x => x.DeckName));
+                .OrderBy(x => x.DeckName));
             Cards = new ObservableCollection<Card>(Repository.FetchAllCards());
             Tags = new ObservableCollection<string>(Repository.FetchAllTags()
-                                                              .Distinct()
-                                                              .OrderBy(x => x));
+                .Distinct()
+                .OrderBy(x => x));
         }
 
         /// <summary>
@@ -77,11 +77,11 @@ namespace Memento.BLL
             Deck = Repository.FetchDeck(deckId);
             CurrentCard = new Card();
             AllDecks = new ObservableCollection<Deck>(Repository.FetchAllDecks()
-                                                                .OrderBy(x => x.DeckName));
+                .OrderBy(x => x.DeckName));
             Cards = new ObservableCollection<Card>(Repository.FetchAllCards());
             Tags = new ObservableCollection<string>(Repository.FetchAllTags()
-                                                              .Distinct()
-                                                              .OrderBy(x => x));
+                .Distinct()
+                .OrderBy(x => x));
         }
 
         /// <summary>
