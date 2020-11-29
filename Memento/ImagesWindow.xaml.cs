@@ -37,6 +37,7 @@ namespace Memento
 
             ImageSource = imgSource;
             CurrentImage.Source = imgSource;
+            path = String.Empty;
 
             var images = Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "images"));
             ImagesDictionary = new SortedDictionary<string, string>();
