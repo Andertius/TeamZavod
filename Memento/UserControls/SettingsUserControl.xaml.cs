@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,6 +36,7 @@ namespace Memento.UserControls
             DataContext = this;
             InitializeComponent();
             AppSettings = settings;
+            HrsTextBox.Text = AppSettings.HoursPerDay.ToString();
             ThemeCombox.SelectedIndex = (int)AppSettings.Theme;
             CardOrderCombox.SelectedIndex = (int)AppSettings.CardOrder;
 
@@ -62,10 +64,16 @@ namespace Memento.UserControls
 
         private void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
-            bool isOkHrs = Double.TryParse(HrsTextBox.Text, out double hoursPerDay);
-            if (hoursPerDay < 0 || hoursPerDay > 24)
+            bool isOkHrs = true;
+            double hoursPerDay = 0;
+            try
+            {
+                hoursPerDay = Double.Parse(HrsTextBox.Text, CultureInfo.CurrentCulture);
+            }
+            catch (Exception)
             {
                 isOkHrs = false;
+                MessageBox.Show("Invalid Daily Milestone(hrs)");
             }
 
             bool isOkCardsNum = Int32.TryParse(CardsTextBox.Text, out int cardsPerDay);
@@ -98,14 +106,7 @@ namespace Memento.UserControls
             }
             else
             {
-                if (!isOkHrs)
-                {
-                    MessageBox.Show("Invalid Daily Milestone (hrs)");
-                }
-                else
-                {
-                    MessageBox.Show("Invalid Daily Milestone (cards)");
-                }
+                MessageBox.Show("Invalid Daily Milestone (cards)");
             }
         }
 

@@ -32,11 +32,11 @@
     <Grid x:Name="SettingsGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="18*" />
+            <ColumnDefinition Width="55.5*" />
+            <ColumnDefinition Width="20*" />
+            <ColumnDefinition Width="5*" />
             <ColumnDefinition Width="45.5*" />
             <ColumnDefinition Width="30*" />
-            <ColumnDefinition Width="5*" />
-            <ColumnDefinition Width="35.5*" />
-            <ColumnDefinition Width="40*" />
             <ColumnDefinition Width="18*" />
         </Grid.ColumnDefinitions>
 
@@ -64,10 +64,10 @@
                 Margin="10" FontSize="36"
                 Click="GoBackButton_Click"/>
 
-        <TextBlock Grid.Row="3" Grid.Column="2" 
+        <TextBlock Grid.Row="3" Grid.Column="1" 
                    Text="Customize your Memento" 
                    FontSize="42" 
-                   Grid.ColumnSpan="3" />
+                   Grid.ColumnSpan="5" />
         <Line Grid.Row="4" Grid.Column="3" 
               X1="0" Y1="1" X2="0" Y2="0"
               StrokeThickness="5" 
@@ -83,8 +83,7 @@
                     Orientation="Vertical"  
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <TextBox Text="{Binding AppSettings.HoursPerDay}"
-                    x:Name="HrsTextBox" />
+            <TextBox x:Name="HrsTextBox" />
             <Line X1="0" Y1="0" X2="1" Y2="0" />
         </StackPanel>
         <StackPanel Grid.Row="7" Grid.Column="2" 

@@ -71,13 +71,13 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="3.5*" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition Height="3*" />
+            <RowDefinition Height="3.5*" />
             <RowDefinition />
         </Grid.RowDefinitions>
 

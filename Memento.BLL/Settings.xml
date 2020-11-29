@@ -3,6 +3,6 @@
   <HoursePerDay>1</HoursePerDay>
   <CardsPerDay>25</CardsPerDay>
   <Theme>Light</Theme>
-  <CardOrder>Random</CardOrder>
+  <CardOrder>Descending</CardOrder>
   <ShowImages>true</ShowImages>
 </Settings>
