@@ -117,7 +117,22 @@ namespace Memento.BLL
             }
             else
             {
-                xdoc = new XDocument(new XElement(stat));
+                xdoc = new XDocument(new XElement(
+                    $"{stat}",
+                    new XElement(
+                    "GeneralInfo",
+                    new XElement("FirstLogin", "0"),
+                    new XElement("LastLogin", "0"),
+                    new XElement("TotalHours", "0")),
+                    new XElement("SecondsToday", "0"),
+                    new XElement("AverageSecondsToday", "0"),
+                    new XElement("CardsToday", "0"),
+                    new XElement("Day", DateTime.Now.Day.ToString()),
+                    new XElement("CheckFirst", "0")));
+
+                xdoc.Save(filepath);
+
+                xdoc = XDocument.Load(filepath);
             }
 
             XElement member = xdoc
@@ -173,17 +188,6 @@ namespace Memento.BLL
 
                 AverageTime = new TimeSpan(0, 0, Convert.ToInt32(number));
             }
-            else
-            {
-                // XElement newMember = new XElement("Statistics",
-                //    new XElement("HoursToday", "0"),
-                //    new XElement("AverageHoursToday", "0"),
-                //    new XElement("CardsToday", "0"),
-                //    new XElement("Day", "1"),
-                //    );
-
-                // Xdoc.Descendants("Statistics").First().Add(newMember);
-            }
 
             // xdoc.Save(filepath);
         }
@@ -205,7 +209,22 @@ namespace Memento.BLL
             }
             else
             {
-                xdoc = new XDocument(new XElement(stat));
+                xdoc = new XDocument(new XElement(
+                    $"{stat}",
+                    new XElement(
+                    "GeneralInfo",
+                    new XElement("FirstLogin", "0"),
+                    new XElement("LastLogin", "0"),
+                    new XElement("TotalHours", "0")),
+                    new XElement("SecondsToday", "0"),
+                    new XElement("AverageSecondsToday", "0"),
+                    new XElement("CardsToday", "0"),
+                    new XElement("Day", DateTime.Now.Day.ToString()),
+                    new XElement("CheckFirst", "0")));
+
+                xdoc.Save(filepath);
+
+                xdoc = XDocument.Load(filepath);
             }
 
             XElement member = xdoc
@@ -225,17 +244,6 @@ namespace Memento.BLL
 
                 time += 5.0 / 3600;
                 member.Element("GeneralInfo").Element("TotalHours").Value = Convert.ToString(time);
-            }
-            else
-            {
-                // XElement newMember = new XElement("Statistics",
-                //    new XElement("HoursToday", "0"),
-                //    new XElement("AverageHoursToday", "0"),
-                //    new XElement("CardsToday", "0"),
-                //    new XElement("Day", "1"),
-                //    );
-
-                // Xdoc.Descendants("Statistics").First().Add(newMember);
             }
 
             xdoc.Save(filepath);

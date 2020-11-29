@@ -25,13 +25,13 @@ namespace Memento.UnitTests
         [TestMethod]
         public void GetFromXML_Test()
         {
-            string result = Path.GetTempPath();
-            string stat = "Statistics";
+            string stat = "Stats";
+            string filepath = Path.GetFullPath($"{stat}.xml");
             string statPath = $"{stat}.xml";
 
             XDocument xdoc;
 
-            xdoc = new XDocument(new XElement("Statistics",
+            xdoc = new XDocument(new XElement($"{stat}",
                 new XElement("GeneralInfo",
                     new XElement("FirstLogin", "0"),
                     new XElement("LastLogin", "0"),
@@ -40,7 +40,7 @@ namespace Memento.UnitTests
 
                new XElement("SecondsToday", "0"),
                new XElement("AverageSecondsToday", "0"),
-               new XElement("CardsToday", "0"),
+               new XElement("CardsToday", "1"),
                new XElement("Day", DateTime.Now.Day.ToString()),
                new XElement("CheckFirst", "0")
                )
@@ -50,8 +50,13 @@ namespace Memento.UnitTests
 
             stats.GetFromXML(stat);
 
-            Assert.AreEqual(stats.CardsLearnedToday.ToString(), "0");
+            Assert.AreEqual(stats.CardsLearnedToday.ToString(), "1");
             Assert.AreEqual(stats.TimeSpentToday.TotalSeconds.ToString(), "0");
+
+            if (File.Exists(filepath))
+            {
+                File.Delete(filepath);
+            }
         }
 
         [TestMethod]
