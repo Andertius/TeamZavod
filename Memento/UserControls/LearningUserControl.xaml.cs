@@ -24,18 +24,14 @@ namespace Memento.UserControls
 
         private List<FrameworkElement> hiddenElements = new List<FrameworkElement>();
 
-        private MainWindow mainWindow;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="LearningUserControl"/> class.
         /// </summary>
         /// <param name="deckId">The id of the deck thats going to be shown when the page loads.</param>
-        /// <param name="window">Reference to main window which calls user control.</param>
-        public LearningUserControl(int deckId, MainWindow window)
+        public LearningUserControl(int deckId)
         {
             DataContext = this;
             AppHandler = new AppHandler(deckId);
-            mainWindow = window;
             AppHandler.Start(MainWindow.AppSettings.CardOrder);
             InitializeComponent();
 
@@ -114,28 +110,23 @@ namespace Memento.UserControls
             CardImage.Source = String.IsNullOrWhiteSpace(AppHandler.CurrentCard.ImagePath)
                      ? null
                      : new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{AppHandler.CurrentCard.ImagePath}")));
-<<<<<<< HEAD
-=======
-
-            MainWindow.AppStatistics.AddCardLearned(this, EventArgs.Empty);
->>>>>>> 7840c459ec671ca4a844a3f9cebc8997f31aab98
         }
 
         private void Trivial_Btn_Click(object sender, RoutedEventArgs e)
         {
             NextCardEvents?.Invoke(this, new AppHandlerMoveCardEventArgs(AppHandler.CurrentCard, RememberingLevels.Trivial));
+            MainWindow.AppStatistics.AddCardLearned();
         }
 
         private void Again_Btn_Click(object sender, RoutedEventArgs e)
         {
             NextCardEvents?.Invoke(this, new AppHandlerMoveCardEventArgs(AppHandler.CurrentCard, RememberingLevels.Again));
-            mainWindow.AppStatistics.AddCardLearned();
         }
 
         private void GotIt_Btn_Click(object sender, RoutedEventArgs e)
         {
             NextCardEvents?.Invoke(this, new AppHandlerMoveCardEventArgs(AppHandler.CurrentCard, RememberingLevels.GotIt));
-            mainWindow.AppStatistics.AddCardLearned();
+            MainWindow.AppStatistics.AddCardLearned();
         }
     }
 }

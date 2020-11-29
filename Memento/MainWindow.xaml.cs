@@ -62,12 +62,14 @@ namespace Memento
         public event EventHandler<StatAddSpentTimeEventArgs> TimeAdd;
 
         /// <summary>
-        /// Gets or sets AppStatistic value.
+        /// Gets AppStatistic value.
         /// </summary>
-        public static Statistics AppStatistics
-        {
-            get; set;
-        }
+        public static Statistics AppStatistics { get; private set; }
+
+        /// <summary>
+        /// Gets AppSetings value.
+        /// </summary>
+        public static Settings AppSettings { get; private set; }
 
         /// <summary>
         /// Gets passed time.
@@ -126,7 +128,7 @@ namespace Memento
                 LearningProcess = new AppHandler(e.DeckId);
             }
 
-            Content = LearningPage = new LearningUserControl(e.DeckId, this)
+            Content = LearningPage = new LearningUserControl(e.DeckId)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
