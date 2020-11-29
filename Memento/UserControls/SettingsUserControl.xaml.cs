@@ -37,6 +37,8 @@ namespace Memento.UserControls
             AppSettings = settings;
             ThemeCombox.SelectedIndex = (int)AppSettings.Theme;
             CardOrderCombox.SelectedIndex = (int)AppSettings.CardOrder;
+
+            ChangeTheme();
         }
 
         /// <summary>
@@ -113,7 +115,7 @@ namespace Memento.UserControls
             handle = !cmb.IsDropDownOpen;
             if (handle)
             {
-                Handle();
+                ChangeTheme();
             }
 
             handle = true;
@@ -123,11 +125,13 @@ namespace Memento.UserControls
         {
             if (handle)
             {
-                Handle();
+                ChangeTheme();
             }
+
+            handle = true;
         }
 
-        private void Handle()
+        private void ChangeTheme()
         {
             string val = ThemeCombox.Text;
             AppTheme = (val == "Light") ? Theme.Light : Theme.Dark;
