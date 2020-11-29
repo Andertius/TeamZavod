@@ -98,30 +98,18 @@ namespace Memento.BLL
         }
 
         /// <summary>
-        /// Gets statistic.
+        /// Gets data from XML.
         /// </summary>
-        public void ManageStatistics()
-        {
-            var filename = "Statistics.xml";
-            var currentDirectory = Directory.GetCurrentDirectory();
-            var purchaseOrderFilepath = Path.Combine(currentDirectory, filename);
-
-            XElement purchaseOrder = XElement.Load(purchaseOrderFilepath);
-
-            IEnumerable<string> partNos = purchaseOrder.Descendants("Item").Select(x => (string)x);
-        }
-
-        /// <summary>
-        /// fills the data from xml.
-        /// </summary>
-        public void GetFromXML()
+        /// <param name="stat">XML file param.</param>
+        public void GetFromXML(string stat)
         {
             string pathtext = Path.GetFullPath("TimeSpent.txt");
             List<string> timeSpentPerDay = File.ReadAllLines(pathtext).ToList();
 
             XDocument xdoc;
 
-            string filepath = Path.GetFullPath("Statistics.xml");
+            // string stat = "Statistics";
+            string filepath = Path.GetFullPath($"{stat}.xml");
 
             if (System.IO.File.Exists(filepath))
             {
@@ -129,11 +117,11 @@ namespace Memento.BLL
             }
             else
             {
-                xdoc = new XDocument(new XElement("Stistics"));
+                xdoc = new XDocument(new XElement(stat));
             }
 
             XElement member = xdoc
-                .Descendants("Statistics").First();
+                .Descendants(stat).First();
 
             DateTime localDate = DateTime.Now;
 
@@ -201,13 +189,15 @@ namespace Memento.BLL
         }
 
         /// <summary>
-        /// writes updated data in xml.
+        /// Writes data in XML.
         /// </summary>
-        public void WriteInXML()
+        /// <param name="stat">XML name.</param>
+        public void WriteInXML(string stat)
         {
             XDocument xdoc;
 
-            string filepath = Path.GetFullPath("Statistics.xml");
+            // string stat = "Statistics";
+            string filepath = Path.GetFullPath($"{stat}.xml");
 
             if (System.IO.File.Exists(filepath))
             {
@@ -215,7 +205,7 @@ namespace Memento.BLL
             }
             else
             {
-                xdoc = new XDocument(new XElement("Statistics"));
+                xdoc = new XDocument(new XElement(stat));
             }
 
             XElement member = xdoc
@@ -227,7 +217,7 @@ namespace Memento.BLL
             {
                 member.Element("SecondsToday").Value = Convert.ToString(TimeSpentToday.TotalSeconds);
                 member.Element("CardsToday").Value = Convert.ToString(CardsLearnedToday);
-                // member.Element("AverageHoursToday").Value = Convert.ToString(AverageTime.TotalSeconds);
+
                 member.Element("Day").Value = Convert.ToString(localDate.Day);
                 member.Element("GeneralInfo").Element("LastLogin").Value = localDate.ToString();
 

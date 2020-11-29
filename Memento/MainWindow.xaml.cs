@@ -20,8 +20,6 @@ namespace Memento
     /// </summary>
     public partial class MainWindow : Window
     {
-        //private static readonly DependencyProperty AppStatisticsProperty = DependencyProperty.Register(nameof(AppStatistics), typeof(Statistics), typeof(StatisticsUserControl), new PropertyMetadata(new Statistics()));
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
         /// </summary>
@@ -46,7 +44,7 @@ namespace Memento
             MainPage.OpenLearningEvent += StartLearning;
 
             AppStatistics = new Statistics();
-            AppStatistics.GetFromXML();
+            AppStatistics.GetFromXML("Statistics");
 
             this.Timer = new DispatcherTimer();
             this.Timer.Tick += this.UpdatePage;
@@ -59,18 +57,22 @@ namespace Memento
             this.Timer.Start();
         }
 
+        /// <summary>
+        /// Event to add data in timer.
+        /// </summary>
         public event EventHandler<StatAddSpentTimeEventArgs> TimeAdd;
 
         /// <summary>
-        /// Gets sets AppStatistic value.
+        /// Gets or sets AppStatistic value.
         /// </summary>
         public static Statistics AppStatistics
         {
             get; set;
-            //get => (Statistics)this.GetValue(AppStatisticsProperty);
-            //private set => this.SetValue(AppStatisticsProperty, value);
         }
 
+        /// <summary>
+        /// Gets passed time.
+        /// </summary>
         public DispatcherTimer Timer { get; }
 
         /// <summary>
@@ -130,7 +132,6 @@ namespace Memento
                 LearningProcess = new AppHandler(e.DeckId);
             }
 
-
             Content = LearningPage = new LearningUserControl(e.DeckId)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -188,7 +189,8 @@ namespace Memento
         {
             // TTSslider.Value = AppStatistics.TimeSpentToday.TotalHours;
             this.TimeAdd?.Invoke(this, new StatAddSpentTimeEventArgs(new TimeSpan(0, 0, 5)));
-            AppStatistics.WriteInXML();
+            AppStatistics.WriteInXML("Statistics");
+
             // TodayTimeSpent.Text = Convert.ToString(Math.Round(todaytimespent, 2));
         }
 
