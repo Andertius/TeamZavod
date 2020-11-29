@@ -162,7 +162,6 @@ namespace Memento
 
             DeckEditorPage.MakeMainPageVisible += GoToMainPageFromDeckEditor;
             DeckEditorPage.TitleChanged += ChangeMainTitle;
-            MainPage.Decks = DeckEditorPage.DeckEditor.AllDecks.ToList();
 
             if (e.DeckId == -1)
             {
@@ -176,6 +175,10 @@ namespace Memento
 
         private void GoToMainPageFromDeckEditor(object sender, EventArgs e)
         {
+            MainPage.Decks = DeckEditorPage.DeckEditor.AllDecks
+                .OrderBy(x => x.DeckName)
+                .ToList();
+
             DeckEditorPage.MakeMainPageVisible -= GoToMainPageFromDeckEditor;
             DeckEditorPage.TitleChanged -= ChangeMainTitle;
             Content = MainPage;
