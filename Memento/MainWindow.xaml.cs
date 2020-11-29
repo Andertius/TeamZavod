@@ -19,12 +19,6 @@ namespace Memento
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly DependencyProperty AppStatisticsProperty = DependencyProperty.Register(
-            nameof(AppStatistics),
-            typeof(Statistics),
-            typeof(StatisticsUserControl),
-            new PropertyMetadata(new Statistics()));
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
         /// </summary>
@@ -49,11 +43,11 @@ namespace Memento
             MainPage.OpenLearningEvent += StartLearning;
 
             AppStatistics = new Statistics();
-            AppStatistics.GetFromXML();
+            AppStatistics.GetFromXML("Statistics");
 
             this.Timer = new DispatcherTimer();
             this.Timer.Tick += this.UpdatePage;
-            this.TimeAdd += this.AppStatistics.AddSpentTimeToday;
+            this.TimeAdd += AppStatistics.AddSpentTimeToday;
 
             IsInEditor = false;
             IsInLearningProcess = false;
@@ -68,21 +62,15 @@ namespace Memento
         public event EventHandler<StatAddSpentTimeEventArgs> TimeAdd;
 
         /// <summary>
-        /// Gets or sets AppSettings.
+        /// Gets or sets AppStatistic value.
         /// </summary>
-        public static Settings AppSettings { get; set; }
-
-        /// <summary>
-        /// Gets sets AppStatistic value.
-        /// </summary>
-        public Statistics AppStatistics
+        public static Statistics AppStatistics
         {
-            get => (Statistics)this.GetValue(AppStatisticsProperty);
-            private set => this.SetValue(AppStatisticsProperty, value);
+            get; set;
         }
 
         /// <summary>
-        /// Gets Timer.
+        /// Gets passed time.
         /// </summary>
         public DispatcherTimer Timer { get; }
 
@@ -198,7 +186,8 @@ namespace Memento
         {
             // TTSslider.Value = AppStatistics.TimeSpentToday.TotalHours;
             this.TimeAdd?.Invoke(this, new StatAddSpentTimeEventArgs(new TimeSpan(0, 0, 5)));
-            AppStatistics.WriteInXML();
+            AppStatistics.WriteInXML("Statistics");
+
             // TodayTimeSpent.Text = Convert.ToString(Math.Round(todaytimespent, 2));
         }
 

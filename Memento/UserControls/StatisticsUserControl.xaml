@@ -6,7 +6,7 @@
              xmlns:ed =" "
              xmlns:local="clr-namespace:Memento"
              xmlns:dal="clr-namespace:Memento.DAL;assembly=Memento.DAL"
-             mc:Ignorable="d" d:Background="White"
+             mc:Ignorable="d" Background="White"
              d:DesignHeight="1080" d:DesignWidth="1920">
 
     <UserControl.CommandBindings>
@@ -100,7 +100,7 @@
                    Margin="15 0 0 0"/>
         </Viewbox>
 
-        <Slider Grid.Row="1" Name="CardsSlider" Maximum="100" Value="{Binding Path=AppStats.CardsLearnedPerDay.Count}" Visibility="Collapsed" />
+        <Slider Grid.Row="1" Name="CardsSlider" Maximum="100" Value="{Binding Path=AppStats.CardsLearnedToday}" Visibility="Collapsed" />
 
         <Viewbox Grid.Row="4" Grid.Column="3">
             <ProgressBar Style="{StaticResource ProgressBarStyle}" Width="150" Height="150" Name="CardsLearned"

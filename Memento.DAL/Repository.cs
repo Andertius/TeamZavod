@@ -56,7 +56,6 @@ namespace Memento.DAL
 
                     foreach (var item in tags)
                     {
-                        // перевірка чи пустий
                         answerTags.Add(item.TagName.Trim());
                     }
 
