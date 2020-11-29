@@ -26,47 +26,8 @@ namespace Memento.UnitTests
         public void GetFromXML_Test()
         {
             string result = Path.GetTempPath();
-            string stat = "Stats";
-            string statPath = result + $"{stat}.xml";
-
-            XDocument xdoc;
-
-            xdoc = new XDocument(new XElement("Stats",
-                new XElement("GeneralInfo",
-                    new XElement("FirstLogin", "0"),
-                    new XElement("LastLogin", "0"),
-                    new XElement("TotalHours", "0")
-                ),
-
-               new XElement("SecondsToday", "122"),
-               new XElement("AverageSecondsToday", "122"),
-               new XElement("CardsToday", "2"),
-               new XElement("Day", DateTime.Now.Day.ToString()),
-               new XElement("CheckFirst", "0")
-               )
-            );
-
-            xdoc.Save(statPath);
-
-            stats.GetFromXML(stat);
-
-            Assert.AreEqual(stats.CardsLearnedToday.ToString(), "0");
-            // Assert.AreEqual(stats.AverageTime, "");
-            Assert.AreEqual(stats.TimeSpentToday.TotalSeconds.ToString(), "0");
-
-            if (File.Exists(statPath))
-            {
-                File.Delete(statPath);
-            }
-
-        }
-
-        [TestMethod]
-        public void WriteToXML_Test()
-        {
-            string result = Path.GetTempPath();
             string stat = "Statistics";
-            string statPath = result + $"{stat}.xml";
+            string statPath = $"{stat}.xml";
 
             XDocument xdoc;
 
@@ -77,9 +38,9 @@ namespace Memento.UnitTests
                     new XElement("TotalHours", "0")
                 ),
 
-               new XElement("SecondsToday", "122"),
-               new XElement("AverageSecondsToday", "122"),
-               new XElement("CardsToday", "2"),
+               new XElement("SecondsToday", "0"),
+               new XElement("AverageSecondsToday", "0"),
+               new XElement("CardsToday", "0"),
                new XElement("Day", DateTime.Now.Day.ToString()),
                new XElement("CheckFirst", "0")
                )
@@ -90,14 +51,25 @@ namespace Memento.UnitTests
             stats.GetFromXML(stat);
 
             Assert.AreEqual(stats.CardsLearnedToday.ToString(), "0");
-            // Assert.AreEqual(stats.AverageTime, "");
             Assert.AreEqual(stats.TimeSpentToday.TotalSeconds.ToString(), "0");
+        }
 
-            if (File.Exists(statPath))
-            {
-                File.Delete(statPath);
-            }
+        [TestMethod]
+        public void WriteInXML_Test()
+        {
+            stats = new Statistics();
 
+            stats.TimeSpentToday = new TimeSpan(0, 0, 2);
+            stats.CardsLearnedToday = 2;
+
+            string stat = "Statistics";
+            string statPath = $"{stat}.xml";
+
+            stats.WriteInXML(stat);
+            stats.GetFromXML(stat);
+
+            Assert.AreEqual(stats.CardsLearnedToday.ToString(), "2");
+            Assert.AreEqual(stats.TimeSpentToday.TotalSeconds.ToString(), "4");
         }
     }
 }

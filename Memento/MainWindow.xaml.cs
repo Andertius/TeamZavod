@@ -62,12 +62,12 @@ namespace Memento
         public event EventHandler<StatAddSpentTimeEventArgs> TimeAdd;
 
         /// <summary>
-        /// Gets AppStatistic value.
+        /// Gets or sets AppSettings.
         /// </summary>
         public static Statistics AppStatistics { get; private set; }
 
         /// <summary>
-        /// Gets AppSetings value.
+        /// Gets sets AppStatistic value.
         /// </summary>
         public static Settings AppSettings { get; private set; }
 
