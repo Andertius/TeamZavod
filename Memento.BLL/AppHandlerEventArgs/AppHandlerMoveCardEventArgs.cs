@@ -13,6 +13,5 @@ namespace Memento.BLL.AppHandlerEventArgs
 
         public Card Card { get; set; }
         public RememberingLevels RememberValue { get; }
-
     }
 }

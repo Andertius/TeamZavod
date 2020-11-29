@@ -150,8 +150,7 @@ namespace Memento.BLL
         /// </summary>
         public void MoveCardIntoDeck(object sender, AppHandlerMoveCardEventArgs e)
         {
-            if (e.Card.Id != -1 && 
-                Deck.Cards.IndexOf(e.Card) < Deck.Count - (Deck.Count / 10))
+            if (e.Card.Id != -1 && Deck.Count > 3)
             {
                 if (e.RememberValue == RememberingLevels.Trivial)
                 {
