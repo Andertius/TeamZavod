@@ -1,8 +1,8 @@
-﻿namespace Memento.BLL
-{
-    using System;
-    using Memento.DAL;
+﻿using System;
+using Memento.DAL;
 
+namespace Memento.BLL
+{
     public class StatAddSpentTimeEventArgs : EventArgs
     {
         public StatAddSpentTimeEventArgs(TimeSpan time)

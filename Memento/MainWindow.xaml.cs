@@ -19,7 +19,11 @@ namespace Memento
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly DependencyProperty AppStatisticsProperty = DependencyProperty.Register(nameof(AppStatistics), typeof(Statistics), typeof(StatisticsUserControl), new PropertyMetadata(new Statistics()));
+        private static readonly DependencyProperty AppStatisticsProperty = DependencyProperty.Register(
+            nameof(AppStatistics),
+            typeof(Statistics),
+            typeof(StatisticsUserControl),
+            new PropertyMetadata(new Statistics()));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -134,7 +138,7 @@ namespace Memento
                 LearningProcess = new AppHandler(e.DeckId);
             }
 
-            Content = LearningPage = new LearningUserControl(e.DeckId)
+            Content = LearningPage = new LearningUserControl(e.DeckId, this)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
