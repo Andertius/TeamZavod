@@ -272,7 +272,7 @@ namespace Memento.DAL
 
             string diff = String.Empty;
 
-            if (com.Count == null)
+            if (com == null)
             {
                 diff = DifficultyConverter.ToStringConverter(card.Difficulty);
             }

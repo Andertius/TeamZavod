@@ -229,7 +229,7 @@ namespace Memento.BLL
             }
 
             XElement member = xdoc
-                .Descendants("Statistics").First();
+                .Descendants($"{stat}").First();
 
             DateTime localDate = DateTime.Now;
 
