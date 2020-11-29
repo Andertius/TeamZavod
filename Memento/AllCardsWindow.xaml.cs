@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 using Memento.DAL;
 
@@ -28,6 +29,11 @@ namespace Memento
             DataContext = this;
             InitializeComponent();
             SelectedCard = new Card();
+
+            if (MainWindow.AppSettings.Theme == BLL.Theme.Dark)
+            {
+                AllCardsWindowGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
+            }
 
             Cards = new List<Card>(cards);
             RenderCards(this, EventArgs.Empty);

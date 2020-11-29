@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 
 using Memento.BLL;
@@ -59,7 +58,15 @@ namespace Memento
             this.Timer.Start();
         }
 
+        /// <summary>
+        /// An event that handles time incrementing.
+        /// </summary>
         public event EventHandler<StatAddSpentTimeEventArgs> TimeAdd;
+
+        /// <summary>
+        /// Gets or sets AppSettings.
+        /// </summary>
+        public static Settings AppSettings { get; set; }
 
         /// <summary>
         /// Gets sets AppStatistic value.
@@ -70,6 +77,9 @@ namespace Memento
             private set => this.SetValue(AppStatisticsProperty, value);
         }
 
+        /// <summary>
+        /// Gets Timer.
+        /// </summary>
         public DispatcherTimer Timer { get; }
 
         /// <summary>
@@ -91,11 +101,6 @@ namespace Memento
         /// Gets or sets DeckEditor.
         /// </summary>
         public DeckEditor DeckEditor { get; set; }
-
-        /// <summary>
-        /// Gets or sets AppSettings.
-        /// </summary>
-        public static Settings AppSettings { get; set; }
 
         /// <summary>
         /// Gets or sets MainPage.
@@ -128,7 +133,6 @@ namespace Memento
             {
                 LearningProcess = new AppHandler(e.DeckId);
             }
-
 
             Content = LearningPage = new LearningUserControl(e.DeckId)
             {
@@ -207,6 +211,7 @@ namespace Memento
         {
             SettingsPage.MakeMainPageVisible -= GoToMainPageFromSettings;
             Content = MainPage;
+            MainPage.ChangeTheme();
             Title = "Memento";
         }
 

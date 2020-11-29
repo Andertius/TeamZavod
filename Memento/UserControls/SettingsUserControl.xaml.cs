@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Xml.Serialization;
 
 using Memento.BLL;
@@ -130,6 +131,14 @@ namespace Memento.UserControls
         {
             string val = ThemeCombox.Text;
             AppTheme = (val == "Light") ? Theme.Light : Theme.Dark;
+            if (AppTheme == Theme.Dark)
+            {
+                SettingsGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
+            }
+            else
+            {
+                SettingsGrid.Background = Brushes.White;
+            }
         }
     }
 }
