@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Settings.xml" />
     <None Remove="stylecop.json" />
   </ItemGroup>
 
@@ -26,12 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Settings.xml">
+    <None Update="Settings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
+    </None>
     <None Update="Statistics.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

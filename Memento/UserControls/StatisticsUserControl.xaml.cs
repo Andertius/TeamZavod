@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 using Memento.BLL;
@@ -32,6 +33,11 @@ namespace Memento.UserControls
         {
             this.InitializeComponent();
             this.DataContext = this;
+
+            if (MainWindow.AppSettings.Theme == Theme.Dark)
+            {
+                StatisticsGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
+            }
 
             this.AppStats = stats;
 

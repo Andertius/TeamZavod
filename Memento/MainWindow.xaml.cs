@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 
 using Memento.BLL;
@@ -58,12 +57,25 @@ namespace Memento
         }
 
         /// <summary>
+<<<<<<< HEAD
         /// Event to add data in timer.
+=======
+        /// An event that handles time incrementing.
+>>>>>>> f5bb1355edccb5a6d79de44b950790b02cc62368
         /// </summary>
         public event EventHandler<StatAddSpentTimeEventArgs> TimeAdd;
 
         /// <summary>
+<<<<<<< HEAD
         /// Gets or sets AppStatistic value.
+=======
+        /// Gets or sets AppSettings.
+        /// </summary>
+        public static Settings AppSettings { get; set; }
+
+        /// <summary>
+        /// Gets sets AppStatistic value.
+>>>>>>> f5bb1355edccb5a6d79de44b950790b02cc62368
         /// </summary>
         public static Statistics AppStatistics
         {
@@ -71,7 +83,11 @@ namespace Memento
         }
 
         /// <summary>
+<<<<<<< HEAD
         /// Gets passed time.
+=======
+        /// Gets Timer.
+>>>>>>> f5bb1355edccb5a6d79de44b950790b02cc62368
         /// </summary>
         public DispatcherTimer Timer { get; }
 
@@ -94,11 +110,6 @@ namespace Memento
         /// Gets or sets DeckEditor.
         /// </summary>
         public DeckEditor DeckEditor { get; set; }
-
-        /// <summary>
-        /// Gets or sets AppSettings.
-        /// </summary>
-        public static Settings AppSettings { get; set; }
 
         /// <summary>
         /// Gets or sets MainPage.
@@ -160,7 +171,6 @@ namespace Memento
 
             DeckEditorPage.MakeMainPageVisible += GoToMainPageFromDeckEditor;
             DeckEditorPage.TitleChanged += ChangeMainTitle;
-            MainPage.Decks = DeckEditorPage.DeckEditor.AllDecks.ToList();
 
             if (e.DeckId == -1)
             {
@@ -174,6 +184,10 @@ namespace Memento
 
         private void GoToMainPageFromDeckEditor(object sender, EventArgs e)
         {
+            MainPage.Decks = DeckEditorPage.DeckEditor.AllDecks
+                .OrderBy(x => x.DeckName)
+                .ToList();
+
             DeckEditorPage.MakeMainPageVisible -= GoToMainPageFromDeckEditor;
             DeckEditorPage.TitleChanged -= ChangeMainTitle;
             Content = MainPage;
@@ -210,6 +224,7 @@ namespace Memento
         {
             SettingsPage.MakeMainPageVisible -= GoToMainPageFromSettings;
             Content = MainPage;
+            MainPage.ChangeTheme();
             Title = "Memento";
         }
 

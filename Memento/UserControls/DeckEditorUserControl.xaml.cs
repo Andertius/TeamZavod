@@ -39,7 +39,7 @@ namespace Memento.UserControls
         private string lastSavedWord = String.Empty;
         private string lastSavedDescription = String.Empty;
         private string lastSavedTranscription = String.Empty;
-        private string lastSavedImagePath;
+        private string lastSavedImagePath = String.Empty;
         private Difficulty lastSavedDifficulty = Difficulty.None;
         private List<string> lastSavedTags = new List<string>();
 
@@ -51,6 +51,11 @@ namespace Memento.UserControls
         {
             DataContext = this;
             InitializeComponent();
+
+            if (MainWindow.AppSettings.Theme == Theme.Dark)
+            {
+                DeckEditorGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
+            }
 
             if (deckId == -1)
             {
@@ -238,7 +243,7 @@ namespace Memento.UserControls
         }
 
         /// <summary>
-        /// Gets a value indicating whether the current card is edited od not.
+        /// Gets a value indicating whether the current card is edited or not.
         /// </summary>
         public bool IsCardEdited
         {

@@ -6,11 +6,12 @@ using System.Collections.Generic;
 using Memento.BLL.AppHandlerEventArgs;
 using System.Windows.Media.Imaging;
 using System.IO;
+using System.Windows.Media;
 
 namespace Memento.UserControls
 {
     /// <summary>
-    /// Interaction logic for LearningUserContro.xaml
+    /// Interaction logic for LearningUserControl.xaml.
     /// </summary>
     public partial class LearningUserControl : UserControl
     {
@@ -47,6 +48,11 @@ namespace Memento.UserControls
             CardImage.Source = String.IsNullOrWhiteSpace(AppHandler.CurrentCard.ImagePath)
                      ? null
                      : new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{AppHandler.CurrentCard.ImagePath}")));
+
+            if (MainWindow.AppSettings.Theme == Theme.Dark)
+            {
+                LearningGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
+            }
         }
 
         /// <summary>

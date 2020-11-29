@@ -9,7 +9,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
+using Memento.BLL;
 using Memento.DAL;
 
 namespace Memento.UserControls
@@ -34,6 +36,8 @@ namespace Memento.UserControls
 
             DataContext = this;
             Decks = Repository.FetchAllDecks().ToList();
+
+            ChangeTheme();
         }
 
         /// <summary>
@@ -63,6 +67,21 @@ namespace Memento.UserControls
         {
             get => (List<Deck>)GetValue(DecksProperty);
             set => SetValue(DecksProperty, value);
+        }
+
+        /// <summary>
+        /// Changes main page theme.
+        /// </summary>
+        public void ChangeTheme()
+        {
+            if (MainWindow.AppSettings.Theme == Theme.Dark)
+            {
+                MainPageContent.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
+            }
+            else
+            {
+                MainPageContent.Background = Brushes.White;
+            }
         }
 
         private void Guide_Click(object sender, RoutedEventArgs e)

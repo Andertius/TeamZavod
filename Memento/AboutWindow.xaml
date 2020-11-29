@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Memento"
         mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         Title="About Developers" Height="562" Width="500">
-    <Grid>
+    <Grid x:Name="AboutWindowGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition />

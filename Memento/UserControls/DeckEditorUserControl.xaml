@@ -58,7 +58,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid x:Name="DeckEditorGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="48"/>
             <ColumnDefinition Width="3*" MinWidth="600"/>
