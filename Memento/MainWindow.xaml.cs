@@ -57,25 +57,17 @@ namespace Memento
         }
 
         /// <summary>
-<<<<<<< HEAD
-        /// Event to add data in timer.
-=======
         /// An event that handles time incrementing.
->>>>>>> f5bb1355edccb5a6d79de44b950790b02cc62368
         /// </summary>
         public event EventHandler<StatAddSpentTimeEventArgs> TimeAdd;
 
         /// <summary>
-<<<<<<< HEAD
-        /// Gets or sets AppStatistic value.
-=======
         /// Gets or sets AppSettings.
         /// </summary>
         public static Settings AppSettings { get; set; }
 
         /// <summary>
         /// Gets sets AppStatistic value.
->>>>>>> f5bb1355edccb5a6d79de44b950790b02cc62368
         /// </summary>
         public static Statistics AppStatistics
         {
@@ -83,11 +75,7 @@ namespace Memento
         }
 
         /// <summary>
-<<<<<<< HEAD
         /// Gets passed time.
-=======
-        /// Gets Timer.
->>>>>>> f5bb1355edccb5a6d79de44b950790b02cc62368
         /// </summary>
         public DispatcherTimer Timer { get; }
 
