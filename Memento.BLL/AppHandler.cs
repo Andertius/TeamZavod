@@ -1,19 +1,29 @@
-﻿//StatEventArgs (TimeSpan t);
-// <copyright file="Statistics.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="AppHandler.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
+
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+
 using Memento.BLL.AppHandlerEventArgs;
 using Memento.DAL;
+
 namespace Memento.BLL
 {
     /// <summary>
-    /// Class to handle learning process
+    /// Class to handle learning process.
     /// </summary>
     public class AppHandler : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Property for getting Deck instance.
+        /// </summary>
+        private Card currentCard;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppHandler"/> class.
+        /// </summary>
         public AppHandler()
         {
             Deck = new Deck();
@@ -29,7 +39,6 @@ namespace Memento.BLL
             Deck = new Deck(deck);
             CurrentCard = Deck[0];
         }
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AppHandler"/> class.
@@ -52,14 +61,18 @@ namespace Memento.BLL
         }
 
         /// <summary>
-        /// Property for getting Deck instance.
+        /// Event for property changing.
         /// </summary>
-        /// 
-        private Card currentCard;
-        public Deck Deck { get; }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Gets current deck for app.
+        /// </summary>
+        public Deck Deck { get; }
+
+        /// <summary>
+        /// Gets or set current card.
+        /// </summary>
         public Card CurrentCard
         {
             get => currentCard;
@@ -74,7 +87,6 @@ namespace Memento.BLL
         /// Funtion to run handler.
         /// </summary>
         /// <param name="order">Sort order for cards.</param>
-        /// <param name="showImages">Enable or Disable images.</param>
         public void Start(CardOrder order)
         {
             if (order == CardOrder.Random)
@@ -148,10 +160,11 @@ namespace Memento.BLL
         /// <summary>
         /// Move card to special position.
         /// </summary>
+        /// <param name="sender">Who calls this event.</param>
+        /// <param name="e">AppHandlerMoveCardEventArgs object.</param>
         public void MoveCardIntoDeck(object sender, AppHandlerMoveCardEventArgs e)
         {
-            if (e.Card.Id != -1 && 
-                Deck.Cards.IndexOf(e.Card) < Deck.Count - (Deck.Count / 10))
+            if (e.Card.Id != -1 && Deck.Count > 3)
             {
                 if (e.RememberValue == RememberingLevels.Trivial)
                 {

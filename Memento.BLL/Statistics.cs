@@ -92,7 +92,8 @@ namespace Memento.BLL
         /// </summary>
         /// <param name="sender">cards list.</param>
         /// <param name="e">event args for event.</param>
-        public void AddCardLearned(object sender, EventArgs e)
+
+        public void AddCardLearned()
         {
             this.CardsLearnedToday++;
         }

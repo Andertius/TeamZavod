@@ -64,15 +64,12 @@ namespace Memento
         /// <summary>
         /// Gets or sets AppSettings.
         /// </summary>
-        public static Settings AppSettings { get; set; }
+        public static Statistics AppStatistics { get; private set; }
 
         /// <summary>
         /// Gets sets AppStatistic value.
         /// </summary>
-        public static Statistics AppStatistics
-        {
-            get; set;
-        }
+        public static Settings AppSettings { get; private set; }
 
         /// <summary>
         /// Gets passed time.

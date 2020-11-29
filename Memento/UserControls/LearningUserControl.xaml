@@ -9,16 +9,16 @@
 
     <UserControl.Resources>
         <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="40" />
+            <Setter Property="FontSize" Value="36" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style TargetType="Button">
-            <Setter Property="FontSize" Value="40" />
+            <Setter Property="FontSize" Value="36" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Bottom" />
-            <Setter Property="Width" Value="300"/>
+            <Setter Property="Width" Value="250"/>
             <Setter Property="Height" Value="70"/>
         </Style>
         <Style TargetType="Line">
@@ -28,30 +28,34 @@
             <Setter Property="Margin" Value="130,5,130,70"/>
             <Setter Property="StrokeThickness" Value="4"/>
         </Style>
+
     </UserControl.Resources>
 
     <Grid x:Name="LearningGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="120"/>
             <RowDefinition/>
-            <RowDefinition Height="120"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"/>
-            <ColumnDefinition />
-            <ColumnDefinition Width="30"/>
-            <ColumnDefinition />
+            <ColumnDefinition MinWidth="350"/>
+            <ColumnDefinition Width="50" MinWidth="50"/>
+            <ColumnDefinition MinWidth="350"/>
             <ColumnDefinition Width="50"/>
         </Grid.ColumnDefinitions>
 
-        <Image Source="{Binding AppHandler.CurrentCard.ImagePath}" x:Name="CardImage" Grid.Row="1" Grid.Column="1"/>
+        <Image Source="{Binding AppHandler.CurrentCard.ImagePath}" x:Name="CardImage" 
+               Grid.Row="1" 
+               Grid.Column="1"
+               Margin="0,0,50,0"/>
 
         <Line Grid.Row="1" Grid.Column="2" 
               X1="0" Y1="1" X2="0" Y2="0"
               StrokeThickness="8" 
               Margin="0,50"/>
+
 
         <StackPanel Grid.Row="1" Grid.Column="3" VerticalAlignment="Center">
             <TextBlock Text="{Binding AppHandler.CurrentCard.Word}" x:Name="Word"/>
@@ -63,7 +67,9 @@
                        FontWeight="Light"
                        Visibility="Hidden"/>
         </StackPanel>
-        <Button Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" 
+
+
+        <Button Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"
                 Content="Show" 
                 x:Name="Show_Btn"
                 Click="Show_Btn_Click"/>

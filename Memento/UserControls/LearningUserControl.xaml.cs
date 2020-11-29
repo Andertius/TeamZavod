@@ -1,12 +1,13 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using Memento.BLL;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Memento.BLL.AppHandlerEventArgs;
-using System.Windows.Media.Imaging;
 using System.IO;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+
+using Memento.BLL;
+using Memento.BLL.AppHandlerEventArgs;
 
 namespace Memento.UserControls
 {
@@ -23,8 +24,10 @@ namespace Memento.UserControls
 
         private List<FrameworkElement> hiddenElements = new List<FrameworkElement>();
 
-        public event EventHandler<AppHandlerMoveCardEventArgs> NextCardEvents;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LearningUserControl"/> class.
+        /// </summary>
+        /// <param name="deckId">The id of the deck thats going to be shown when the page loads.</param>
         public LearningUserControl(int deckId)
         {
             DataContext = this;
@@ -56,10 +59,18 @@ namespace Memento.UserControls
         }
 
         /// <summary>
+        /// Handler for some MoveCard events.
+        /// </summary>
+        public event EventHandler<AppHandlerMoveCardEventArgs> NextCardEvents;
+
+        /// <summary>
         /// An event that handles the return to the main page.
         /// </summary>
         public event EventHandler MakeMainPageVisible;
 
+        /// <summary>
+        /// Gets or sets AppHandler instance.
+        /// </summary>
         public AppHandler AppHandler
         {
             get => (AppHandler)GetValue(LearningPageProperty);
@@ -77,6 +88,7 @@ namespace Memento.UserControls
             {
                 element.Visibility = Visibility.Visible;
             }
+
             Show_Btn.Visibility = Visibility.Hidden;
             CardImage.Visibility = Visibility.Visible;
         }
@@ -87,6 +99,7 @@ namespace Memento.UserControls
             {
                 element.Visibility = Visibility.Hidden;
             }
+
             Show_Btn.Visibility = Visibility.Visible;
 
             if (!MainWindow.AppSettings.ShowImages)
@@ -97,13 +110,12 @@ namespace Memento.UserControls
             CardImage.Source = String.IsNullOrWhiteSpace(AppHandler.CurrentCard.ImagePath)
                      ? null
                      : new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{AppHandler.CurrentCard.ImagePath}")));
-
-            MainWindow.AppStatistics.AddCardLearned(this, EventArgs.Empty);
         }
 
         private void Trivial_Btn_Click(object sender, RoutedEventArgs e)
         {
             NextCardEvents?.Invoke(this, new AppHandlerMoveCardEventArgs(AppHandler.CurrentCard, RememberingLevels.Trivial));
+            MainWindow.AppStatistics.AddCardLearned();
         }
 
         private void Again_Btn_Click(object sender, RoutedEventArgs e)
@@ -114,6 +126,7 @@ namespace Memento.UserControls
         private void GotIt_Btn_Click(object sender, RoutedEventArgs e)
         {
             NextCardEvents?.Invoke(this, new AppHandlerMoveCardEventArgs(AppHandler.CurrentCard, RememberingLevels.GotIt));
+            MainWindow.AppStatistics.AddCardLearned();
         }
     }
 }
