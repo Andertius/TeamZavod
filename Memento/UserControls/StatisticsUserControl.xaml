@@ -90,7 +90,7 @@
                 <local:DoubleStringConverter x:Key="doubleStringConverter"/>
             </Viewbox.Resources>
             <Border Margin="5" Padding="5" BorderThickness="1" BorderBrush="black" Background="White" CornerRadius="200" Grid.Row="3" Grid.Column="2" Height="150" Width="150">
-                <TextBlock Text="{ Binding Path=AppStats.AverageTime.TotalHours, Converter={StaticResource doubleStringConverter}, StringFormat={}{0:N2} }" Grid.Column="1" Grid.Row="1" TextAlignment="Center" VerticalAlignment="Center"
+                <TextBlock Text="{ Binding Path=AppStats.AverageTime.TotalHours, Converter={StaticResource doubleStringConverter}, StringFormat=\{0:N1\} }" Grid.Column="1" Grid.Row="1" TextAlignment="Center" VerticalAlignment="Center"
                       x:Name="AverageTimePerDayTextBlock" FontFamily="Arial" FontSize="36"/>
             </Border>
         </Viewbox>
