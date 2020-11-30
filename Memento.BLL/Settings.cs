@@ -95,7 +95,7 @@ namespace Memento.BLL
         /// Writes settings to xml file.
         /// </summary>
         /// <param name="filePath">file path to write to.</param>
-        public void WriteSettingsToXMLFile(string filePath)
+        public void WriteToXMLFile(string filePath)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Settings));
 
@@ -109,7 +109,7 @@ namespace Memento.BLL
         /// Reads settings from xml file.
         /// </summary>
         /// <param name="filePath">File path to read settings from.</param>
-        public void ReadSettingsFromXMLFile(string filePath)
+        public void ReadFromXMLFile(string filePath)
         {
             XmlSerializer deserializer = new XmlSerializer(typeof(Settings));
             StreamReader reader = new StreamReader(filePath);

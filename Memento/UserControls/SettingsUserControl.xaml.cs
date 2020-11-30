@@ -95,7 +95,7 @@ namespace Memento.UserControls
                 string dir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
                 string path = Path.Combine(dir, @"Memento.BLL\Settings.xml");
 
-                AppSettings.WriteSettingsToXMLFile(path);
+                AppSettings.WriteToXMLFile(path);
 
                 MakeMainPageVisible?.Invoke(this, EventArgs.Empty);
             }

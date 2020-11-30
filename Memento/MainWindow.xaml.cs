@@ -3,11 +3,9 @@
 // </copyright>
 
 using System;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
-using System.Xml.Serialization;
 
 using Memento.BLL;
 using Memento.UserControls;
@@ -27,7 +25,7 @@ namespace Memento
             InitializeComponent();
 
             AppSettings = new Settings();
-            AppSettings.ReadSettingsFromXMLFile("Settings.xml");
+            AppSettings.ReadFromXMLFile("Settings.xml");
 
             Content = MainPage = new MainPageUserControl()
             {
