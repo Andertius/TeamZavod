@@ -1,4 +1,4 @@
-﻿// <copyright file="CardOrder.cs" company="lnu.edu.ua">
+﻿// <copyright file="RememberingLevels.cs" company="lnu.edu.ua">
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
