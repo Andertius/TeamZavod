@@ -62,6 +62,41 @@ namespace Memento.UserControls
         /// </summary>
         public Theme AppTheme { get; set; }
 
+        /// <summary>
+        /// Checks hoursPerDay for validity.
+        /// </summary>
+        /// <param name="hoursPerDay">hoursPerDay to check.</param>
+        /// <returns>true if hoursPerDay is valid.</returns>
+        public bool CheckHoursPerDay(double hoursPerDay)
+        {
+            return hoursPerDay >= 0 && hoursPerDay <= 24;
+        }
+
+        /// <summary>
+        /// Checks cardsPerDay for validity.
+        /// </summary>
+        /// <param name="cardsPerDay">cardsPerDay to check.</param>
+        /// <returns>true if cardsPerDay is valid.</returns>
+        public bool CheckCardsPerDay(int cardsPerDay)
+        {
+            return cardsPerDay >= 0 && cardsPerDay <= 1000;
+        }
+
+        /// <summary>
+        /// Writes settings to file.
+        /// </summary>
+        /// <param name="settings">settings to write.</param>
+        /// <param name="filePath">file path to write to.</param>
+        public void WriteSettingsToFile(Settings settings, string filePath)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(Settings));
+
+            StreamWriter writer = new StreamWriter(filePath);
+            serializer.Serialize(writer, settings);
+
+            writer.Close();
+        }
+
         private void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
             bool isOkHrs = true;
@@ -73,14 +108,12 @@ namespace Memento.UserControls
             catch (Exception)
             {
                 isOkHrs = false;
-                MessageBox.Show("Invalid Daily Milestone(hrs)");
             }
 
+            isOkHrs &= CheckHoursPerDay(hoursPerDay);
+
             bool isOkCardsNum = Int32.TryParse(CardsTextBox.Text, out int cardsPerDay);
-            if (cardsPerDay < 0 || cardsPerDay > 1000)
-            {
-                isOkCardsNum = false;
-            }
+            isOkCardsNum &= CheckCardsPerDay(cardsPerDay);
 
             if (isOkHrs && isOkCardsNum)
             {
@@ -95,14 +128,16 @@ namespace Memento.UserControls
                 AppSettings.ShowImages = showImages;
                 AppSettings.Theme = AppTheme;
 
-                XmlSerializer serializer = new XmlSerializer(typeof(Settings));
                 string dir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
                 string path = Path.Combine(dir, @"Memento.BLL\Settings.xml");
-                StreamWriter writer = new StreamWriter(path);
-                serializer.Serialize(writer, AppSettings);
-                writer.Close();
+
+                WriteSettingsToFile(AppSettings, path);
 
                 MakeMainPageVisible?.Invoke(this, EventArgs.Empty);
+            }
+            else if (!isOkHrs)
+            {
+                MessageBox.Show("Invalid Daily Milestone(hrs)");
             }
             else
             {
