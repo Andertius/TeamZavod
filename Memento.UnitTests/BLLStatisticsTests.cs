@@ -15,6 +15,7 @@ namespace Memento.UnitTests
     public class BLLStatisticsTests
     {
         private Statistics stats;
+        private string filepath;
 
         [TestInitialize]
         public void Initialize()
@@ -26,7 +27,6 @@ namespace Memento.UnitTests
         public void GetFromXMLTest_GetsDataFromXML()
         {
             string stat = "Stats";
-            string filepath = Path.GetFullPath($"{stat}.xml");
             string statPath = $"{stat}.xml";
 
             XDocument xdoc;
@@ -49,21 +49,16 @@ namespace Memento.UnitTests
             xdoc.Save(statPath);
 
             stats.GetFromXML(stat);
+            filepath = Path.GetFullPath($"{stat}.xml");
 
             Assert.AreEqual(stats.CardsLearnedToday.ToString(), "1");
             Assert.AreEqual(stats.TimeSpentToday.TotalSeconds.ToString(), "0");
-
-            if (File.Exists(filepath))
-            {
-                File.Delete(filepath);
-            }
         }
 
         [TestMethod]
         public void GetFromXMLTest_CheckFirstEntry_GetsDataFromXML()
         {
             string stat = "Stats";
-            string filepath = Path.GetFullPath($"{stat}.xml");
             string statPath = $"{stat}.xml";
 
             XDocument xdoc;
@@ -87,21 +82,17 @@ namespace Memento.UnitTests
 
             stats.GetFromXML(stat);
 
+            filepath = Path.GetFullPath($"{stat}.xml");
+
             xdoc = XDocument.Load(filepath);
 
             Assert.AreEqual(xdoc.Descendants(stat).First().Element("CheckFirst").Value.ToString(), "0");
-
-            if (File.Exists(filepath))
-            {
-                File.Delete(filepath);
-            }
         }
 
         [TestMethod]
         public void GetFromXMLTest_NewDay_GetsDataFromXML()
         {
             string stat = "Stats";
-            string filepath = Path.GetFullPath($"{stat}.xml");
             string statPath = $"{stat}.xml";
 
             XDocument xdoc;
@@ -124,77 +115,63 @@ namespace Memento.UnitTests
             xdoc.Save(statPath);
 
             stats.GetFromXML(stat);
+            filepath = Path.GetFullPath($"{stat}.xml");
 
             xdoc = XDocument.Load(filepath);
 
             Assert.AreEqual(xdoc.Descendants(stat).First().Element("Day").Value.ToString(), DateTime.Now.Day.ToString());
-
-            if (File.Exists(filepath))
-            {
-                File.Delete(filepath);
-            }
         }
 
         [TestMethod]
         public void WriteInXMLTest_WritesInXML()
         {
-            stats = new Statistics();
-
-            stats.TimeSpentToday = new TimeSpan(0, 0, 2);
-            stats.CardsLearnedToday = 2;
+            stats = new Statistics
+            {
+                TimeSpentToday = new TimeSpan(0, 0, 2),
+                CardsLearnedToday = 2
+            };
 
             string stat = "Stats";
-            string statPath = $"{stat}.xml";
-            string filepath = Path.GetFullPath($"{stat}.xml");
 
             stats.WriteInXML(stat);
             stats.GetFromXML(stat);
 
             Assert.AreEqual(stats.CardsLearnedToday.ToString(), "2");
             Assert.AreEqual(stats.TimeSpentToday.TotalSeconds.ToString(), "4");
-
-            if (File.Exists(filepath))
-            {
-                File.Delete(filepath);
-            }
         }
 
         [TestMethod]
         public void GetFromXMLTest_NoSuchXML_GetsDataFromXML()
         {
             string stat = "Statis";
-            string filepath = Path.GetFullPath($"{stat}.xml");
-            string statPath = $"{stat}.xml";
 
             stats.GetFromXML(stat);
 
             Assert.AreEqual(stats.CardsLearnedToday.ToString(), "0");
             Assert.AreEqual(stats.TimeSpentToday.TotalSeconds.ToString(), "0");
-
-            if (File.Exists(filepath))
-            {
-                File.Delete(filepath);
-            }
         }
 
         [TestMethod]
         public void WriteInXMLTest_NoSuchXMLFile_WritesInXML()
         {
-            stats = new Statistics();
-
-            stats.TimeSpentToday = new TimeSpan(0, 0, 2);
-            stats.CardsLearnedToday = 2;
+            stats = new Statistics
+            {
+                TimeSpentToday = new TimeSpan(0, 0, 2),
+                CardsLearnedToday = 2
+            };
 
             string stat = "Statts";
-            string statPath = $"{stat}.xml";
-            string filepath = Path.GetFullPath($"{stat}.xml");
 
             stats.WriteInXML(stat);
             stats.GetFromXML(stat);
 
             Assert.AreEqual(stats.CardsLearnedToday.ToString(), "2");
             Assert.AreEqual(stats.TimeSpentToday.TotalSeconds.ToString(), "4");
+        }
 
+        [TestCleanup]
+        public void CleanUp()
+        {
             if (File.Exists(filepath))
             {
                 File.Delete(filepath);
