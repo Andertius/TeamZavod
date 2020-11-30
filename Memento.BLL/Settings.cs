@@ -46,7 +46,7 @@ namespace Memento.BLL
         /// <summary>
         /// Gets or sets hoursPerDay.
         /// </summary>
-        [XmlElement("HoursePerDay")]
+        [XmlElement("HoursPerDay")]
         public double HoursPerDay { get; set; }
 
         /// <summary>
@@ -97,6 +97,11 @@ namespace Memento.BLL
         /// <param name="filePath">file path to write to.</param>
         public void WriteToXMLFile(string filePath)
         {
+            if (string.IsNullOrEmpty(filePath) || !filePath.EndsWith(".xml"))
+            {
+                throw new ArgumentException("Invalid file name");
+            }
+
             XmlSerializer serializer = new XmlSerializer(typeof(Settings));
 
             StreamWriter writer = new StreamWriter(filePath);
@@ -111,6 +116,16 @@ namespace Memento.BLL
         /// <param name="filePath">File path to read settings from.</param>
         public void ReadFromXMLFile(string filePath)
         {
+            if (string.IsNullOrEmpty(filePath) || !filePath.EndsWith(".xml"))
+            {
+                throw new ArgumentException("Invalid file name");
+            }
+
+            if (!File.Exists(filePath))
+            {
+                throw new DirectoryNotFoundException("No such file");
+            }
+
             XmlSerializer deserializer = new XmlSerializer(typeof(Settings));
             StreamReader reader = new StreamReader(filePath);
 
