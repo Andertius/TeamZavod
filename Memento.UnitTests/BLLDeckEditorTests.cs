@@ -36,14 +36,12 @@ namespace Memento.UnitTests
                 .Select(s => s[rand.Next(s.Length)])
                 .ToArray());
 
-            Difficulty diff = Difficulty.None;
-
             string imagePath = new string(Enumerable
                 .Repeat(chars, rand.Next(1, 15))
                 .Select(s => s[rand.Next(s.Length)])
                 .ToArray());
 
-            return new Card(word, description, transcription, imagePath, diff);
+            return new Card(word, description, transcription, imagePath);
         }
 
         private Deck RandomizeDeck()
@@ -84,7 +82,14 @@ namespace Memento.UnitTests
             var utilityCard = RandomizeCard();
 
             deckEditor.AddCard(this, new DeckEditorCardEventArgs(deck, utilityCard));
-            Assert.IsNotNull(Repository.FetchCard(deckEditor.Deck.Cards[^1].Id));
+            var card = Repository.FetchCard(deckEditor.Deck.Cards[^1].Id);
+
+            Assert.AreEqual(utilityCard.Word, card.Word);
+            Assert.AreNotEqual(Card.DefaultId, card.Id);
+            Assert.AreEqual(utilityCard.Description, card.Description);
+            Assert.AreEqual(utilityCard.Transcription, card.Transcription);
+            Assert.AreEqual(utilityCard.Difficulty, card.Difficulty);
+            Assert.AreEqual(utilityCard.ImagePath, card.ImagePath);
         }
 
         [TestMethod]
@@ -226,6 +231,25 @@ namespace Memento.UnitTests
             Assert.AreEqual(deckEditor.CurrentCard.Transcription, deck[1].Transcription);
             Assert.AreEqual(deckEditor.CurrentCard.ImagePath, deck[1].ImagePath);
             Assert.AreEqual(deckEditor.CurrentCard.Difficulty, deck[1].Difficulty);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            var cards = Repository.FetchAllCards().ToList();
+
+            foreach (var card in cards)
+            {
+                try
+                {
+                    Repository.RemoveCardFromDeck(deckEditor.Deck.Id, card.Id);
+                }
+                catch (Exception) { }
+
+                Repository.RemoveCard(card.Id);
+            }
+
+            Repository.RemoveDeck(deckEditor.Deck.Id);
         }
     }
 }

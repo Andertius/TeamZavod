@@ -23,7 +23,7 @@ namespace Memento
         /// <returns>string representation of double.</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value is double number ? Math.Round(number, 2).ToString() : String.Empty;
+            return value is double number ? Math.Round(number, 2).ToString(culture) : String.Empty;
         }
 
         /// <summary>
