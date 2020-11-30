@@ -26,10 +26,8 @@ namespace Memento
         {
             InitializeComponent();
 
-            XmlSerializer deserializer = new XmlSerializer(typeof(Settings));
-            StreamReader reader = new StreamReader("Settings.xml");
-            AppSettings = (Settings)deserializer.Deserialize(reader);
-            reader.Close();
+            AppSettings = new Settings();
+            AppSettings.ReadSettingsFromXMLFile("Settings.xml");
 
             Content = MainPage = new MainPageUserControl()
             {
@@ -62,12 +60,12 @@ namespace Memento
         public event EventHandler<StatAddSpentTimeEventArgs> TimeAdd;
 
         /// <summary>
-        /// Gets or sets AppSettings.
+        /// Gets AppStatistic value.
         /// </summary>
         public static Statistics AppStatistics { get; private set; }
 
         /// <summary>
-        /// Gets sets AppStatistic value.
+        /// Gets sets AppSettings.
         /// </summary>
         public static Settings AppSettings { get; private set; }
 

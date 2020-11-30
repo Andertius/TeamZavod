@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.IO;
 using System.Xml.Serialization;
 
 namespace Memento.BLL
@@ -32,7 +33,7 @@ namespace Memento.BLL
         /// <param name="cards">Cards per day.</param>
         /// <param name="theme">The theme.</param>
         /// <param name="order">Cards order.</param>
-        /// <param name="showImages">.</param>
+        /// <param name="showImages">Show images.</param>
         public Settings(double hours, int cards, Theme theme, CardOrder order, bool showImages)
         {
             HoursPerDay = hours;
@@ -71,5 +72,56 @@ namespace Memento.BLL
         /// </summary>
         [XmlElement("ShowImages")]
         public bool ShowImages { get; set; }
+
+        /// <summary>
+        /// Checks CardsPerDay for validity.
+        /// </summary>
+        /// <returns>true if CardsPerDay is valid.</returns>
+        public bool CheckCardsPerDay()
+        {
+            return CardsPerDay >= 0 && CardsPerDay <= 1000;
+        }
+
+        /// <summary>
+        /// Checks HoursPerDay for validity.
+        /// </summary>
+        /// <returns>true if HoursPerDay is valid.</returns>
+        public bool CheckHoursPerDay()
+        {
+            return HoursPerDay >= 0 && HoursPerDay <= 24;
+        }
+
+        /// <summary>
+        /// Writes settings to xml file.
+        /// </summary>
+        /// <param name="filePath">file path to write to.</param>
+        public void WriteSettingsToXMLFile(string filePath)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(Settings));
+
+            StreamWriter writer = new StreamWriter(filePath);
+            serializer.Serialize(writer, this);
+
+            writer.Close();
+        }
+
+        /// <summary>
+        /// Reads settings from xml file.
+        /// </summary>
+        /// <param name="filePath">File path to read settings from.</param>
+        public void ReadSettingsFromXMLFile(string filePath)
+        {
+            XmlSerializer deserializer = new XmlSerializer(typeof(Settings));
+            StreamReader reader = new StreamReader(filePath);
+
+            Settings settings = (Settings)deserializer.Deserialize(reader);
+            reader.Close();
+
+            this.HoursPerDay = settings.HoursPerDay;
+            this.CardsPerDay = settings.CardsPerDay;
+            this.Theme = settings.Theme;
+            this.CardOrder = settings.CardOrder;
+            this.ShowImages = settings.ShowImages;
+        }
     }
 }
