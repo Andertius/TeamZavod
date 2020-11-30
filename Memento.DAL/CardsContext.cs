@@ -2,13 +2,9 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Sqlite;
 
 namespace Memento.DAL
 {
@@ -47,7 +43,7 @@ namespace Memento.DAL
         }
 
         /// <summary>
-        /// What to do if program calls a model .
+        /// What to do if program calls a model.
         /// </summary>
         /// <param name="modelBuilder">Calls one of the models.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -75,9 +71,6 @@ namespace Memento.DAL
                 .HasForeignKey(b => b.DeckID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // modelBuilder.Entity<CardModel>()
-            // .HasMany(p => p.Tags)
-            // .WithOne();
             modelBuilder.Entity<TagToCardModel>()
                 .HasOne(p => p.Card)
                 .WithMany(b => b.Tags)

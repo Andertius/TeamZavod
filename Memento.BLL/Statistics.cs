@@ -10,8 +10,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 
-using Memento.DAL;
-
 namespace Memento.BLL
 {
     /// <summary>
@@ -28,9 +26,9 @@ namespace Memento.BLL
         /// </summary>
         public Statistics()
         {
-            this.TimeSpentToday = default;
-            this.AverageTime = default;
-            this.CardsLearnedToday = default;
+            TimeSpentToday = default;
+            AverageTime = default;
+            CardsLearnedToday = default;
         }
 
         /// <summary>
@@ -92,10 +90,9 @@ namespace Memento.BLL
         /// </summary>
         /// <param name="sender">cards list.</param>
         /// <param name="e">event args for event.</param>
-
         public void AddCardLearned()
         {
-            this.CardsLearnedToday++;
+            CardsLearnedToday++;
         }
 
         /// <summary>
@@ -204,7 +201,7 @@ namespace Memento.BLL
             // string stat = "Statistics";
             string filepath = Path.GetFullPath($"{stat}.xml");
 
-            if (System.IO.File.Exists(filepath))
+            if (File.Exists(filepath))
             {
                 xdoc = XDocument.Load(filepath);
             }

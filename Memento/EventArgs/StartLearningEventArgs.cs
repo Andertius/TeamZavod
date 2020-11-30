@@ -1,11 +1,11 @@
-﻿// <copyright file="StartEditingEventArgs.cs" company="lnu.edu.ua">
+﻿// <copyright file="StartLearningEventArgs.cs" company="lnu.edu.ua">
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
 using System;
 
 namespace Memento
-{ 
+{
     /// <summary>
     /// Event arguments for the learning page.
     /// </summary>
@@ -24,6 +24,5 @@ namespace Memento
         /// Gets the deck id.
         /// </summary>
         public int DeckId { get; }
-
     }
 }

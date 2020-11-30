@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="LearningUserControl.xaml.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
@@ -22,7 +26,7 @@ namespace Memento.UserControls
            typeof(LearningUserControl),
            new PropertyMetadata(new AppHandler()));
 
-        private List<FrameworkElement> hiddenElements = new List<FrameworkElement>();
+        private readonly List<FrameworkElement> hiddenElements = new List<FrameworkElement>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LearningUserControl"/> class.

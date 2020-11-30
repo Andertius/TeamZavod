@@ -56,6 +56,5 @@ namespace Memento.DAL
         /// Gets or sets Card model.
         /// </summary>
         public CardModel Card { get; set; }
-
     }
 }

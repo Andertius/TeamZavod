@@ -2,10 +2,7 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Memento.DAL
 {
@@ -30,8 +27,8 @@ namespace Memento.DAL
         /// <param name="deckId">id o a deck.</param>
         public DeckToCardModel(int deckId, int cardId)
         {
-            this.DeckID = deckId;
-            this.CardID = cardId;
+            DeckID = deckId;
+            CardID = cardId;
         }
 
         /// <summary>

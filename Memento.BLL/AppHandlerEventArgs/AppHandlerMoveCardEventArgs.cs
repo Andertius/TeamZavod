@@ -1,4 +1,8 @@
-﻿using Memento.DAL;
+﻿// <copyright file="AppHandlerMoveCardEventArgs.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
+// </copyright>
+
+using Memento.DAL;
 
 namespace Memento.BLL.AppHandlerEventArgs
 {
