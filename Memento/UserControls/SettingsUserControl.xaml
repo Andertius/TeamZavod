@@ -8,6 +8,18 @@
              mc:Ignorable="d"
              d:DesignHeight="1080" d:DesignWidth="1920" Style="{DynamicResource UserControlStyle}">
 
+    <UserControl.Resources>
+        <LinearGradientBrush x:Key="GradientStops">
+            <GradientStop Color="Red" Offset="0.0" />
+            <GradientStop Color="Yellow" Offset="0.15" />
+            <GradientStop Color="Lime" Offset="0.30" />
+            <GradientStop Color="Cyan" Offset="0.50" />
+            <GradientStop Color="Blue" Offset="0.65" />
+            <GradientStop Color="Magenta" Offset="0.80" />
+            <GradientStop Color="Red" Offset="1.00" />
+        </LinearGradientBrush>
+    </UserControl.Resources>
+
     <Grid x:Name="SettingsGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="18*" />
@@ -48,7 +60,7 @@
                    Grid.ColumnSpan="5"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   Style="{DynamicResource TextBlockStyle}"/>
+                   Foreground="{StaticResource GradientStops}"/>
         <Line Grid.Row="4" Grid.Column="3" 
               X1="0" Y1="1" X2="0" Y2="0"
               StrokeThickness="5" 

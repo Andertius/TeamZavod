@@ -25,7 +25,6 @@
             <Setter Property="FontSize" Value="20" />
             <Setter Property="BorderBrush" Value="Black" />
         </Style>
-
     </UserControl.Resources>
 
     <Grid x:Name="MainPageContent">
