@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Memento"
              xmlns:converters="clr-namespace:Memento.Converters"
              xmlns:dal="clr-namespace:Memento.DAL;assembly=Memento.DAL"
-             mc:Ignorable="d" d:Background="White"
+             mc:Ignorable="d" Style="{DynamicResource UserControlStyle}"
              d:DesignHeight="1000" d:DesignWidth="1920">
 
     <UserControl.CommandBindings>
@@ -104,19 +104,24 @@
                             </StackPanel.Resources>
                             
                             <TextBlock Text="Difficulty" Grid.Row="0" Margin="0 0 0 5"
-                                       HorizontalAlignment="Center" FontStyle="Italic"/>
+                                       HorizontalAlignment="Center" FontStyle="Italic"
+                                       Style="{DynamicResource TextBlockStyle}"/>
                             
                             <RadioButton x:Name="BeginnerButton" Content="Beginner"
-                                         IsChecked="{Binding Path=DeckEditor.CurrentCard.Difficulty, Converter={StaticResource equalsConverter}, ConverterParameter={x:Static dal:Difficulty.Beginner}}"/>
+                                         IsChecked="{Binding Path=DeckEditor.CurrentCard.Difficulty, Converter={StaticResource equalsConverter}, ConverterParameter={x:Static dal:Difficulty.Beginner}}"
+                                         Style="{DynamicResource RadioButtonStyle}"/>
 
                             <RadioButton x:Name="IntermediateButton" Content="Intermediate"
-                                         IsChecked="{Binding Path=DeckEditor.CurrentCard.Difficulty, Converter={StaticResource equalsConverter}, ConverterParameter={x:Static dal:Difficulty.Intermediate}}"/>
+                                         IsChecked="{Binding Path=DeckEditor.CurrentCard.Difficulty, Converter={StaticResource equalsConverter}, ConverterParameter={x:Static dal:Difficulty.Intermediate}}"
+                                         Style="{DynamicResource RadioButtonStyle}"/>
 
                             <RadioButton x:Name="AdvancedButton" Content="Advanced"
-                                         IsChecked="{Binding Path=DeckEditor.CurrentCard.Difficulty, Converter={StaticResource equalsConverter}, ConverterParameter={x:Static dal:Difficulty.Advanced}}"/>
+                                         IsChecked="{Binding Path=DeckEditor.CurrentCard.Difficulty, Converter={StaticResource equalsConverter}, ConverterParameter={x:Static dal:Difficulty.Advanced}}"
+                                         Style="{DynamicResource RadioButtonStyle}"/>
 
                             <RadioButton x:Name="NoneButton" Content="None"
-                                         IsChecked="{Binding Path=DeckEditor.CurrentCard.Difficulty, Converter={StaticResource equalsConverter}, ConverterParameter={x:Static dal:Difficulty.None}}"/>
+                                         IsChecked="{Binding Path=DeckEditor.CurrentCard.Difficulty, Converter={StaticResource equalsConverter}, ConverterParameter={x:Static dal:Difficulty.None}}"
+                                         Style="{DynamicResource RadioButtonStyle}"/>
                         </StackPanel>
                     </Viewbox>
                 </Grid>
@@ -263,7 +268,7 @@
             <Button Grid.Row="0" Content="&#xE72B;" FontFamily="Segoe MDL2 Assets"
                     HorizontalAlignment="Left" Grid.RowSpan="2" VerticalAlignment="Top"
                     x:Name="GoBackButton" Click="GoBackButton_Click" FontSize="36"
-                    Background="White" BorderBrush="White"/>
+                    Style="{DynamicResource ButtonStyle}"/>
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="3">
@@ -325,8 +330,9 @@
                     <converters:IntStringConverter x:Key="intStringConverter"/>
                 </StackPanel.Resources>
 
-                <TextBlock Text="Cards: "/>
-                <TextBlock Text="{Binding Path=DeckEditor.Deck.Count, Converter={StaticResource intStringConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="Cards: " Style="{DynamicResource TextBlockStyle}"/>
+                <TextBlock Text="{Binding Path=DeckEditor.Deck.Count, Converter={StaticResource intStringConverter}, UpdateSourceTrigger=PropertyChanged}"
+                           Style="{DynamicResource TextBlockStyle}"/>
             </StackPanel>
 
             <DataGrid ItemsSource="{Binding DeckEditor.Deck.Cards}" IsReadOnly="True"
@@ -346,7 +352,8 @@
             </DataGrid>
             
             <WrapPanel Grid.Row="5" x:Name="TagsWrapPanel">
-                <TextBlock Text="Tags:" x:Name="TagsTextBlock"/>
+                <TextBlock Text="Tags:" x:Name="TagsTextBlock"
+                           Style="{DynamicResource TextBlockStyle}"/>
             </WrapPanel>
             
             <StackPanel Orientation="Horizontal" Grid.Row="9">

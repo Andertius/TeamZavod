@@ -6,7 +6,7 @@
              xmlns:ed =" "
              xmlns:local="clr-namespace:Memento"
              xmlns:dal="clr-namespace:Memento.DAL;assembly=Memento.DAL"
-             mc:Ignorable="d" d:Background="White"
+             mc:Ignorable="d" Style="{DynamicResource UserControlStyle}"
              d:DesignHeight="1080" d:DesignWidth="1920">
 
     <UserControl.CommandBindings>
@@ -67,7 +67,8 @@
 
         <Viewbox Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom">
             <TextBlock Text="Today time spent(hrs/d)" Grid.Column="1" Grid.Row="1" FontFamily="Arial" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                   Margin="15 0 0 0"/>
+                   Margin="15 0 0 0"
+                       Style="{DynamicResource TextBlockStyle}"/>
         </Viewbox>
 
         <Slider Grid.Row="1" Name="TTSslider" Maximum="100" Value="{Binding Path=AppStats.TimeSpentToday.TotalHours, Mode=OneWay}" Visibility="Collapsed" />
@@ -81,7 +82,8 @@
 
         <Viewbox Grid.Row="2" Grid.Column="2" VerticalAlignment="Bottom">
             <TextBlock Text="Average time per day" Grid.Column="2" Grid.Row="2" FontFamily="Arial" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                   Margin="15 0 0 0"/>
+                   Margin="15 0 0 0"
+                       Style="{DynamicResource TextBlockStyle}"/>
         </Viewbox>
         
 
@@ -97,7 +99,8 @@
 
         <Viewbox Grid.Row="3" Grid.Column="3" VerticalAlignment="Bottom">
             <TextBlock Text="Card learned per day" Grid.Column="3" Grid.Row="3" FontFamily="Arial" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                   Margin="15 0 0 0"/>
+                   Margin="15 0 0 0"
+                       Style="{DynamicResource TextBlockStyle}"/>
         </Viewbox>
 
         <Slider Grid.Row="1" Name="CardsSlider" Maximum="100" Value="{Binding Path=AppStats.CardsLearnedToday}" Visibility="Collapsed" />
@@ -109,13 +112,12 @@
 
         <Viewbox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
             <Button Grid.Row="0" Grid.Column="0" FontFamily="Segoe MDL2 Assets"
-                Content="&#xE72B;" 
-                Background="White" 
-                BorderBrush="White"
+                Content="&#xE72B;"
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Bottom" 
                 Margin="10" FontSize="36"
                 x:Name="GoBackButton"
+                Style="{DynamicResource ButtonStyle}"
                 Command="{x:Static local:Commands.GoBackCommand}">
             </Button>
         </Viewbox>

@@ -30,11 +30,6 @@ namespace Memento
             InitializeComponent();
             SelectedCard = new Card();
 
-            if (MainWindow.AppSettings.Theme == BLL.Theme.Dark)
-            {
-                AllCardsWindowGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
-            }
-
             Cards = new List<Card>(cards);
             RenderCards(this, EventArgs.Empty);
 

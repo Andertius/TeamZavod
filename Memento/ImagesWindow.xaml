@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Memento"
         mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
-        Title="Images" Height="550" Width="800">
+        Title="Images" Height="550" Width="800" Style="{DynamicResource WindowStyle}">
     <Grid x:Name="ImagesWindowGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>

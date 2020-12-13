@@ -36,11 +36,6 @@ namespace Memento.UserControls
             InitializeComponent();
             DataContext = this;
 
-            if (MainWindow.AppSettings.Theme == Theme.Dark)
-            {
-                StatisticsGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
-            }
-
             AppStats = stats;
             TTSProgress.Maximum = settings.HoursPerDay;
             CardsLearned.Maximum = settings.CardsPerDay;

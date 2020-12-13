@@ -26,6 +26,7 @@ namespace Memento
 
             AppSettings = new Settings();
             AppSettings.ReadFromXMLFile("Settings.xml");
+            SetTheme();
 
             Content = MainPage = new MainPageUserControl()
             {
@@ -205,7 +206,6 @@ namespace Memento
         {
             SettingsPage.MakeMainPageVisible -= GoToMainPageFromSettings;
             Content = MainPage;
-            MainPage.ChangeTheme();
             Title = "Memento";
         }
 
@@ -242,6 +242,15 @@ namespace Memento
             StatisticsPage.MakeMainPageVisible -= GoToMainPageFromStatistics;
             Content = MainPage;
             Title = "Memento";
+        }
+
+        private void SetTheme()
+        {
+            string style = AppSettings.Theme.ToString();
+            var uri = new Uri(style + "Theme.xaml", UriKind.Relative);
+            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+            Application.Current.Resources.Clear();
+            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
         }
     }
 }

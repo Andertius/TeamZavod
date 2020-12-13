@@ -2,7 +2,7 @@
 <Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <HoursPerDay>3.5</HoursPerDay>
   <CardsPerDay>25</CardsPerDay>
-  <Theme>Light</Theme>
+  <Theme>Dark</Theme>
   <CardOrder>Descending</CardOrder>
   <ShowImages>true</ShowImages>
 </Settings>

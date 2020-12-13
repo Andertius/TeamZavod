@@ -21,11 +21,6 @@ namespace Memento
         {
             DataContext = this;
             InitializeComponent();
-
-            if (MainWindow.AppSettings.Theme == Theme.Dark)
-            {
-                AboutWindowGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
-            }
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)

@@ -133,15 +133,14 @@ namespace Memento.UserControls
 
         private void ChangeTheme()
         {
-            string val = ThemeCombox.Text;
-            AppTheme = (val == "Light") ? Theme.Light : Theme.Dark;
-            if (AppTheme == Theme.Dark)
+            string style = ThemeCombox.Text;
+            AppTheme = (style == "Light") ? Theme.Light : Theme.Dark;
+            if (!String.IsNullOrEmpty(style))
             {
-                SettingsGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
-            }
-            else
-            {
-                SettingsGrid.Background = Brushes.White;
+                var uri = new Uri(style + "Theme.xaml", UriKind.Relative);
+                ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+                Application.Current.Resources.Clear();
+                Application.Current.Resources.MergedDictionaries.Add(resourceDict);
             }
         }
     }

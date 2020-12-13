@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Memento" Closing="Window_Closing"
         mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
-        Title="All Cards" Height="450" Width="800">
+        Title="All Cards" Height="450" Width="800" Style="{DynamicResource WindowStyle}">
     <Grid x:Name="AllCardsWindowGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>

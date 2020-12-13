@@ -5,29 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Memento.UserControls"
              xmlns:dal="clr-namespace:Memento.DAL;assembly=Memento.DAL"
-             mc:Ignorable="d" Background="White"
-             d:DesignHeight="1080" d:DesignWidth="1920">
-
-    <UserControl.Resources>
-        <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="30" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="FontSize" Value="30" />
-            <Setter Property="AcceptsReturn" Value="True" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
-        <Style TargetType="Line">
-            <Setter Property="Stroke" Value="Black" />
-            <Setter Property="StrokeThickness" Value="2" />
-            <Setter Property="Stretch" Value="Uniform" />
-        </Style>
-    </UserControl.Resources>
+             mc:Ignorable="d"
+             d:DesignHeight="1080" d:DesignWidth="1920" Style="{DynamicResource UserControlStyle}">
 
     <Grid x:Name="SettingsGrid">
         <Grid.ColumnDefinitions>
@@ -56,43 +35,77 @@
         </Grid.RowDefinitions>
 
         <Button Grid.Row="3" FontFamily="Segoe MDL2 Assets" 
-                Content="&#xE72B;" 
-                Background="White" 
-                BorderBrush="White"
+                Content="&#xE72B;"
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
                 Margin="10" FontSize="36"
+                Style="{DynamicResource ButtonStyle}"
                 Click="GoBackButton_Click"/>
 
         <TextBlock Grid.Row="3" Grid.Column="1" 
                    Text="Customize your Memento" 
                    FontSize="42" 
-                   Grid.ColumnSpan="5" />
+                   Grid.ColumnSpan="5"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Style="{DynamicResource TextBlockStyle}"/>
         <Line Grid.Row="4" Grid.Column="3" 
               X1="0" Y1="1" X2="0" Y2="0"
               StrokeThickness="5" 
-              Grid.RowSpan="7" />
+              Grid.RowSpan="7"
+              Stretch="Uniform"
+              Style="{DynamicResource LineStyle}" />
 
         <TextBlock Grid.Row="5" Grid.Column="1" 
-                   Text="Daily Milestone (hrs)"  />
+                   Text="Daily Milestone (hrs)"
+                   FontSize="30"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Style="{DynamicResource TextBlockStyle}"/>
         <TextBlock Grid.Row="7" Grid.Column="1" 
-                   Text="Daily Milestone (cards)" />
+                   Text="Daily Milestone (cards)" 
+                   FontSize="30"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Style="{DynamicResource TextBlockStyle}"/>
         <TextBlock Grid.Row="9" Grid.Column="1" 
-                   Text="Theme" />
+                   Text="Theme" 
+                   FontSize="30"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Style="{DynamicResource TextBlockStyle}"/>
         <StackPanel Grid.Row="5" Grid.Column="2" 
                     Orientation="Vertical"  
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <TextBox x:Name="HrsTextBox" />
-            <Line X1="0" Y1="0" X2="1" Y2="0" />
+            <TextBox x:Name="HrsTextBox" 
+                     FontSize="30"
+                     BorderThickness="0"
+                     AcceptsReturn="True"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Center"
+                     Style="{DynamicResource TextBoxStyle}"/>
+            <Line X1="0" Y1="0" X2="1" Y2="0"
+                  StrokeThickness="2"
+                  Stretch="Uniform"
+                  Style="{DynamicResource LineStyle}" />
         </StackPanel>
         <StackPanel Grid.Row="7" Grid.Column="2" 
                     Orientation="Vertical" 
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Center">
             <TextBox Text="{Binding AppSettings.CardsPerDay}"
-                     x:Name="CardsTextBox" />
-            <Line X1="0" Y1="0" X2="1" Y2="0" />
+                     x:Name="CardsTextBox"
+                     FontSize="30"
+                     BorderThickness="0"
+                     AcceptsReturn="True"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Center"
+                     Style="{DynamicResource TextBoxStyle}"/>
+            <Line X1="0" Y1="0" X2="1" Y2="0"
+                  StrokeThickness="2"
+                  Stretch="Uniform"
+                  Style="{DynamicResource LineStyle}" />
         </StackPanel>
         
         <ComboBox Grid.Row="9" Grid.Column="2" 
@@ -100,21 +113,39 @@
                   x:Name="ThemeCombox" 
                   SelectionChanged="Theme_SelectionChanged"
                   DropDownClosed="Theme_DropDownClosed">
-            <TextBlock Text="Light" FontSize="26" />
-            <TextBlock Text="Dark" FontSize="26" />
+            <TextBlock Text="Light" FontSize="26" 
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+            <TextBlock Text="Dark" FontSize="26"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
         </ComboBox>
         
         <TextBlock Grid.Row="6" Grid.Column="4" 
-                   Text="Card Order" />
+                   Text="Card Order" 
+                   FontSize="30"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Style="{DynamicResource TextBlockStyle}"/>
         <TextBlock Grid.Row="8" Grid.Column="4" 
-                   Text="Show Card Images" />
+                   Text="Show Card Images" 
+                   FontSize="30"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Style="{DynamicResource TextBlockStyle}"/>
         
         <ComboBox Grid.Row="6" Grid.Column="5" 
                   Height="50" 
                   x:Name="CardOrderCombox">
-            <TextBlock Text="Random" FontSize="26" />
-            <TextBlock Text="Ascending" FontSize="26" />
-            <TextBlock Text="Descending" FontSize="26" />
+            <TextBlock Text="Random" FontSize="26"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+            <TextBlock Text="Ascending" FontSize="26" 
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+            <TextBlock Text="Descending" FontSize="26"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
         </ComboBox>
         
         <CheckBox Grid.Row="8" Grid.Column="5"  

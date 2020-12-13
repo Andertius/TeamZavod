@@ -30,11 +30,6 @@ namespace Memento
         {
             InitializeComponent();
 
-            if (MainWindow.AppSettings.Theme == BLL.Theme.Dark)
-            {
-                ImagesWindowGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
-            }
-
             ImageSource = imgSource;
             CurrentImage.Source = imgSource;
             path = String.Empty;
