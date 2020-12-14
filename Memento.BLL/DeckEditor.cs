@@ -161,6 +161,7 @@ namespace Memento.BLL
 
                 Deck.Add(e.Card);
                 CurrentCard.Id = e.Card.Id;
+                Logger.Log.Info("Card added to a deck.");
                 return;
             }
 
@@ -187,6 +188,7 @@ namespace Memento.BLL
                 }
 
                 Repository.UpdateCard(e.Card.Id, e.NewCard, UpdateCardOptions.UpdateAll);
+                Logger.Log.Info("Updated a card.");
             }
         }
 
@@ -204,6 +206,7 @@ namespace Memento.BLL
                 Repository.RemoveCardFromDeck(e.Deck.Id, e.Card.Id);
             }
 
+            Logger.Log.Info("Card removed.");
             CurrentCard = new Card();
         }
 
@@ -216,6 +219,7 @@ namespace Memento.BLL
         {
             Deck = new Deck(e.Deck);
             CurrentCard = new Card();
+            Logger.Log.Info("Deck changed.");
         }
 
         /// <summary>
@@ -231,6 +235,7 @@ namespace Memento.BLL
             Repository.UpdateDeck(Deck.Id, Deck, UpdateDeckOptions.UpdateContent);
             AllDecks[index].DeckName = Deck.DeckName;
             AllDecks[index].TagName = Deck.TagName;
+            Logger.Log.Info("Deck updated.");
         }
 
         /// <summary>
@@ -247,6 +252,8 @@ namespace Memento.BLL
                 e.Removed = true;
                 Deck = new Deck();
                 CurrentCard = new Card();
+
+                Logger.Log.Info("Deck removed.");
                 return;
             }
 
@@ -270,6 +277,8 @@ namespace Memento.BLL
             {
                 Repository.UpdateDeck(e.Deck.Id, e.Deck);
             }
+
+            Logger.Log.Info("Deck saved.");
         }
 
         /// <summary>
@@ -280,6 +289,7 @@ namespace Memento.BLL
         public void ClearCard(object sender, EventArgs e)
         {
             CurrentCard = new Card();
+            Logger.Log.Info("Card cleared.");
         }
 
         /// <summary>
@@ -290,6 +300,7 @@ namespace Memento.BLL
         public void ChangeCard(object sender, DeckEditorCardEventArgs e)
         {
             CurrentCard = new Card(e.Card);
+            Logger.Log.Info("Card changed.");
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")

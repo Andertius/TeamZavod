@@ -305,7 +305,7 @@ namespace Memento.UserControls
             var cardsWindow = new AllCardsWindow(DeckEditor.Cards);
             cardsWindow.ShowDialog();
 
-            if (cardsWindow.SelectedCard.Id != Card.DefaultId)
+            if (!(cardsWindow.SelectedCard is null) && cardsWindow.SelectedCard.Id != Card.DefaultId)
             {
                 ChangeCard(cardsWindow.SelectedCard);
                 IsCardEdited = true;
@@ -549,10 +549,10 @@ namespace Memento.UserControls
 
                 ChangeLastSaved();
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException ex)
             {
                 string message = "Image path does not exist";
-                Logger.Log.Error(message);
+                Logger.Log.Error(message, ex);
                 MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
