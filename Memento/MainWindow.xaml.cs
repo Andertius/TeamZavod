@@ -4,6 +4,8 @@
 
 using System;
 using System.Linq;
+using System.Security.Permissions;
+using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -51,6 +53,8 @@ namespace Memento
 
             this.Timer.Interval = new TimeSpan(0, 0, 5);
             this.Timer.Start();
+
+            UnhadledExceptionHandler();
         }
 
         /// <summary>
@@ -117,6 +121,18 @@ namespace Memento
         /// Gets or sets LearningPage.
         /// </summary>
         public LearningUserControl LearningPage { get; set; }
+
+        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
+        private static void UnhadledExceptionHandler()
+        {
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var ex = (Exception)e.ExceptionObject;
+            Logger.Log.Fatal($"Unhandled {ex}", ex);
+        }
 
         private void StartLearning(object sender, StartLearningEventArgs e)
         {
