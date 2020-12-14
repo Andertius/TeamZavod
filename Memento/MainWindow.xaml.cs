@@ -186,6 +186,7 @@ namespace Memento
             // TTSslider.Value = AppStatistics.TimeSpentToday.TotalHours;
             this.TimeAdd?.Invoke(this, new StatAddSpentTimeEventArgs(new TimeSpan(0, 0, 5)));
             AppStatistics.WriteInXML("Statistics");
+            Logger.Log.Info("Updated time spent");
 
             // TodayTimeSpent.Text = Convert.ToString(Math.Round(todaytimespent, 2));
         }

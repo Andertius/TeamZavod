@@ -83,6 +83,7 @@ namespace Memento.BLL
         public void AddSpentTimeToday(object sender, StatAddSpentTimeEventArgs e)
         {
             TimeSpentToday = TimeSpentToday.Add(e.TimePassed);
+            Logger.Log.Info("Time added");
         }
 
         /// <summary>
@@ -93,6 +94,7 @@ namespace Memento.BLL
         public void AddCardLearned()
         {
             CardsLearnedToday++;
+            Logger.Log.Info("Card added");
         }
 
         /// <summary>
@@ -102,7 +104,20 @@ namespace Memento.BLL
         public void GetFromXML(string stat)
         {
             string pathtext = Path.GetFullPath("TimeSpent.txt");
-            List<string> timeSpentPerDay = File.ReadAllLines(pathtext).ToList();
+            List<string> timeSpentPerDay;
+
+            if (File.Exists(pathtext))
+            {
+                timeSpentPerDay = File.ReadAllLines(pathtext).ToList();
+                Logger.Log.Info("Read time spent statistics from file");
+            }
+            else
+            {
+                File.Create(pathtext);
+                Logger.Log.Info("Created time statistics file");
+                timeSpentPerDay = new List<string>();
+                timeSpentPerDay.Add("0");
+            }
 
             XDocument xdoc;
 
@@ -112,6 +127,7 @@ namespace Memento.BLL
             if (System.IO.File.Exists(filepath))
             {
                 xdoc = XDocument.Load(filepath);
+                Logger.Log.Info("Opened XML file");
             }
             else
             {
@@ -129,8 +145,10 @@ namespace Memento.BLL
                     new XElement("CheckFirst", "0")));
 
                 xdoc.Save(filepath);
+                Logger.Log.Info("Created XML file");
 
                 xdoc = XDocument.Load(filepath);
+                Logger.Log.Info("Opened XML file");
             }
 
             XElement member = xdoc
@@ -143,6 +161,7 @@ namespace Memento.BLL
                 if (timeSpentPerDay.Count <= 100)
                 {
                     timeSpentPerDay.Add(member.Element("SecondsToday").Value);
+                    Logger.Log.Info("Added time spent yesterday");
                 }
                 else
                 {
@@ -180,7 +199,9 @@ namespace Memento.BLL
             if (member != null)
             {
                 TimeSpentToday = TimeSpentToday.Add(new TimeSpan(0, 0, Convert.ToInt32(member.Element("SecondsToday").Value)));
+                Logger.Log.Info("Time added");
                 CardsLearnedToday = Convert.ToInt32(member.Element("CardsToday").Value);
+                Logger.Log.Info("Set cards learned");
 
                 Double.TryParse(member.Element("AverageSecondsToday").Value, out double number);
 
@@ -204,6 +225,7 @@ namespace Memento.BLL
             if (File.Exists(filepath))
             {
                 xdoc = XDocument.Load(filepath);
+                Logger.Log.Info("Opened XML file");
             }
             else
             {
@@ -221,8 +243,10 @@ namespace Memento.BLL
                     new XElement("CheckFirst", "0")));
 
                 xdoc.Save(filepath);
+                Logger.Log.Info("Created XML file");
 
                 xdoc = XDocument.Load(filepath);
+                Logger.Log.Info("Opened XML file");
             }
 
             XElement member = xdoc
@@ -245,6 +269,7 @@ namespace Memento.BLL
             }
 
             xdoc.Save(filepath);
+            Logger.Log.Info("Saved new data in XML File");
         }
 
         /// <summary>
