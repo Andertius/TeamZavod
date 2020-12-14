@@ -50,7 +50,8 @@
                 Content="&#xE72B;"
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
-                Margin="10" FontSize="36"
+                Margin="10"
+                FontSize="36"
                 Style="{DynamicResource ButtonStyle}"
                 Click="GoBackButton_Click"/>
 
