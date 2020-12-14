@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Security.Permissions;
 using System.Threading;
@@ -27,7 +28,16 @@ namespace Memento
             InitializeComponent();
 
             AppSettings = new Settings();
-            AppSettings.ReadFromXMLFile("Settings.xml");
+            try
+            {
+                AppSettings.ReadFromXMLFile("Settings.xml");
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                Logger.Log.Error(ex);
+                MessageBox.Show("Unable to get saved settings");
+            }
+
             SetTheme();
 
             Content = MainPage = new MainPageUserControl()
@@ -264,7 +274,7 @@ namespace Memento
         private void SetTheme()
         {
             string style = AppSettings.Theme.ToString();
-            var uri = new Uri(style + "Theme.xaml", UriKind.Relative);
+            Uri uri = new Uri(style + "Theme.xaml", UriKind.Relative);
             ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
             Application.Current.Resources.Clear();
             Application.Current.Resources.MergedDictionaries.Add(resourceDict);

@@ -108,6 +108,7 @@ namespace Memento.BLL
             serializer.Serialize(writer, this);
 
             writer.Close();
+            Logger.Log.Info($"Application settings successfully saved to file {filePath}");
         }
 
         /// <summary>
@@ -137,6 +138,8 @@ namespace Memento.BLL
             this.Theme = settings.Theme;
             this.CardOrder = settings.CardOrder;
             this.ShowImages = settings.ShowImages;
+
+            Logger.Log.Info($"Application settings was successfully read from file {filePath}");
         }
     }
 }

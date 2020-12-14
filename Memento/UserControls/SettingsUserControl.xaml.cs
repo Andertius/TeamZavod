@@ -95,16 +95,25 @@ namespace Memento.UserControls
                 string dir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
                 string path = Path.Combine(dir, @"Memento.BLL\Settings.xml");
 
-                AppSettings.WriteToXMLFile(path);
+                try
+                {
+                    AppSettings.WriteToXMLFile(path);
+                }
+                catch (ArgumentException ex)
+                {
+                    Logger.Log.Error(ex);
+                }
 
                 MakeMainPageVisible?.Invoke(this, EventArgs.Empty);
             }
             else if (!isOkHrs)
             {
+                Logger.Log.Info($"Entered invalid Daily Milestone(hrs): {hoursPerDay}");
                 MessageBox.Show("Invalid Daily Milestone(hrs)");
             }
             else
             {
+                Logger.Log.Info($"Entered invalid Daily Milestone(cards): {cardsPerDay}");
                 MessageBox.Show("Invalid Daily Milestone (cards)");
             }
         }
@@ -141,6 +150,7 @@ namespace Memento.UserControls
                 ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
                 Application.Current.Resources.Clear();
                 Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+                Logger.Log.Info($"Application theme changed to {style}");
             }
         }
     }
