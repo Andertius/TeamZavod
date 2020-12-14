@@ -5,7 +5,7 @@
 using log4net;
 using log4net.Config;
 
-namespace Memento
+namespace Memento.DAL
 {
     /// <summary>
     /// Looger class.

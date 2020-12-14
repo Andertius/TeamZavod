@@ -4,5 +4,5 @@
   <CardsPerDay>10</CardsPerDay>
   <Theme>Light</Theme>
   <CardOrder>Descending</CardOrder>
-  <ShowImages>false</ShowImages>
+  <ShowImages>true</ShowImages>
 </Settings>
