@@ -55,11 +55,6 @@ namespace Memento.UserControls
             CardImage.Source = String.IsNullOrWhiteSpace(AppHandler.CurrentCard.ImagePath)
                      ? null
                      : new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{AppHandler.CurrentCard.ImagePath}")));
-
-            if (MainWindow.AppSettings.Theme == Theme.Dark)
-            {
-                LearningGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
-            }
         }
 
         /// <summary>

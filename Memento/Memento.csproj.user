@@ -45,10 +45,16 @@
     <Page Update="AllCardsWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="DarkTheme.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="EditDeckWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ImagesWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="LightTheme.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

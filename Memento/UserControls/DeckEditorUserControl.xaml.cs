@@ -54,11 +54,6 @@ namespace Memento.UserControls
             DataContext = this;
             InitializeComponent();
 
-            if (MainWindow.AppSettings.Theme == Theme.Dark)
-            {
-                DeckEditorGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
-            }
-
             if (deckId == -1)
             {
                 DeckEditor = new DeckEditor();
