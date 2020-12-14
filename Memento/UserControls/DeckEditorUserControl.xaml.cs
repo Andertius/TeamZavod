@@ -15,6 +15,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
+using log4net;
+
 using Memento.BLL;
 using Memento.BLL.DeckEditorEventArgs;
 using Memento.DAL;
@@ -176,6 +178,8 @@ namespace Memento.UserControls
 
             var dp2 = DependencyPropertyDescriptor.FromProperty(TextBox.TextProperty, typeof(TextBox));
             dp2.AddValueChanged(SearchTextBox, RenderTags);
+
+            Logger.InitLogger();
         }
 
         /// <summary>
@@ -550,9 +554,11 @@ namespace Memento.UserControls
 
                 ChangeLastSaved();
             }
-            catch (UriFormatException)
+            catch (FileNotFoundException)
             {
-                MessageBox.Show("Image path does not exist", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                string message = "Image path does not exist";
+                Logger.Log.Error(message);
+                MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
