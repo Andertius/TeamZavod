@@ -92,14 +92,17 @@ namespace Memento.BLL
             if (order == CardOrder.Random)
             {
                 RadndomizeDeck();
+                Logger.Log.Info($"Application started with random card order {DateTime.Now}");
             }
             else if (order == CardOrder.Ascending)
             {
                 SortDeckByAscendingDifficulty();
+                Logger.Log.Info($"Application started with ascending card order {DateTime.Now}");
             }
             else
             {
                 SortDeckByDescendingDifficulty();
+                Logger.Log.Info($"Application started with descending card order {DateTime.Now}");
             }
 
             CurrentCard = Deck[0];
@@ -165,26 +168,32 @@ namespace Memento.BLL
         /// <param name="e">AppHandlerMoveCardEventArgs object.</param>
         public void MoveCardIntoDeck(object sender, AppHandlerMoveCardEventArgs e)
         {
+            int new_position = 0;
             if (e.Card.Id != -1 && Deck.Count > 3)
             {
                 if (e.RememberValue == RememberingLevels.Trivial)
                 {
-                    Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - (Deck.Count / 5));
+                    new_position = Deck.Count - (Deck.Count / 5);
+                    Deck.MoveCard(Deck.IndexOf(e.Card), new_position);
                 }
                 else if (e.RememberValue == RememberingLevels.GotIt)
                 {
-                    Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - (Deck.Count / 3));
+                    new_position = Deck.Count - (Deck.Count / 3);
+                    Deck.MoveCard(Deck.IndexOf(e.Card), new_position);
                 }
                 else if (e.RememberValue == RememberingLevels.Again)
                 {
-                    Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - (2 * Deck.Count / 3));
+                    new_position = Deck.Count - (2 * Deck.Count / 3);
+                    Deck.MoveCard(Deck.IndexOf(e.Card), new_position);
                 }
             }
             else
             {
-                Deck.MoveCard(Deck.IndexOf(e.Card), Deck.Count - 1);
+                new_position = Deck.Count - 1;
+                Deck.MoveCard(Deck.IndexOf(e.Card), new_position);
             }
 
+            Logger.Log.Info($"Card {CurrentCard} moved to {new_position} position");
             CurrentCard = Deck[0];
         }
 

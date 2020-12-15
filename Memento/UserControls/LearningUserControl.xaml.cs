@@ -78,6 +78,7 @@ namespace Memento.UserControls
         private void Stop_Btn_Click(object sender, RoutedEventArgs e)
         {
             MakeMainPageVisible?.Invoke(this, EventArgs.Empty);
+            Logger.Log.Info($"Stop button pressed {DateTime.Now}");
         }
 
         private void Show_Btn_Click(object sender, RoutedEventArgs e)
@@ -108,21 +109,25 @@ namespace Memento.UserControls
             CardImage.Source = String.IsNullOrWhiteSpace(AppHandler.CurrentCard.ImagePath)
                      ? null
                      : new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{AppHandler.CurrentCard.ImagePath}")));
+            Logger.Log.Info($"Opened image for {AppHandler.CurrentCard} card");
         }
 
         private void Trivial_Btn_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Log.Info($"Changed card from {AppHandler.CurrentCard} to {AppHandler.Deck[1]}");
             NextCardEvents?.Invoke(this, new AppHandlerMoveCardEventArgs(AppHandler.CurrentCard, RememberingLevels.Trivial));
             MainWindow.AppStatistics.AddCardLearned();
         }
 
         private void Again_Btn_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Log.Info($"Changed card from {AppHandler.CurrentCard} to {AppHandler.Deck[1]}");
             NextCardEvents?.Invoke(this, new AppHandlerMoveCardEventArgs(AppHandler.CurrentCard, RememberingLevels.Again));
         }
 
         private void GotIt_Btn_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Log.Info($"Changed card from {AppHandler.CurrentCard} to {AppHandler.Deck[1]}");
             NextCardEvents?.Invoke(this, new AppHandlerMoveCardEventArgs(AppHandler.CurrentCard, RememberingLevels.GotIt));
             MainWindow.AppStatistics.AddCardLearned();
         }

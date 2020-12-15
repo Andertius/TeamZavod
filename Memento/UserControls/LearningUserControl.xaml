@@ -8,7 +8,7 @@
              d:DesignHeight="1080" d:DesignWidth="1920">
 
     <UserControl.Resources>
-        <Style TargetType="Button">
+        <Style TargetType="Button" x:Key="StandartButtonStyle">
             <Setter Property="FontSize" Value="36" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Bottom" />
@@ -17,6 +17,49 @@
         </Style>
 
     </UserControl.Resources>
+
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="Button.Click" SourceName="Show_Btn">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="ImageScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="1.5" Duration="0:0:0.2" AutoReverse="True"/>
+                        <DoubleAnimation Storyboard.TargetName="ImageScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="1.5" Duration="0:0:0.2" AutoReverse="True"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+
+        <EventTrigger RoutedEvent="Button.Click" SourceName="Show_Btn">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="Trivial_Btn" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:2"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+
+        <EventTrigger RoutedEvent="Button.Click" SourceName="Show_Btn">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="Again_Btn" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:2"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+
+        <EventTrigger RoutedEvent="Button.Click" SourceName="Show_Btn">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="GotIt_Btn" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:2"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+    </UserControl.Triggers>
 
     <Grid x:Name="LearningGrid">
         <Grid.RowDefinitions>
@@ -36,7 +79,11 @@
         <Image Source="{Binding AppHandler.CurrentCard.ImagePath}" x:Name="CardImage" 
                Grid.Row="1" 
                Grid.Column="1"
-               Margin="0,0,50,0"/>
+               Margin="0,0,50,0">
+            <Image.RenderTransform>
+                <ScaleTransform x:Name="ImageScale" ScaleX="1" ScaleY="1" CenterX="175"/>
+            </Image.RenderTransform>
+        </Image>
 
         <Line Grid.Row="1" Grid.Column="2" 
               X1="0" Y1="1" X2="0" Y2="0"
@@ -63,7 +110,12 @@
         <Button Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"
                 Content="Show" 
                 x:Name="Show_Btn"
-                Click="Show_Btn_Click"/>
+                Click="Show_Btn_Click"
+                Background="#38a5ff"
+                Style="{StaticResource StandartButtonStyle}">
+
+        </Button>
+
 
         <Button Grid.Row="0" Grid.Column="1"
                 FontFamily="Segoe MDL2 Assets" FontSize="36"
@@ -79,21 +131,26 @@
                 Content="Trivial" 
                 x:Name="Trivial_Btn" 
                 Visibility="Hidden"
-                Click="Trivial_Btn_Click"/>
+                Click="Trivial_Btn_Click"
+                Style="{StaticResource StandartButtonStyle}"
+                Background="#a2ff96">
+        </Button>
 
         <Button Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" 
                 Content="Got it" 
                 x:Name="GotIt_Btn"  
                 Visibility="Hidden"
-                Click="GotIt_Btn_Click"/>
+                Click="GotIt_Btn_Click"
+                Style="{StaticResource StandartButtonStyle}"
+                 Background="#91e0ff"/>
 
         <Button Grid.Row="2" Grid.Column="3" 
                 Content="Again" 
                 x:Name="Again_Btn"  
                 Visibility="Hidden"
-                Click="Again_Btn_Click"/>
+                Click="Again_Btn_Click"
+                Style="{StaticResource StandartButtonStyle}"
+                Background="#ff7373"/>
 
-
-        <!--<TextBlock Text="You have seen it {0} times" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3"/>-->
     </Grid>
 </UserControl>
