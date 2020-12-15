@@ -35,7 +35,9 @@ namespace Memento.UserControls
             InitializeComponent();
 
             DataContext = this;
-            Decks = Repository.FetchAllDecks().ToList();
+            Decks = Repository.FetchAllDecks()
+                .OrderBy(x => x.DeckName)
+                .ToList();
         }
 
         /// <summary>

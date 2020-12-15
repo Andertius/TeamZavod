@@ -54,6 +54,9 @@ namespace Memento.UserControls
             CardImage.Source = String.IsNullOrWhiteSpace(AppHandler.CurrentCard.ImagePath)
                      ? null
                      : new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{AppHandler.CurrentCard.ImagePath}")));
+
+            ImageScale.CenterX = CardImage.ActualWidth / 2;
+            ImageScale.CenterY = CardImage.ActualHeight / 2;
         }
 
         /// <summary>
@@ -109,6 +112,9 @@ namespace Memento.UserControls
             CardImage.Source = String.IsNullOrWhiteSpace(AppHandler.CurrentCard.ImagePath)
                      ? null
                      : new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{AppHandler.CurrentCard.ImagePath}")));
+
+            ImageScale.CenterX = CardImage.ActualWidth / 2;
+            ImageScale.CenterY = CardImage.ActualHeight / 2;
             Logger.Log.Info($"Opened image for {AppHandler.CurrentCard} card");
         }
 

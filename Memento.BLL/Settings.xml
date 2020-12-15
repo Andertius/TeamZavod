@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <HoursePerDay>0.3</HoursePerDay>
+  <HoursPerDay>3.5</HoursPerDay>
   <CardsPerDay>10</CardsPerDay>
-  <Theme>Light</Theme>
+  <Theme>Dark</Theme>
   <CardOrder>Random</CardOrder>
-  <ShowImages>false</ShowImages>
+  <ShowImages>true</ShowImages>
 </Settings>

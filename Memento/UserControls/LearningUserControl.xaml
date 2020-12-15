@@ -22,9 +22,9 @@
         <EventTrigger RoutedEvent="Button.Click" SourceName="Show_Btn">
             <EventTrigger.Actions>
                 <BeginStoryboard>
-                    <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="ImageScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="1.5" Duration="0:0:0.2" AutoReverse="True"/>
-                        <DoubleAnimation Storyboard.TargetName="ImageScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="1.5" Duration="0:0:0.2" AutoReverse="True"/>
+                    <Storyboard x:Name="ImageAnim">
+                        <DoubleAnimation Storyboard.TargetName="ImageScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" From="0.5" To="1" Duration="0:0:0.2" AutoReverse="False"/>
+                        <DoubleAnimation Storyboard.TargetName="ImageScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" From="0.5" To="1" Duration="0:0:0.2" AutoReverse="False"/>
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger.Actions>
@@ -81,7 +81,7 @@
                Grid.Column="1"
                Margin="0,0,50,0">
             <Image.RenderTransform>
-                <ScaleTransform x:Name="ImageScale" ScaleX="1" ScaleY="1" CenterX="175"/>
+                <ScaleTransform x:Name="ImageScale"/>
             </Image.RenderTransform>
         </Image>
 
