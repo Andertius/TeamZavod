@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Memento"
         mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
-        Title="About Developers" Height="562" Width="500">
+        Title="About Developers" Height="562" Width="500" Style="{DynamicResource WindowStyle}">
     <Grid x:Name="AboutWindowGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="Me and the boys" FontSize="30" HorizontalAlignment="Center"
-                   VerticalAlignment="Center" />
+                   VerticalAlignment="Center" Style="{DynamicResource TextBlockStyle}"/>
 
         <Image Grid.Row="1" x:Name="Img">
             <Image.Source>

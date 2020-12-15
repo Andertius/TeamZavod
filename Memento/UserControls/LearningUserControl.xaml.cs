@@ -25,7 +25,7 @@ namespace Memento.UserControls
            typeof(LearningUserControl),
            new PropertyMetadata(new AppHandler()));
 
-        private List<FrameworkElement> hiddenElements = new List<FrameworkElement>();
+        private readonly List<FrameworkElement> hiddenElements = new List<FrameworkElement>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LearningUserControl"/> class.
@@ -54,11 +54,6 @@ namespace Memento.UserControls
             CardImage.Source = String.IsNullOrWhiteSpace(AppHandler.CurrentCard.ImagePath)
                      ? null
                      : new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), $"{AppHandler.CurrentCard.ImagePath}")));
-
-            if (MainWindow.AppSettings.Theme == Theme.Dark)
-            {
-                LearningGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
-            }
         }
 
         /// <summary>

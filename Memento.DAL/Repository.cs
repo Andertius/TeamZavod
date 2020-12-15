@@ -268,23 +268,11 @@ namespace Memento.DAL
         public static void AddCard(Card card)
         {
             using var context = new CardsContext();
-
             string diff = DifficultyConverter.ToStringConverter(card.Difficulty);
-
-            // if (com.Count == 0)
-            // {
-            //     diff =
-            // }
-
-            // foreach (var item in com)
-            // {
-            //     diff = DifficultyConverter.ToStringConverter(card.Difficulty);
-            // }
 
             context.Database.ExecuteSqlInterpolated($"INSERT INTO Card_Table (image_path, word, transcription, description, difficulty_level) VALUES({card.ImagePath}, {card.Word}, {card.Transcription}, {card.Description}, {diff})");
 
             var com = context.Cards.FromSqlRaw("SELECT * FROM \"Card_Table\" ORDER BY card_id DESC LIMIT 1").ToList();
-
             card.Id = com[0].Id;
 
             for (int i = 0; i < card.Tags.Count; i++)

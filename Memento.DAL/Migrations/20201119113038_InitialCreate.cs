@@ -2,10 +2,10 @@
 // Copyright (c) lnu.edu.ua. All rights reserved.
 // </copyright>
 
+using Microsoft.EntityFrameworkCore.Migrations;
+
 namespace Memento.DAL.Migrations
 {
-    using Microsoft.EntityFrameworkCore.Migrations;
-
     /// <summary>
     /// IgnoreChanges because we have existing database.
     /// </summary>

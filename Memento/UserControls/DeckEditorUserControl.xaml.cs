@@ -15,6 +15,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
+using log4net;
+
 using Memento.BLL;
 using Memento.BLL.DeckEditorEventArgs;
 using Memento.DAL;
@@ -51,11 +53,6 @@ namespace Memento.UserControls
         {
             DataContext = this;
             InitializeComponent();
-
-            if (MainWindow.AppSettings.Theme == Theme.Dark)
-            {
-                DeckEditorGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
-            }
 
             if (deckId == -1)
             {
@@ -176,6 +173,8 @@ namespace Memento.UserControls
 
             var dp2 = DependencyPropertyDescriptor.FromProperty(TextBox.TextProperty, typeof(TextBox));
             dp2.AddValueChanged(SearchTextBox, RenderTags);
+
+            Logger.InitLogger();
         }
 
         /// <summary>
@@ -306,7 +305,7 @@ namespace Memento.UserControls
             var cardsWindow = new AllCardsWindow(DeckEditor.Cards);
             cardsWindow.ShowDialog();
 
-            if (cardsWindow.SelectedCard.Id != Card.DefaultId)
+            if (!(cardsWindow.SelectedCard is null) && cardsWindow.SelectedCard.Id != Card.DefaultId)
             {
                 ChangeCard(cardsWindow.SelectedCard);
                 IsCardEdited = true;
@@ -550,9 +549,11 @@ namespace Memento.UserControls
 
                 ChangeLastSaved();
             }
-            catch (UriFormatException)
+            catch (FileNotFoundException ex)
             {
-                MessageBox.Show("Image path does not exist", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                string message = "Image path does not exist";
+                Logger.Log.Error(message, ex);
+                MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

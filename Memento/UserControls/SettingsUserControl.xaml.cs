@@ -8,7 +8,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Xml.Serialization;
 
 using Memento.BLL;
 
@@ -73,14 +72,12 @@ namespace Memento.UserControls
             catch (Exception)
             {
                 isOkHrs = false;
-                MessageBox.Show("Invalid Daily Milestone(hrs)");
             }
 
+            isOkHrs &= AppSettings.CheckHoursPerDay();
+
             bool isOkCardsNum = Int32.TryParse(CardsTextBox.Text, out int cardsPerDay);
-            if (cardsPerDay < 0 || cardsPerDay > 1000)
-            {
-                isOkCardsNum = false;
-            }
+            isOkCardsNum &= AppSettings.CheckCardsPerDay();
 
             if (isOkHrs && isOkCardsNum)
             {
@@ -95,17 +92,28 @@ namespace Memento.UserControls
                 AppSettings.ShowImages = showImages;
                 AppSettings.Theme = AppTheme;
 
-                XmlSerializer serializer = new XmlSerializer(typeof(Settings));
                 string dir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
                 string path = Path.Combine(dir, @"Memento.BLL\Settings.xml");
-                StreamWriter writer = new StreamWriter(path);
-                serializer.Serialize(writer, AppSettings);
-                writer.Close();
+
+                try
+                {
+                    AppSettings.WriteToXMLFile(path);
+                }
+                catch (ArgumentException ex)
+                {
+                    Logger.Log.Error(ex);
+                }
 
                 MakeMainPageVisible?.Invoke(this, EventArgs.Empty);
             }
+            else if (!isOkHrs)
+            {
+                Logger.Log.Info($"Entered invalid Daily Milestone(hrs): {hoursPerDay}");
+                MessageBox.Show("Invalid Daily Milestone(hrs)");
+            }
             else
             {
+                Logger.Log.Info($"Entered invalid Daily Milestone(cards): {cardsPerDay}");
                 MessageBox.Show("Invalid Daily Milestone (cards)");
             }
         }
@@ -134,15 +142,15 @@ namespace Memento.UserControls
 
         private void ChangeTheme()
         {
-            string val = ThemeCombox.Text;
-            AppTheme = (val == "Light") ? Theme.Light : Theme.Dark;
-            if (AppTheme == Theme.Dark)
+            string style = ThemeCombox.Text;
+            AppTheme = (style == "Light") ? Theme.Light : Theme.Dark;
+            if (!String.IsNullOrEmpty(style))
             {
-                SettingsGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#2c303a");
-            }
-            else
-            {
-                SettingsGrid.Background = Brushes.White;
+                var uri = new Uri(style + "Theme.xaml", UriKind.Relative);
+                ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+                Application.Current.Resources.Clear();
+                Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+                Logger.Log.Info($"Application theme changed to {style}");
             }
         }
     }

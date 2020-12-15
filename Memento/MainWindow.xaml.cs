@@ -5,9 +5,10 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Security.Permissions;
+using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
-using System.Xml.Serialization;
 
 using Memento.BLL;
 using Memento.UserControls;
@@ -26,10 +27,18 @@ namespace Memento
         {
             InitializeComponent();
 
-            XmlSerializer deserializer = new XmlSerializer(typeof(Settings));
-            StreamReader reader = new StreamReader("Settings.xml");
-            AppSettings = (Settings)deserializer.Deserialize(reader);
-            reader.Close();
+            AppSettings = new Settings();
+            try
+            {
+                AppSettings.ReadFromXMLFile("Settings.xml");
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                Logger.Log.Error(ex);
+                MessageBox.Show("Unable to get saved settings");
+            }
+
+            SetTheme();
 
             Content = MainPage = new MainPageUserControl()
             {
@@ -54,6 +63,8 @@ namespace Memento
 
             this.Timer.Interval = new TimeSpan(0, 0, 5);
             this.Timer.Start();
+
+            UnhadledExceptionHandler();
         }
 
         /// <summary>
@@ -67,7 +78,7 @@ namespace Memento
         public static Statistics AppStatistics { get; private set; }
 
         /// <summary>
-        /// Gets sets AppStatistic value.
+        /// Gets sets AppSettings.
         /// </summary>
         public static Settings AppSettings { get; private set; }
 
@@ -120,6 +131,18 @@ namespace Memento
         /// Gets or sets LearningPage.
         /// </summary>
         public LearningUserControl LearningPage { get; set; }
+
+        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
+        private static void UnhadledExceptionHandler()
+        {
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var ex = (Exception)e.ExceptionObject;
+            Logger.Log.Fatal($"Unhandled {ex}", ex);
+        }
 
         private void StartLearning(object sender, StartLearningEventArgs e)
         {
@@ -189,6 +212,7 @@ namespace Memento
             // TTSslider.Value = AppStatistics.TimeSpentToday.TotalHours;
             this.TimeAdd?.Invoke(this, new StatAddSpentTimeEventArgs(new TimeSpan(0, 0, 5)));
             AppStatistics.WriteInXML("Statistics");
+            Logger.Log.Info("Updated time spent");
 
             // TodayTimeSpent.Text = Convert.ToString(Math.Round(todaytimespent, 2));
         }
@@ -209,7 +233,6 @@ namespace Memento
         {
             SettingsPage.MakeMainPageVisible -= GoToMainPageFromSettings;
             Content = MainPage;
-            MainPage.ChangeTheme();
             Title = "Memento";
         }
 
@@ -246,6 +269,15 @@ namespace Memento
             StatisticsPage.MakeMainPageVisible -= GoToMainPageFromStatistics;
             Content = MainPage;
             Title = "Memento";
+        }
+
+        private void SetTheme()
+        {
+            string style = AppSettings.Theme.ToString();
+            Uri uri = new Uri(style + "Theme.xaml", UriKind.Relative);
+            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+            Application.Current.Resources.Clear();
+            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
         }
     }
 }

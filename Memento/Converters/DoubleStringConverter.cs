@@ -39,5 +39,4 @@ namespace Memento
             throw new NotSupportedException();
         }
     }
-
 }
