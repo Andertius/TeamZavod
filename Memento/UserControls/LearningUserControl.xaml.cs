@@ -1,4 +1,7 @@
-﻿using System;
+﻿// <copyright file="LearningUserControl.xaml.cs" company="lnu.edu.ua">
+// Copyright (c) lnu.edu.ua. All rights reserved.
+// </copyright>
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;

@@ -101,6 +101,7 @@ namespace Memento.BLL
             {
                 SortDeckByDescendingDifficulty();
             }
+
             CurrentCard = Deck[0];
         }
 
@@ -191,6 +192,5 @@ namespace Memento.BLL
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }
