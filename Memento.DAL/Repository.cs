@@ -153,7 +153,8 @@ namespace Memento.DAL
 
             Card crd = new Card();
 
-            var help = context.Cards.FromSqlInterpolated($"SELECT * FROM \"Card_Table\" WHERE card_id = {id}").ToList();
+            // var help = context.Cards.FromSqlInterpolated($"SELECT * FROM \"Card_Table\" WHERE card_id = {id}").ToList();
+            var help = context.Cards.Where(x => x.Id == id).ToList();
 
             foreach (var item in help)
             {
@@ -169,7 +170,8 @@ namespace Memento.DAL
                 };
             }
 
-            var tags = context.Tags.FromSqlInterpolated($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {id}").ToList();
+            // var tags = context.Tags.FromSqlInterpolated($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {id}").ToList();
+            var tags = context.Tags.Where(x => x.CardID == id).ToList();
 
             List<string> answerTags = new List<string>();
 
@@ -246,7 +248,9 @@ namespace Memento.DAL
 
             for (int i = 0; i < cards.Count; i++)
             {
-                var tags = context.Tags.FromSqlInterpolated($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {cards[i].Id}").ToList();
+                // var tags = context.Tags.FromSqlInterpolated($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {cards[i].Id}").ToList();
+                var tags = context.Tags.Where(x => x.CardID == cards[i].Id).ToList();
+
                 List<string> answerTags = new List<string>();
 
                 foreach (var item in tags)
@@ -292,10 +296,12 @@ namespace Memento.DAL
             using var context = new CardsContext();
             context.Database.Migrate();
 
-            context.Database.ExecuteSqlInterpolated($"DELETE FROM Tag_To_Card_Table WHERE card_id = {id}");
-            context.Database.ExecuteSqlInterpolated($"DELETE FROM Deck_To_Card_Table WHERE card_id = {id}");
-            context.Database.ExecuteSqlInterpolated($"DELETE FROM Card_Table WHERE card_id = {id}");
-
+            // context.Database.ExecuteSqlInterpolated($"DELETE FROM Tag_To_Card_Table WHERE card_id = {id}");
+            // context.Database.ExecuteSqlInterpolated($"DELETE FROM Deck_To_Card_Table WHERE card_id = {id}");
+            // context.Database.ExecuteSqlInterpolated($"DELETE FROM Card_Table WHERE card_id = {id}");
+            context.RemoveRange(context.Tags.Where(x => x.CardID == id).ToList());
+            context.RemoveRange(context.DeckToCards.Where(x => x.CardID == id).ToList());
+            context.Remove(context.Cards.Single(x => x.Id == id));
             var check = context.Cards.ToList();
 
             context.SaveChanges();
@@ -313,7 +319,8 @@ namespace Memento.DAL
 
             var cardForUpdate = context.Cards.Find(id);
 
-            var tags = context.Tags.FromSqlInterpolated($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {id}").ToList();
+            // var tags = context.Tags.FromSqlInterpolated($"SELECT * FROM \"Tag_To_Card_Table\" WHERE card_id = {id}").ToList();
+            var tags = context.Tags.Where(x => x.CardID == id).ToList();
 
             switch (options)
             {
@@ -409,7 +416,8 @@ namespace Memento.DAL
             // var test = context.Tags.Find(tagName, cardId);
 
             // Console.WriteLine($"{test.CardID}");
-            context.Database.ExecuteSqlInterpolated($"DELETE FROM Tag_To_Card_Table WHERE card_id = {cardId} AND tag_name = {tagName}");
+            // context.Database.ExecuteSqlInterpolated($"DELETE FROM Tag_To_Card_Table WHERE card_id = {cardId} AND tag_name = {tagName}");
+            context.Remove(context.Tags.Single(x => x.CardID == cardId && x.TagName == tagName));
 
             context.SaveChanges();
         }
@@ -455,8 +463,11 @@ namespace Memento.DAL
 
             Console.WriteLine(context.Database.CanConnect());
 
-            context.Database.ExecuteSqlInterpolated($"DELETE FROM Deck_To_Card_Table WHERE deck_id = {id}");
-            context.Database.ExecuteSqlInterpolated($"DELETE FROM Deck_Table WHERE deck_id = {id}");
+            // context.Database.ExecuteSqlInterpolated($"DELETE FROM Deck_To_Card_Table WHERE deck_id = {id}");
+            context.RemoveRange(context.DeckToCards.Where(x => x.DeckID == id).ToList());
+
+            // context.Database.ExecuteSqlInterpolated($"DELETE FROM Deck_Table WHERE deck_id = {id}");
+            context.Remove(context.Decks.Single(x => x.Id == id));
 
             context.SaveChanges();
         }
@@ -561,7 +572,8 @@ namespace Memento.DAL
             using var context = new CardsContext();
             context.Database.Migrate();
 
-            context.Database.ExecuteSqlInterpolated($"DELETE FROM Deck_To_Card_Table WHERE card_id = {cardId} AND deck_id = {deckId}");
+            // context.Database.ExecuteSqlInterpolated($"DELETE FROM Deck_To_Card_Table WHERE card_id = {cardId} AND deck_id = {deckId}");
+            context.Remove(context.DeckToCards.Single(x => x.CardID == cardId && x.DeckID == deckId));
 
             context.SaveChanges();
         }
